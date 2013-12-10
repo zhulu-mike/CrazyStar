@@ -1,8 +1,13 @@
 #include "MainMenu.h"
 #include "GameScene.h"
+#include "Utils.h"
 #include "BackgroundLayer.h"
+#include "SimpleAudioEngine.h"
+
+
 
 USING_NS_CC;
+using namespace CocosDenshion;
 
 bool MainMenu::init()
 {
@@ -25,7 +30,7 @@ bool MainMenu::init()
         pMenu->alignItemsVertically();
 
         this->addChild(pMenu, 0);
-
+		SimpleAudioEngine::sharedEngine()->playBackgroundMusic(g_mainBackGroundSound,true);
         bRet = true;
     }while(0);
 
@@ -37,6 +42,7 @@ void MainMenu::onCommandStart(CCObject* pSender)
     BackgroundLayer::m_nLiftCount -= 1;
 
     GameScene::switchToLevelTips();
+	SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
 }
 
 void MainMenu::onCommandExit(CCObject* pSender)

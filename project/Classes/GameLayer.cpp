@@ -39,11 +39,19 @@ bool GameLayer::init()
         showTargetScore();
         showCurrentScore();
 
+		CCSize s = CCDirector::sharedDirector()->getWinSize();
+		float totalWidth = MAP_SIZE * 48 + (MAP_SIZE-1) * 5;
+		beginX = (s.width - totalWidth) * 0.5;
+		beginY = 5;
+
         initStarImage();
 
         generateMap();
 
+		
+
         bRet = true;
+		SimpleAudioEngine::sharedEngine()->playBackgroundMusic(g_gameBackGroundSound,true);
     }while(0);
 
     return bRet;
@@ -54,8 +62,8 @@ void GameLayer::ccTouchesEnded(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEven
     for (CCSetIterator it = pTouches->begin(); it != pTouches->end(); it ++)
     {
         CCPoint location = ((CCTouch*)(*it))->getLocation();
-        int xIndex = floor((location.x - 5) / 53.f);
-        int yIndex = floor((location.y - 5) / 53.f);
+        int xIndex = floor((location.x - beginX) / 53.f);
+        int yIndex = floor((location.y - beginY) / 53.f);
 
         m_popStar.clear();
         m_popColor = kStarNone;
@@ -71,6 +79,10 @@ void GameLayer::ccTouchesEnded(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEven
             addCurrentScore(5 * m_popStar.size() * m_popStar.size());
             removeStar();
             fillHole();
+			if (m_popStar.size() > 10)
+			{
+				 SimpleAudioEngine::sharedEngine()->playEffect(g_waOSound);
+			}
         }
 
         break;
@@ -150,8 +162,14 @@ void GameLayer::onCommandBack(CCObject* pSender)
 {
     LevelTips::m_level = 1;
     LevelTips::m_currentScore = 0;
-
+	onDispose();
     GameScene::switchToMainMenu();
+}
+
+void GameLayer::onDispose()
+{
+	SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
+
 }
 
 void GameLayer::initStarImage()
@@ -186,7 +204,7 @@ void GameLayer::generateMap()
 
             m_starMap[i][j] = StarSprite::create();
             m_starMap[i][j]->initWithTexture(pTexture, CCRectMake(0, 0, pTexture->getContentSize().width, pTexture->getContentSize().height));
-            m_starMap[i][j]->setPosition(ccp(5 + 53 * i, CCDirector::sharedDirector()->getWinSize().height));
+            m_starMap[i][j]->setPosition(ccp(beginX + 53 * i, CCDirector::sharedDirector()->getWinSize().height));
             m_starMap[i][j]->setAnchorPoint(ccp(0, 0));
             m_starMap[i][j]->setStarColor(nColor);
             
@@ -194,7 +212,7 @@ void GameLayer::generateMap()
 
             m_pStarBatchNode[nColor]->addChild(m_starMap[i][j], 0);           
             
-            m_starMap[i][j]->moveToDown(ccp(5 + 53 * i , 5 + 53 * j), i % 2 ? j * 0.1 : (j * 0.1 + 0.1));
+            m_starMap[i][j]->moveToDown(ccp(beginX + 53 * i , 5 + 53 * j), i % 2 ? j * 0.1 : (j * 0.1 + 0.1));
         }
     }
 }
@@ -274,7 +292,7 @@ void GameLayer::fillHole()
             if (m_starMap[i][j]->getStarColor() != kStarNone && nonePos != -1)
             {
                 m_starMap[i][j]->stopAllActions();
-                m_starMap[i][j]->moveToDown(ccp(5 + 53 * i , 5 + 53 * nonePos));
+                m_starMap[i][j]->moveToDown(ccp(beginX + 53 * i , beginY + 53 * nonePos));
 
                 CC_SWAP(m_starMap[i][nonePos], m_starMap[i][j], StarSprite*);
                 nonePos ++;
@@ -299,7 +317,7 @@ void GameLayer::fillHole()
         for (int i = 0; i < MAP_SIZE && m_starMap[j][i]->getStarColor() != kStarNone; ++ i)
         {
             m_starMap[j][i]->stopAllActions();
-            m_starMap[j][i]->moveToLeft(ccp(5 + 53 * nonePos , 5 + 53 * i));
+            m_starMap[j][i]->moveToLeft(ccp(beginX + 53 * nonePos , beginY + 53 * i));
 
             CC_SWAP(m_starMap[nonePos][i], m_starMap[j][i], StarSprite*);
         }
@@ -363,6 +381,7 @@ bool GameLayer::isSameColor(int x, int y, int kColor)
 void GameLayer::nextLevel()
 {
     LevelTips::m_level += 1;
+	onDispose();
     GameScene::switchToLevelTips();
 }
 

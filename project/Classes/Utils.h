@@ -10,7 +10,13 @@ static const char* g_sBombImage       = "./image/bomb.png";
 static const char* g_sMagicImage      = "./image/magic.png";
 static const char* g_sBackgroundImage = "./image/bg.png";
 static const char* g_sTaoxinImage     = "./image/taoxin.png";
-static const char* g_sSelectedSound   = "./sound/selected.wav";
+
+static const char* g_sSelectedSound   = "./sound/click.mp3";
+static const char* g_gameBackGroundSound   = "./sound/bg.mp3";
+static const char* g_mainBackGroundSound   = "./sound/mainbg.mp3";
+
+/*Õ€≈∂*/
+static const char* g_waOSound   = "./sound/wao.mp3";
 
 inline int randLimit(int nMin, int nMax)
 {
