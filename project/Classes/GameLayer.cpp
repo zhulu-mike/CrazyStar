@@ -177,6 +177,7 @@ void GameLayer::onCommandItem(CCObject* pSender)
 void GameLayer::onCommandMagic(CCObject* pSender)
 {
     SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
+}
 
 void GameLayer::onDispose()
 {
