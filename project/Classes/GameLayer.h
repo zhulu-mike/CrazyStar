@@ -37,8 +37,9 @@ public:
     virtual void ccTouchesEnded(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent);
 
     void onCommandBack(CCObject* pSender);
+    void onCommandItem(CCObject* pSender);
+    void onCommandMagic(CCObject* pSender);
 
-    void showMenu();
     void showTargetScore();
     void showCurrentScore();
     void addCurrentScore(int nScore);
@@ -65,6 +66,7 @@ private:
 
     bool m_bIsOver;
     int m_popColor;
+    int m_nSelectedStatus;
 
     std::vector<cocos2d::CCPoint> m_popStar;
     cocos2d::CCSpriteBatchNode* m_pStarBatchNode[kStarMax];

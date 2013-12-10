@@ -10,7 +10,8 @@ static const char* g_sBombImage       = "./image/bomb.png";
 static const char* g_sMagicImage      = "./image/magic.png";
 static const char* g_sBackgroundImage = "./image/bg.png";
 static const char* g_sTaoxinImage     = "./image/taoxin.png";
-static const char* g_sSelectedSound   = "./sound/selected.wav";
+static const char* g_sLevelImage      = "./image/level.png";
+static const char* g_sSelectedSound   = "./sound/item_selected.wav";
 
 inline int randLimit(int nMin, int nMax)
 {

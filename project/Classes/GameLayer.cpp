@@ -12,6 +12,7 @@ using namespace CocosDenshion;
 GameLayer::GameLayer()
     : m_pCurrentScore(NULL)
     , m_popColor(kStarNone)
+    , m_nSelectedStatus(0)
 {
 
 }
@@ -34,8 +35,6 @@ bool GameLayer::init()
         setTouchEnabled( true );
 
         showLevelInfo();
-
-        showMenu();
         showTargetScore();
         showCurrentScore();
 
@@ -67,7 +66,6 @@ void GameLayer::ccTouchesEnded(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEven
         }
         else if (m_popStar.size() > 1)
         {
-            SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
             addCurrentScore(5 * m_popStar.size() * m_popStar.size());
             removeStar();
             fillHole();
@@ -89,25 +87,30 @@ void GameLayer::showLevelInfo()
 {
     CCSize s = CCDirector::sharedDirector()->getWinSize();
 
-    CCSprite* pSprite = CCSprite::create(g_sBombImage, CCRectMake(0, 0, 60, 60));
-    pSprite->setPosition(ccp(s.width-200, s.height-100));
-    pSprite->setAnchorPoint(ccp(0, 0));
-    
+    CCMenuItemImage* pItemButton = CCMenuItemImage::create(
+        g_sBombImage, 
+        g_sBombImage, 
+        this, 
+        menu_selector(GameLayer::onCommandItem));
+    CCMenuItemImage* pMagicButton = CCMenuItemImage::create(
+        g_sMagicImage, 
+        g_sMagicImage, 
+        this, 
+        menu_selector(GameLayer::onCommandMagic));
+    CCMenuItemImage* pBackButton = CCMenuItemImage::create(
+        g_sBombImage, 
+        g_sBombImage, 
+        this, 
+        menu_selector(GameLayer::onCommandBack));
+
+    CCMenu* pMenu = CCMenu::create(pItemButton, pMagicButton, pBackButton, NULL);
+    pMenu->setPosition(ccp(s.width-100, s.height-100));
+    pMenu->alignItemsHorizontally();
+    this->addChild(pMenu);
+
+    CCSprite* pSprite = CCSprite::create(g_sLevelImage, CCRectMake(0, 0, 230, 39));
+    pSprite->setPosition(ccp(120, s.height-100));
     this->addChild(pSprite);
-
-    pSprite = CCSprite::create(g_sMagicImage, CCRectMake(0, 0, 60, 60));
-    pSprite->setPosition(ccp(s.width-100, s.height-100));
-    pSprite->setAnchorPoint(ccp(0, 0));
-
-    this->addChild(pSprite);
-}
-
-void GameLayer::showMenu()
-{
-    CCMenuItemFont* pBackMenu = CCMenuItemFont::create("BACK", this, menu_selector(GameLayer::onCommandBack));
-    CCMenu* pMenu = CCMenu::create(pBackMenu, NULL);
-    pMenu->setPosition(ccp(CCDirector::sharedDirector()->getWinSize().width-100, CCDirector::sharedDirector()->getWinSize().height-20));
-    this->addChild(pMenu, 0);
 }
 
 void GameLayer::showTargetScore()
@@ -152,6 +155,16 @@ void GameLayer::onCommandBack(CCObject* pSender)
     LevelTips::m_currentScore = 0;
 
     GameScene::switchToMainMenu();
+}
+
+void GameLayer::onCommandItem(CCObject* pSender)
+{
+    SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
+}
+
+void GameLayer::onCommandMagic(CCObject* pSender)
+{
+    SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
 }
 
 void GameLayer::initStarImage()
