@@ -39,6 +39,7 @@ public:
     void onCommandBack(CCObject* pSender);
     void onCommandItem(CCObject* pSender);
     void onCommandMagic(CCObject* pSender);
+	void onDispose();
 
     void showTargetScore();
     void showCurrentScore();
@@ -67,6 +68,8 @@ private:
     bool m_bIsOver;
     int m_popColor;
     int m_nSelectedStatus;
+	float beginX;
+	float beginY;
 
     std::vector<cocos2d::CCPoint> m_popStar;
     cocos2d::CCSpriteBatchNode* m_pStarBatchNode[kStarMax];
