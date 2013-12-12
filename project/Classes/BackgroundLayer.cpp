@@ -11,6 +11,13 @@ using namespace std;
 
 int BackgroundLayer::m_nLiftCount = 5;
 int BackgroundLayer::lifeTime = 120;
+int BackgroundLayer::beginTime = 0;
+bool BackgroundLayer::haveTimer = false;
+
+BackgroundLayer::BackgroundLayer()
+	:bgSprite(NULL)
+	,timeLabel(NULL)
+{}
 
 bool BackgroundLayer::init()
 {
@@ -48,8 +55,11 @@ bool BackgroundLayer::init()
 			this->addChild(timeLabel);
 			timeLabel->setAnchorPoint(ccp(0, 0));
 			timeLabel->setPosition(ccp(147+125, s.height - 38));
+			haveTimer = true;
+			schedule(schedule_selector(BackgroundLayer::updateTimeDisplay),1.0f);
+			beginTime = time(NULL);
 		}
-		schedule(schedule_selector(BackgroundLayer::updateTimeDisplay),1.0f);
+		
         bRet = true;
 
     }while(0);
@@ -60,12 +70,24 @@ bool BackgroundLayer::init()
 
  void BackgroundLayer::updateTimeDisplay(float t)
 {
-	lifeTime--;
-	CCSize s = CCDirector::sharedDirector()->getWinSize();
-	string  txt = transTimeStr(lifeTime);
-	timeLabel->initWithString(txt.c_str(), "Arial", 25, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
-	timeLabel->setAnchorPoint(ccp(0, 0));
-	timeLabel->setPosition(ccp(147+125, s.height - 38));
+	if (lifeTime > 0)
+	{
+		lifeTime--;
+		CCSize s = CCDirector::sharedDirector()->getWinSize();
+		string  txt = transTimeStr(lifeTime);
+		timeLabel->setString(txt.c_str());
+	}else{
+		int now = time(NULL);
+		if (now - beginTime > LIFE_CREATE_TIME)
+		{
+			beginTime = now;
+			lifeTime = LIFE_CREATE_TIME;
+			string  txt = transTimeStr(lifeTime);
+			timeLabel->setString(txt.c_str());
+			setLifeCount(m_nLiftCount++);
+		}
+
+	}
 }
 
 void BackgroundLayer::setBackGroundImage(const char *fileimage)
@@ -83,6 +105,27 @@ void BackgroundLayer::setBackGroundImage(const char *fileimage)
 void BackgroundLayer::setLifeCount(int count)
 {
 	m_nLiftCount = count;
+	if (count >= life_full && haveTimer)
+	{
+		unschedule(schedule_selector(BackgroundLayer::updateTimeDisplay));
+	}else if (count < life_full && !haveTimer)
+	{
+		lifeTime = LIFE_CREATE_TIME;
+		string  txt = transTimeStr(lifeTime);
+		if (timeLabel == NULL)
+		{
+			CCSize s = CCDirector::sharedDirector()->getWinSize();
+			timeLabel = CCLabelTTF::create(txt.c_str(), "Arial", 25, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+			this->addChild(timeLabel);
+			timeLabel->setAnchorPoint(ccp(0, 0));
+			timeLabel->setPosition(ccp(147+125, s.height - 38));
+		}else{
+			timeLabel->setString(txt.c_str());
+		}
+		haveTimer = true;
+		schedule(schedule_selector(BackgroundLayer::updateTimeDisplay),1.0f);
+		beginTime = time(NULL);
+	}
 }
 
 int BackgroundLayer::getLifeCount()
