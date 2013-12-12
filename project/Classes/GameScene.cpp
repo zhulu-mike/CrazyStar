@@ -14,7 +14,7 @@ GameScene* GameScene::createDefaultScene()
     CCLayer* pBgLayer = (CCLayer*)BackgroundLayer::create();
     CCLayer* pMenuLayer = (CCLayer*)MainMenu::create();
 
-    pScene->addChild(pBgLayer);
+    pScene->addChild(pBgLayer,0,1);
     pScene->addChild(pMenuLayer);
 
     return pScene;
@@ -27,7 +27,7 @@ void GameScene::switchToMainMenu()
     CCLayer* pBgLayer = (CCLayer*)BackgroundLayer::create();
     CCLayer* pMenuLayer = (CCLayer*)MainMenu::create();
 
-    pScene->addChild(pBgLayer);
+    pScene->addChild(pBgLayer,0,1);
     pScene->addChild(pMenuLayer);
 
     CCDirector::sharedDirector()->replaceScene(pScene);
@@ -40,7 +40,7 @@ void GameScene::switchToLevelTips()
     CCLayer* pBgLayer = (CCLayer*)BackgroundLayer::create();
     CCLayer* pMenuLayer = (CCLayer*)LevelTips::create();
 
-    pScene->addChild(pBgLayer);
+    pScene->addChild(pBgLayer,0,1);
     pScene->addChild(pMenuLayer);
 
     CCDirector::sharedDirector()->replaceScene(pScene);
@@ -53,7 +53,7 @@ void GameScene::switchToGameLayer()
     CCLayer* pBgLayer = (CCLayer*)BackgroundLayer::create();
     CCLayer* pGameLayer = (CCLayer*)GameLayer::create();
 
-    pScene->addChild(pBgLayer);
+    pScene->addChild(pBgLayer,0,1);
     pScene->addChild(pGameLayer);
 
     CCDirector::sharedDirector()->replaceScene(pScene);

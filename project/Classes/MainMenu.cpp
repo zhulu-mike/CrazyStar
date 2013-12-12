@@ -40,7 +40,8 @@ bool MainMenu::init()
 void MainMenu::onCommandStart(CCObject* pSender)
 {
     //BackgroundLayer::m_nLiftCount -= 1;
-	BackgroundLayer::setLifeCount(BackgroundLayer::getLifeCount()-1);
+	BackgroundLayer * temp = (BackgroundLayer*)CCDirector::sharedDirector()->getRunningScene()->getChildByTag(0);
+	temp->setLifeCount(BackgroundLayer::getLifeCount()-1);
     GameScene::switchToLevelTips();
 	SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
 }
