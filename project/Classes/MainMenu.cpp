@@ -39,8 +39,8 @@ bool MainMenu::init()
 
 void MainMenu::onCommandStart(CCObject* pSender)
 {
-    BackgroundLayer::m_nLiftCount -= 1;
-
+    //BackgroundLayer::m_nLiftCount -= 1;
+	BackgroundLayer::setLifeCount(BackgroundLayer::getLifeCount()-1);
     GameScene::switchToLevelTips();
 	SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
 }

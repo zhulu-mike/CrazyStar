@@ -74,6 +74,7 @@ void GameLayer::ccTouchesEnded(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEven
         }
         else if (m_popStar.size() > 1)
         {
+			SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
             addCurrentScore(5 * m_popStar.size() * m_popStar.size());
             removeStar();
             fillHole();

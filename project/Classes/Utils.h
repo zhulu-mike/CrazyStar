@@ -26,6 +26,18 @@ inline int randLimit(int nMin, int nMax)
     return (rand() % (nMax - nMin + 1) + nMin);
 }
 
+inline std::string transTimeStr(int time)
+{
+    char buf[64] = {0};
+	int m = time / 60;
+	int s = time % 60 ;
+
+//sprintf(buf,"%s : %s", ms, ss);
+	sprintf(buf,"%02d : %2d", m, s);
+    return std::string(buf);
+}
+
+
 
 #endif
 

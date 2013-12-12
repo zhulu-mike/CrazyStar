@@ -3,6 +3,8 @@
 
 #include "cocos2d.h"
 
+
+
 class BackgroundLayer : public cocos2d::CCLayer
 {
 public:
@@ -10,11 +12,20 @@ public:
 
 	void setBackGroundImage(const char *fileimage);
 
+	static void setLifeCount(int count);
+	static int getLifeCount();
+
     CREATE_FUNC(BackgroundLayer);
 
 public:
-    static int m_nLiftCount;
 	cocos2d::CCSprite* bgSprite;
+	cocos2d::CCLabelTTF *timeLabel;
+private: 
+	static int m_nLiftCount;
+	/*ÉúÃüµ¹¼ÆÊ±*/
+	static int lifeTime;
+private:
+	 void  updateTimeDisplay(float t);
 };
 
 #endif
