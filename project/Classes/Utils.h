@@ -32,7 +32,7 @@ inline std::string transTimeStr(int time)
 	int m = time / 60;
 	int s = time % 60 ;
 
-	sprintf(buf,"%02d : %02d", m, s);
+	sprintf(buf,"%02d:%02d", m, s);
     return std::string(buf);
 }
 
