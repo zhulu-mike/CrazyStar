@@ -45,6 +45,8 @@ bool BackgroundLayer::init()
 			//需要显示倒计时
 			string  txt = transTimeStr(lifeTime);
 			timeLabel = CCLabelTTF::create(txt.c_str(), "Arial", 25, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+            timeLabel->retain();
+
 			this->addChild(timeLabel);
 			timeLabel->setAnchorPoint(ccp(0, 0));
 			timeLabel->setPosition(ccp(147+125, s.height - 38));
