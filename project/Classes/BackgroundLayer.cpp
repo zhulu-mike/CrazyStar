@@ -10,14 +10,16 @@ using namespace CocosDenshion;
 using namespace std;
 
 int BackgroundLayer::m_nLiftCount = 5;
-int BackgroundLayer::lifeTime = 120;
+int BackgroundLayer::lifeTime = LIFE_CREATE_TIME;
 int BackgroundLayer::beginTime = 0;
 bool BackgroundLayer::haveTimer = false;
 
 BackgroundLayer::BackgroundLayer()
 	:bgSprite(NULL)
 	,timeLabel(NULL)
-{}
+{
+	
+}
 
 bool BackgroundLayer::init()
 {
@@ -38,12 +40,15 @@ bool BackgroundLayer::init()
         CCSpriteBatchNode* pSpriteBatch = CCSpriteBatchNode::create(g_sTaoxinImage);
         CC_BREAK_IF(!pSpriteBatch);
 
-        for (int i = 0; i < m_nLiftCount; ++ i)
+        for (int i = 0; i < life_full; ++ i)
         {
             CCSprite* pLiftSprite = CCSprite::create();
             pLiftSprite->initWithTexture(pSpriteBatch->getTexture(), CCRectMake(0, 0, 20, 20));
             CC_BREAK_IF(!pLiftSprite);
             this->addChild(pLiftSprite);
+			if (i >= m_nLiftCount)
+				pLiftSprite->setVisible(false);
+			lifeVector.push_back(pLiftSprite);
             pLiftSprite->setAnchorPoint(ccp(0, 0));
             pLiftSprite->setPosition(ccp(147 + i * 25, s.height-34));
         }
@@ -84,7 +89,7 @@ bool BackgroundLayer::init()
 			lifeTime = LIFE_CREATE_TIME;
 			string  txt = transTimeStr(lifeTime);
 			timeLabel->setString(txt.c_str());
-			setLifeCount(m_nLiftCount++);
+			setLifeCount(++m_nLiftCount);
 		}
 
 	}
@@ -105,10 +110,13 @@ void BackgroundLayer::setBackGroundImage(const char *fileimage)
 void BackgroundLayer::setLifeCount(int count)
 {
 	m_nLiftCount = count;
+
 	if (count >= life_full && haveTimer)
 	{
+		haveTimer = false;
+		timeLabel->setVisible(false);
 		unschedule(schedule_selector(BackgroundLayer::updateTimeDisplay));
-	}else if (count < life_full && !haveTimer)
+	}else if (count < life_full)
 	{
 		lifeTime = LIFE_CREATE_TIME;
 		string  txt = transTimeStr(lifeTime);
@@ -119,12 +127,25 @@ void BackgroundLayer::setLifeCount(int count)
 			this->addChild(timeLabel,1,10);
 			timeLabel->setAnchorPoint(ccp(0, 0));
 			timeLabel->setPosition(ccp(147+125, s.height - 38));
-		}else{
-			timeLabel->setString(txt.c_str());
 		}
-		haveTimer = true;
-		schedule(schedule_selector(BackgroundLayer::updateTimeDisplay),1.0f);
-		beginTime = time(NULL);
+		if (!haveTimer)
+		{
+			timeLabel->setString(txt.c_str());
+			haveTimer = true;
+			schedule(schedule_selector(BackgroundLayer::updateTimeDisplay),1.0f);
+			beginTime = time(NULL);
+		}
+	}
+	
+	
+
+	int i=0;
+	for (i=0;i<life_full;i++)
+	{
+		if (i < m_nLiftCount)
+			lifeVector[i]->setVisible(true);
+		else
+			lifeVector[i]->setVisible(false);
 	}
 }
 

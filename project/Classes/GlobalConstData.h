@@ -4,6 +4,6 @@
 /*生命最多显示的个数*/
 static const int life_full = 5;
 /*生命倒计时*/
-static const int LIFE_CREATE_TIME = 120;
+static const int LIFE_CREATE_TIME = 10;
 
 #endif

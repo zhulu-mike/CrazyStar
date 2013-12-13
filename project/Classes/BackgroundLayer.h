@@ -21,12 +21,14 @@ public:
 private:
 	cocos2d::CCSprite* bgSprite;
 	cocos2d::CCLabelTTF *timeLabel;
+
 private: 
 	static int m_nLiftCount;
 	/*ÉúÃüµ¹¼ÆÊ±*/
 	static int lifeTime;
 	static int beginTime;
 	static bool haveTimer;
+	std::vector<cocos2d::CCSprite*> lifeVector;
 private:
 	 void  updateTimeDisplay(float t);
 };
