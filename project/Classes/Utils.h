@@ -11,9 +11,16 @@ static const char* g_sMagicImage      = "./image/magic.png";
 static const char* g_sBackgroundImage = "./image/bg.png";
 static const char* g_sTaoxinImage     = "./image/taoxin.png";
 static const char* g_sLevelImage      = "./image/level.png";
+static const char* g_smallGreenStarImage   = "./image/lv.png";
+static const char* g_smallRedStarImage   = "./image/hong.png";
+static const char* g_smallYellowStarImage   = "./image/huang.png";
+static const char* g_smallBlueStarImage   = "./image/lan.png";
+static const char* g_smallZiStarImage   = "./image/zi.png";
+
 static const char* g_sSelectedSound   = "./sound/click.mp3";
 static const char* g_gameBackGroundSound   = "./sound/bg.mp3";
 static const char* g_mainBackGroundSound   = "./sound/mainbg.mp3";
+
 
 /*Õ€≈∂*/
 static const char* g_waOSound   = "./sound/wao.mp3";

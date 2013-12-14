@@ -59,6 +59,7 @@ public:
 
     void removeAll();
     void gameOver();
+	void showPopEffect(cocos2d::CCPoint point, int type);
 
     CREATE_FUNC(GameLayer);
 
