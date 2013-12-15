@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root path="artchar.png">
+	<child name="white0" x="0" y="0" w="15" h="16"/>
+	<child name="white1" x="15" y="0" w="10" h="18"/>
+	<child name="white2" x="25" y="0" w="16" h="17"/>
+	<child name="white3" x="41" y="0" w="13" h="23"/>
+	<child name="white4" x="54" y="0" w="15" h="20"/>
+	<child name="white5" x="69" y="0" w="15" h="20"/>
+	<child name="white6" x="84" y="0" w="14" h="22"/>
+	<child name="white7" x="98" y="0" w="15" h="22"/>
+	<child name="white8" x="113" y="0" w="15" h="24"/>
+	<child name="white9" x="128" y="0" w="13" h="20"/>
+	<child name="yellow+" x="0" y="24" w="16" h="15"/>
+	<child name="yellow0" x="16" y="24" w="15" h="16"/>
+	<child name="yellow1" x="31" y="24" w="10" h="18"/>
+	<child name="yellow2" x="41" y="24" w="16" h="17"/>
+	<child name="yellow3" x="57" y="24" w="13" h="23"/>
+	<child name="yellow4" x="70" y="24" w="15" h="20"/>
+	<child name="yellow5" x="85" y="24" w="15" h="20"/>
+	<child name="yellow6" x="100" y="24" w="14" h="22"/>
+	<child name="yellow7" x="114" y="24" w="15" h="22"/>
+	<child name="yellow8" x="129" y="24" w="15" h="24"/>
+	<child name="yellow9" x="0" y="48" w="13" h="20"/>
+	<child name="lv+" x="13" y="48" w="16" h="15"/>
+	<child name="lv0" x="29" y="48" w="15" h="16"/>
+	<child name="lv1" x="44" y="48" w="10" h="18"/>
+	<child name="lv2" x="54" y="48" w="16" h="17"/>
+	<child name="lv3" x="70" y="48" w="13" h="23"/>
+	<child name="lv4" x="83" y="48" w="15" h="20"/>
+	<child name="lv5" x="98" y="48" w="15" h="20"/>
+	<child name="lv6" x="113" y="48" w="14" h="22"/>
+	<child name="lv7" x="127" y="48" w="15" h="22"/>
+	<child name="lv8" x="0" y="71" w="15" h="24"/>
+	<child name="lv9" x="15" y="71" w="13" h="20"/>
+</root>
