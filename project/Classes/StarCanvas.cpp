@@ -21,6 +21,7 @@ StarCanvas::StarCanvas()
     , m_fIntervalY(5)
     , m_fStarWidth(48)
     , m_fStarHeight(48)
+	, popIng(false)
 {
 
 }
@@ -40,6 +41,11 @@ bool StarCanvas::init()
     do
     {
         CC_BREAK_IF(!CCNode::init());
+
+		CCSize s = CCDirector::sharedDirector()->getWinSize();
+		float totalWidth = MAP_SIZE * 48 + (MAP_SIZE-1) * 5;
+		m_fBeginX = (s.width - totalWidth) * 0.5;
+		m_fBeginY = 40;
 
         /*初始化星星图片*/
         m_pStarBatchNode[kStarRed] = CCSpriteBatchNode::create(g_sRedStarImage);
@@ -85,6 +91,7 @@ void StarCanvas::onEnter()
     this->addChild(m_pScoreControl);
     
     srand((unsigned)time(NULL));
+	gameState = true;
     
     for (int i = 0; i < MAP_SIZE; ++ i) 
         for (int j = 0; j < MAP_SIZE; ++ j)
@@ -124,38 +131,35 @@ void StarCanvas::_generateOneStar(int x, int y, int c)
 
 void StarCanvas::touchStarCanvas(cocos2d::CCPoint& location)
 {
-    int xIndex = floor((location.x-m_fBeginX)/SHOW_STAR_WIDTH);
-    int yIndex = floor((location.y-m_fBeginY)/SHOW_STAR_HEIGHT);
+	if (!popIng)
+	{
+		int xIndex = floor((location.x-m_fBeginX)/SHOW_STAR_WIDTH);
+		int yIndex = floor((location.y-m_fBeginY)/SHOW_STAR_HEIGHT);
 
-    m_popStar.clear();
-    m_nPopColor = kStarNone;
-    popStar(xIndex, yIndex);
+		m_popStar.clear();
+		m_nPopColor = kStarNone;
+		popStar(xIndex, yIndex);
 
-    if (m_popStar.size() == 1)
-    {
-        m_pStarMap[xIndex][yIndex]->setStarColor(m_nPopColor);
-    }
-    else if (m_popStar.size() > 1)
-    {
-        SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
-        m_pScoreControl->addCurrentScore(5 * m_popStar.size() * m_popStar.size());
-        removeStar();
-        fillHole();
+		if (m_popStar.size() == 1)
+		{
+			m_pStarMap[xIndex][yIndex]->setStarColor(m_nPopColor);
+		}
+		else if (m_popStar.size() > 1)
+		{
+			SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
+			m_pScoreControl->addCurrentScore(5 * m_popStar.size() * m_popStar.size());
+			removeStar();
+			popIng = true;
 
-        if (m_popStar.size() > 10)
-        {
-            SimpleAudioEngine::sharedEngine()->playEffect(g_waOSound);
-        }
-    }
+			if (m_popStar.size() > 10)
+			{
+				SimpleAudioEngine::sharedEngine()->playEffect(g_waOSound);
+			}
+		}
+	}
 
 
-    if (!m_popStar.empty())
-    {
-        if (isHasPopStar())
-        {
-            clearAllStar();
-        }
-    }
+   
 }
 
 void StarCanvas::popStar(int x, int y)
@@ -196,20 +200,32 @@ void StarCanvas::popStar(int x, int y)
 void StarCanvas::removeStar()
 {
     int x = 0, y = 0;
-
+	float timeRecord;
     for (std::size_t i = 0; i < m_popStar.size(); ++ i)
     {
         x = m_popStar[i].x;
         y = m_popStar[i].y;
 
-		playPopEffect(CCPointMake(m_pStarMap[x][y]->getPosition().x, m_pStarMap[x][y]->getPosition().y), m_pStarMap[x][y]->getStarType());
+		m_pStarMap[x][y]->runAction(
+                CCSequence::create(
+                    CCDelayTime::create(i*0.05), 
+					CCCallFuncN::create(this, callfuncN_selector(StarCanvas::showPopEffectBySprite)),
+					CCRemoveSelf::create(), 
+                    NULL));
+		 timeRecord = i*0.05;
        
-		m_pStarBatchNode[m_nPopColor]->removeChild(m_pStarMap[x][y], true);
+		//m_pStarBatchNode[m_nPopColor]->removeChild(m_pStarMap[x][y], true);
     }
+	this->runAction(
+                CCSequence::create(
+                    CCDelayTime::create(timeRecord), 
+					CCCallFunc::create(this, callfunc_selector(StarCanvas::fillHole)),
+                    NULL));
 }
 
 void StarCanvas::fillHole()
 {
+	bool needMove = false;
     /*首先横向循环*/
     for (int i = 0; i < MAP_SIZE; ++ i)
     {
@@ -224,6 +240,7 @@ void StarCanvas::fillHole()
 
             if (m_pStarMap[i][j]->getStarColor() != kStarNone && nonePos != -1)
             {
+				needMove = true;
                 m_pStarMap[i][j]->stopAllActions();
                 m_pStarMap[i][j]->moveToDown(REAL_POS_BY_INDEX(i, nonePos));
 
@@ -232,8 +249,23 @@ void StarCanvas::fillHole()
             }
         }
     }
+	if (needMove)
+	{
+		this->runAction(
+                CCSequence::create(
+                    CCDelayTime::create(0.5), 
+					CCCallFunc::create(this, callfunc_selector(StarCanvas::moveHorizontalHole)),
+                    NULL));
+	}else{
+		moveHorizontalHole();
+	}
 
-    /*然后纵向循环*/
+}
+
+void StarCanvas::moveHorizontalHole()
+{
+	bool needMove = false;
+	 /*然后纵向循环*/
     int nonePos = -1; 
     for (int j = 0; j < MAP_SIZE; ++ j)
     {
@@ -249,13 +281,41 @@ void StarCanvas::fillHole()
         /*移动一列*/
         for (int i = 0; i < MAP_SIZE && m_pStarMap[j][i]->getStarColor() != kStarNone; ++ i)
         {
+			needMove = true;
             m_pStarMap[j][i]->stopAllActions();
-            m_pStarMap[j][i]->moveToLeft(REAL_POS_BY_INDEX(nonePos, i));
+            m_pStarMap[j][i]->moveToLeft(ccp(m_fBeginX + 53 * nonePos , m_fBeginY + 53 * i));
 
             CC_SWAP(m_pStarMap[nonePos][i], m_pStarMap[j][i], StarSprite*);
         }
-
         nonePos ++;
+    }
+	popIng = false;
+	if (needMove)
+	{
+		this->runAction(
+                CCSequence::create(
+                    CCDelayTime::create(0.4f), 
+					CCCallFunc::create(this, callfunc_selector(StarCanvas::checkIsOver)),
+                    NULL));
+	}else{
+		checkIsOver();
+	}
+}
+
+
+void StarCanvas::checkIsOver()
+{
+	if (!m_popStar.empty())
+    {
+        if (isHasPopStar())
+        {
+			gameState = false;
+			this->runAction(
+                CCSequence::create(
+                    CCDelayTime::create(0.5), 
+					CCCallFunc::create(this, callfunc_selector(StarCanvas::clearAllStar)),
+                    NULL));
+        }
     }
 }
 
@@ -309,6 +369,8 @@ void StarCanvas::clearAllStar()
 {
     StarSprite* pSprite = NULL;
     int count = 0;
+	float timeRecord;
+	float maxTime;
 
     for (int i = MAP_SIZE - 1; i >= 0; -- i)
     {
@@ -319,29 +381,28 @@ void StarCanvas::clearAllStar()
                 continue;
             }
 
+            count++;
             m_pStarMap[j][i]->runAction(
                 CCSequence::create(
-                    CCDelayTime::create(count++ * 0.2f), 
-                    CCMoveBy::create(0.2f, m_pStarMap[j][i]->getPosition()), 
-                    CCRemoveSelf::create(), 
+                    CCDelayTime::create(j * 0.2+i*0.03), 
+					CCCallFuncN::create(this, callfuncN_selector(StarCanvas::showPopEffectBySpriteWithSound)),
+					CCRemoveSelf::create(), 
                     NULL));
 
             if (count <= 4)
                 m_pScoreControl->addCurrentScore(5 + (count-1)*10);
-
+			timeRecord = j * 0.2+i*0.03;
+			maxTime = maxTime < timeRecord ? timeRecord : maxTime;
             pSprite = m_pStarMap[j][i];
         }
     }
 
     if (pSprite != NULL)
     {
-        pSprite->stopAllActions();
 
-        pSprite->runAction(
+        this->runAction(
             CCSequence::create(
-            CCDelayTime::create(count * 0.2f), 
-            CCMoveBy::create(0.2f, pSprite->getPosition()), 
-            CCRemoveSelf::create(),
+            CCDelayTime::create(maxTime+0.5), 
             CCCallFunc::create(this, callfunc_selector(StarCanvas::gameOver)),
             NULL));
     }
@@ -365,62 +426,76 @@ void StarCanvas::gameOver()
     }
 }
 
-void StarCanvas::playPopEffect(CCPoint& point, int type)
+void StarCanvas::showPopEffectBySpriteWithSound(CCNode * p)
 {
-    CCParticleSystem* mitter = CCParticleFireworks::create();
-    
-    this->addChild(mitter);
-
-    ccColor4F startColorVar = {0.0f, 0.0f, 0.0f, 0.0f};
-    ccColor4F startColor = {0.0f, 0.0f, 0.0f, 1.0f};
-
-    if (type == kStarRed){
-        startColor.r = 1.0f;
-        mitter->setTexture( CCTextureCache::sharedTextureCache()->addImage(g_sSmallRedStarImage) );
-    }else if (type == kStarYellow){
-        startColor.r = 1.0f;
-        startColor.g = 1.0f;
-        mitter->setTexture( CCTextureCache::sharedTextureCache()->addImage(g_sSmallYellowStarImage) );
-    }else if (type == kStarGreen){
-        startColor.g = 1.0f;
-        mitter->setTexture( CCTextureCache::sharedTextureCache()->addImage(g_sSmallGreenStarImage) );
-    }else if (type == kStarBlue){
-        startColor.b = 1.0f;
-        mitter->setTexture( CCTextureCache::sharedTextureCache()->addImage(g_sSmallBlueStarImage) );
-    }else if (type == kStarPurple){
-        startColor.r = 1.0f;
-        startColor.b = 1.0f;
-        mitter->setTexture( CCTextureCache::sharedTextureCache()->addImage(g_sSmallZiStarImage) );
-    }
-    mitter->setPosition(point.x, point.y);
-    mitter->setTotalParticles(20);
-    mitter->setEmissionRate(100);
-
-    mitter->setGravity(CCPointMake(0,-500));
-
-    mitter->setStartSize(20);
-    mitter->setStartSizeVar(10);
-    mitter->setEndSize(kCCParticleStartSizeEqualToEndSize);
-    mitter->setEndSizeVar(0);
-
-    mitter->setSpeedVar(50);
-    mitter->setSpeed(500);
-
-    mitter->setLife(2);
-    mitter->setLifeVar(0);
-
-
-    mitter->setStartColorVar(startColorVar);
-    mitter->setStartColor(startColor);
-    mitter->setEndColor(startColor);
-    mitter->setEndColorVar(startColorVar);
-    //mitter->setStartRadius(20);
-
-    mitter->setAngle(30);
-    mitter->setAngleVar(300);
-
-    mitter->setEmitterMode(kCCParticleModeGravity);
-    mitter->setDuration(0.2f);
-    mitter->setAutoRemoveOnFinish(true);
+	StarSprite * pp = (StarSprite*) p;
+	showPopEffect(pp->getPosition(), pp->getStarType());
 }
 
+void StarCanvas::showPopEffectBySprite(CCNode * p)
+{
+	StarSprite * pp = (StarSprite*) p;
+	showPopEffect(pp->getPosition(), pp->getStarType());
+}
+
+void StarCanvas::showPopEffect(cocos2d::CCPoint point, int type)
+{
+	
+    CCParticleSystem* mitter = CCParticleFireworks::create();
+			//mitter->retain();
+			this->addChild(mitter);
+			ccColor4F startColorVar = {0.0f, 0.0f, 0.0f, 0.0f};
+			ccColor4F startColor = {0.0f, 0.0f, 0.0f, 1.0f};
+			//mitter->setTexture( CCTextureCache::sharedTextureCache()->addImage(g_smallZiStarImage) );
+			if (type == kStarRed){
+				startColor.r = 1.0f;
+				startColor.b = 0.003f;
+				mitter->setTexture( CCTextureCache::sharedTextureCache()->addImage(g_sSmallRedStarImage) );
+			}else if (type == kStarYellow){
+				startColor.r = 1.0f;
+				startColor.g = 1.0f;
+				mitter->setTexture( CCTextureCache::sharedTextureCache()->addImage(g_sSmallYellowStarImage) );
+			}else if (type == kStarGreen){
+				 startColor.g = 1.0f;
+				mitter->setTexture( CCTextureCache::sharedTextureCache()->addImage(g_sSmallGreenStarImage) );
+			}else if (type == kStarBlue){
+				startColor.b = 1.0f;
+				startColor.g = 1.0f;
+				mitter->setTexture( CCTextureCache::sharedTextureCache()->addImage(g_sSmallBlueStarImage) );
+			}else if (type == kStarPurple){
+				startColor.r = 1.0f;
+				startColor.b = 1.0f;
+				mitter->setTexture( CCTextureCache::sharedTextureCache()->addImage(g_sSmallZiStarImage) );
+			}
+			mitter->setPosition(point.x, point.y);
+			mitter->setTotalParticles(15);
+			mitter->setEmissionRate(100);
+
+			mitter->setGravity(CCPointMake(0,-750));
+
+			mitter->setStartSize(25);
+			mitter->setStartSizeVar(10);
+			mitter->setEndSize(kCCParticleStartSizeEqualToEndSize);
+			mitter->setEndSizeVar(0);
+
+			mitter->setSpeedVar(50);
+			mitter->setSpeed(800);
+
+			mitter->setLife(3);
+			mitter->setLifeVar(0);
+
+			
+			mitter->setStartColorVar(startColorVar);
+			mitter->setStartColor(startColor);
+			mitter->setEndColor(startColor);
+			mitter->setEndColorVar(startColorVar);
+
+
+
+			mitter->setAngle(30);
+			mitter->setAngleVar(300);
+
+			mitter->setEmitterMode(kCCParticleModeGravity);
+			mitter->setDuration(0.2f);
+			mitter->setAutoRemoveOnFinish(true);
+}
