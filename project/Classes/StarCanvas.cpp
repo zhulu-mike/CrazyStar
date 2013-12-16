@@ -370,7 +370,7 @@ void StarCanvas::clearAllStar()
     StarSprite* pSprite = NULL;
     int count = 0;
 	float timeRecord;
-	float maxTime;
+	float maxTime = 0.0f;
 
     for (int i = MAP_SIZE - 1; i >= 0; -- i)
     {
