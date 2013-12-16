@@ -13,6 +13,7 @@ using namespace CocosDenshion;
 
 GameLayer::GameLayer()
     : m_nSelectedStatus(0)
+	, m_pLevelOverLayer(NULL)
 {
 
 }
@@ -110,4 +111,28 @@ void GameLayer::onCommandItem(CCObject* pSender)
 void GameLayer::onCommandMagic(CCObject* pSender)
 {
     SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
+}
+
+void GameLayer::showLevelOverLayer(bool win, int leftCount, int leftScore)
+{
+	if (m_pLevelOverLayer == NULL)
+	{
+		m_pLevelOverLayer = LevelOver::create();
+	}
+	this->addChild(m_pLevelOverLayer);
+	m_pLevelOverLayer->setAnchorPoint(ccp(0,0));
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	m_pLevelOverLayer->setPositionX(s.width);
+	m_pLevelOverLayer->runAction(
+		CCSequence::create(
+					CCMoveTo::create(0.3, ccp(0,0)),
+                    NULL)
+					);
+	m_pLevelOverLayer->onShow(win,leftCount,leftScore);
+}
+
+void GameLayer::hideLevelOverLayer()
+{
+	m_pLevelOverLayer->removeFromParent();
+	m_pLevelOverLayer = NULL;
 }

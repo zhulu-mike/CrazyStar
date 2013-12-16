@@ -5,6 +5,7 @@
 #include "StarSprite.h"
 #include "ScoreControl.h"
 #include "GameScene.h"
+#include "GameLayer.h"
 
 USING_NS_CC;
 using namespace CocosDenshion;
@@ -289,7 +290,6 @@ void StarCanvas::moveHorizontalHole()
         }
         nonePos ++;
     }
-	popIng = false;
 	if (needMove)
 	{
 		this->runAction(
@@ -305,6 +305,7 @@ void StarCanvas::moveHorizontalHole()
 
 void StarCanvas::checkIsOver()
 {
+	popIng = false;
 	if (!m_popStar.empty())
     {
         if (isHasPopStar())
@@ -397,6 +398,9 @@ void StarCanvas::clearAllStar()
         }
     }
 
+	GameLayer * p = (GameLayer * )GameScene::sharedGameScene()->getMainGameLayer();
+	p->showLevelOverLayer(m_pScoreControl->isUpLevel(),count,5 + (count-1)*10);
+
     if (pSprite != NULL)
     {
 
@@ -414,6 +418,8 @@ void StarCanvas::clearAllStar()
 
 void StarCanvas::gameOver()
 {
+	GameLayer * p = (GameLayer * )GameScene::sharedGameScene()->getMainGameLayer();
+	p->hideLevelOverLayer();
     if (m_pScoreControl->isUpLevel())
     {
         m_pScoreControl->addCurrentLevel(1);

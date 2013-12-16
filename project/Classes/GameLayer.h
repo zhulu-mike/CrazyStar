@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "StarSprite.h"
+#include "LevelOver.h"
 
 #define MAP_SIZE 10
 
@@ -24,10 +25,15 @@ public:
     void onCommandItem(CCObject* pSender);
     void onCommandMagic(CCObject* pSender);
 
+	void showLevelOverLayer(bool win, int leftCount, int leftScore);
+	void hideLevelOverLayer();
+
     void nextLevel();
     void gameOver();
 private:
     int m_nSelectedStatus;
+
+	LevelOver* m_pLevelOverLayer;
 
     StarCanvas* m_pStarCanvas;
 };
