@@ -27,7 +27,10 @@ StarCanvas::StarCanvas()
 
 StarCanvas::~StarCanvas()
 {
-    releaseAllStar();
+    for (int i = 1; i < kStarMax; ++ i)
+        m_pStarBatchNode[i]->release();
+
+    m_pScoreControl->release();
 }
 
 bool StarCanvas::init()
@@ -41,28 +44,28 @@ bool StarCanvas::init()
         /*初始化星星图片*/
         m_pStarBatchNode[kStarRed] = CCSpriteBatchNode::create(g_sRedStarImage);
         CC_BREAK_IF(!m_pStarBatchNode[kStarRed]);
-        addChild(m_pStarBatchNode[kStarRed], 0, kStarRed);
+        m_pStarBatchNode[kStarRed]->retain();
 
         m_pStarBatchNode[kStarYellow] = CCSpriteBatchNode::create(g_sYellowStarImage);
         CC_BREAK_IF(!m_pStarBatchNode[kStarYellow]);
-        addChild(m_pStarBatchNode[kStarYellow], 0, kStarYellow);
+        m_pStarBatchNode[kStarYellow]->retain();
 
         m_pStarBatchNode[kStarGreen] = CCSpriteBatchNode::create(g_sGreenStarImage);
         CC_BREAK_IF(!m_pStarBatchNode[kStarGreen]);
-        addChild(m_pStarBatchNode[kStarGreen], 0, kStarGreen);
+        m_pStarBatchNode[kStarGreen]->retain();
 
         m_pStarBatchNode[kStarBlue] = CCSpriteBatchNode::create(g_sBlueStarImage);
         CC_BREAK_IF(!m_pStarBatchNode[kStarBlue]);
-        addChild(m_pStarBatchNode[kStarBlue], 0, kStarBlue);
+        m_pStarBatchNode[kStarBlue]->retain();
 
         m_pStarBatchNode[kStarPurple] = CCSpriteBatchNode::create(g_sPurpleStarImage);
         CC_BREAK_IF(!m_pStarBatchNode[kStarPurple]);
-        addChild(m_pStarBatchNode[kStarPurple], 0, kStarPurple);
+        m_pStarBatchNode[kStarPurple]->retain();
 
         /*初始化得分*/
         m_pScoreControl = ScoreControl::create();
         CC_BREAK_IF(!m_pScoreControl);
-        addChild(m_pScoreControl);
+        m_pScoreControl->retain();
 
         bRet = true;
     }while(0);
@@ -74,18 +77,13 @@ void StarCanvas::onEnter()
 {
     CCNode::onEnter();
 
-    generateStarMap();
-}
-
-void StarCanvas::onExit()
-{
-    CCNode::onExit();
-
-    releaseAllStar();
-}
-
-void StarCanvas::generateStarMap()
-{
+    this->addChild(m_pStarBatchNode[kStarRed], 0, kStarRed);
+    this->addChild(m_pStarBatchNode[kStarYellow], 0, kStarYellow);
+    this->addChild(m_pStarBatchNode[kStarGreen], 0, kStarGreen);
+    this->addChild(m_pStarBatchNode[kStarBlue], 0, kStarBlue);
+    this->addChild(m_pStarBatchNode[kStarPurple], 0, kStarPurple);
+    this->addChild(m_pScoreControl);
+    
     srand((unsigned)time(NULL));
     
     for (int i = 0; i < MAP_SIZE; ++ i) 
@@ -93,8 +91,12 @@ void StarCanvas::generateStarMap()
             _generateOneStar(i, j, randLimit(kStarRed, kStarPurple));
 }
 
-void StarCanvas::releaseAllStar()
+void StarCanvas::onExit()
 {
+    CCNode::onExit();
+    
+    this->removeAllChildren();
+
     for (int i = 1; i < kStarMax; ++ i)
         m_pStarBatchNode[i]->removeAllChildren();
 

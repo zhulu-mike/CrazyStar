@@ -39,8 +39,6 @@ public:
     virtual void onEnter();
     virtual void onExit();
 
-    void generateStarMap();
-    void releaseAllStar();
     void touchStarCanvas(cocos2d::CCPoint& location);
     void popStar(int x, int y);
     void removeStar();
