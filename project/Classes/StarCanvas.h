@@ -51,6 +51,11 @@ public:
     bool isHasPopStar();
     bool isSameColor(int x, int y, int kColor);
 
+	void showPopEffect(cocos2d::CCPoint point, int type);
+	void showPopEffectBySprite(CCNode *p);
+	void showPopEffectBySpriteWithSound(CCNode * p);
+	void checkIsOver();
+	void moveHorizontalHole();
     void gameOver();
 private:
     void _generateOneStar(int x, int y, int c);
@@ -62,6 +67,9 @@ private:
     float m_fIntervalY;
     float m_fStarWidth;
     float m_fStarHeight;
+
+	bool popIng;
+	bool gameState;
 
     int m_nPopColor;
 
