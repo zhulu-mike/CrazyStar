@@ -14,6 +14,7 @@ using namespace CocosDenshion;
 GameLayer::GameLayer()
     : m_nSelectedStatus(0)
 	, m_pLevelOverLayer(NULL)
+	, m_pChallengeLayer(NULL)
 {
 
 }
@@ -77,6 +78,8 @@ void GameLayer::onEnter()
     SimpleAudioEngine::sharedEngine()->playBackgroundMusic(g_sGameBackGroundSound, true);
 
     this->addChild(m_pStarCanvas);
+
+	this->setTouchEnabled(true);
 }
 
 void GameLayer::onExit()
@@ -133,6 +136,44 @@ void GameLayer::showLevelOverLayer(bool win, int leftCount, int leftScore)
 
 void GameLayer::hideLevelOverLayer()
 {
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	m_pLevelOverLayer->runAction(
+		CCSequence::create(
+		 CCMoveTo::create(0.3, ccp(-s.width,0)),
+		 CCCallFunc::create(this, callfunc_selector(GameLayer::removeLevelOverLayer)),
+                    NULL)
+					);
+}
+
+void GameLayer::removeLevelOverLayer()
+{
 	m_pLevelOverLayer->removeFromParent();
 	m_pLevelOverLayer = NULL;
+	m_pStarCanvas->doGameOver();
 }
+
+void GameLayer::showChallengeAgainLayer(int round, int need)
+{
+	if (m_pChallengeLayer == NULL)
+	{
+		m_pChallengeLayer = ChallengeAgainLayer::create();
+	}
+	this->addChild(m_pChallengeLayer);
+	m_pChallengeLayer->onShow(round, need);
+	m_pChallengeLayer->setAnchorPoint(ccp(0,0));
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	m_pChallengeLayer->setPositionX(s.width);
+	m_pChallengeLayer->setPositionY(0);
+	m_pChallengeLayer->runAction(
+		CCSequence::create(
+					CCMoveTo::create(0.3, ccp(0,0)),
+                    NULL)
+					);
+}
+
+void GameLayer::hideChallengeAgainLayer()
+{
+	m_pChallengeLayer->removeFromParent();
+	m_pChallengeLayer = NULL;
+}
+

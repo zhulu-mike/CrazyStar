@@ -104,9 +104,10 @@ int ScoreControl::getTargetScore()
 
 bool ScoreControl::isUpLevel()
 {
-    RETURN_VALUE_IF(m_nCurrentScore < getTargetScore(), false);
+    //RETURN_VALUE_IF(m_nCurrentScore < getTargetScore(), false);
 
-    return true;
+    //return true;
+	return false;
 }
 
 void ScoreControl::clearAllScore()

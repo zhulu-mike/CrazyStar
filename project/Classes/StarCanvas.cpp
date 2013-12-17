@@ -97,6 +97,8 @@ void StarCanvas::onEnter()
     for (int i = 0; i < MAP_SIZE; ++ i) 
         for (int j = 0; j < MAP_SIZE; ++ j)
             _generateOneStar(i, j, randLimit(kStarRed, kStarPurple));
+
+	
 }
 
 void StarCanvas::onExit()
@@ -294,7 +296,7 @@ void StarCanvas::moveHorizontalHole()
 	{
 		this->runAction(
                 CCSequence::create(
-                    CCDelayTime::create(0.4f), 
+                    CCDelayTime::create(0.3f), 
 					CCCallFunc::create(this, callfunc_selector(StarCanvas::checkIsOver)),
                     NULL));
 	}else{
@@ -404,6 +406,7 @@ void StarCanvas::clearAllStar()
     if (pSprite != NULL)
     {
 
+		maxTime = maxTime < 3 ? 3 : maxTime;
         this->runAction(
             CCSequence::create(
             CCDelayTime::create(maxTime+0.5), 
@@ -420,15 +423,23 @@ void StarCanvas::gameOver()
 {
 	GameLayer * p = (GameLayer * )GameScene::sharedGameScene()->getMainGameLayer();
 	p->hideLevelOverLayer();
-    if (m_pScoreControl->isUpLevel())
+}
+
+void StarCanvas::doGameOver()
+{
+	if (m_pScoreControl->isUpLevel())
     {
         m_pScoreControl->addCurrentLevel(1);
         GameScene::sharedGameScene()->switchToGameLayer();
     }
     else
     {
-        m_pScoreControl->clearAllScore();
-        GameScene::sharedGameScene()->switchToGameLayer();
+		//失败则弹出复活窗口
+		GameLayer * p = (GameLayer * )GameScene::sharedGameScene()->getMainGameLayer();
+		p->showChallengeAgainLayer(1,1);
+		p->setTouchEnabled(false);
+       // m_pScoreControl->clearAllScore();
+        
     }
 }
 

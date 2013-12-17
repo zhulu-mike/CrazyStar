@@ -20,7 +20,7 @@ void StarSprite::moveToLeft(CCPoint& pos)
     //float moveTime = (getPosition().x - pos.x) / 53.f * MOVE_SPEED;
 
     CCActionInterval* pActionJump = CCMoveTo::create(JNMP_INTERVAL, ccp(getPosition().x + 2, getPosition().y));
-    CCActionInterval* pActionMove = CCMoveTo::create(MOVE_INTERVAL, pos);
+    CCActionInterval* pActionMove = CCMoveTo::create(0.2f, pos);
 
     this->runAction(CCSequence::create(pActionJump, pActionMove, NULL));
 }

@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "StarSprite.h"
 #include "LevelOver.h"
+#include "ChallengeAgainLayer.h"
 
 #define MAP_SIZE 10
 
@@ -27,6 +28,9 @@ public:
 
 	void showLevelOverLayer(bool win, int leftCount, int leftScore);
 	void hideLevelOverLayer();
+	
+	void showChallengeAgainLayer(int round, int need);
+	void hideChallengeAgainLayer();
 
     void nextLevel();
     void gameOver();
@@ -36,6 +40,10 @@ private:
 	LevelOver* m_pLevelOverLayer;
 
     StarCanvas* m_pStarCanvas;
+
+	ChallengeAgainLayer * m_pChallengeLayer;
+
+	void removeLevelOverLayer();
 };
 
 #endif

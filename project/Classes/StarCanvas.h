@@ -55,8 +55,10 @@ public:
 	void checkIsOver();
 	void moveHorizontalHole();
     void gameOver();
+	void doGameOver();
 private:
     void _generateOneStar(int x, int y, int c);
+	
 
 private:
     float m_fBeginX;

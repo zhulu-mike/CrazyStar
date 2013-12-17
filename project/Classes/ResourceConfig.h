@@ -22,6 +22,14 @@ static const char* g_sLevelAwardImage      = "./image/shengyujiangli.png";
 static const char* g_sLevelScoreImage      = "./image/benguandefen.png";
 static const char* g_sLevelPassImage      = "./image/pass.png";
 static const char* g_sLevelLoseImage      = "./image/lose.png";
+static const char* g_sAlertBGImage      = "./image/alertbg.png";
+static const char* g_sRelifeBGImage      = "./image/fuhuo.png";
+static const char* g_sGuanBGImage      = "./image/guan.png";
+static const char* g_sLifeNeedBGImage      = "./image/xysmz.png";
+static const char* g_sLifeValueBGImage      = "./image/dian.png";
+static const char* g_sReturnBGImage      = "./image/fanhui.png";
+static const char* g_sSureBGImage      = "./image/queding.png";
+
 
 static const char* g_sSelectedSound         = "./sound/click.mp3";
 static const char* g_sGameBackGroundSound   = "./sound/bg.mp3";
