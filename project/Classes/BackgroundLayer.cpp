@@ -12,7 +12,7 @@ using namespace CocosDenshion;
 #define LIFT_CREATE_TIME 600
 
 BackgroundLayer::BackgroundLayer()
-	: m_nLifeCount(MAX_LIFE_COUNT)
+	: m_nLifeCount(1)
     , m_nLeftTime(0)
     , m_pBgSprite(NULL)
 	, m_pTimeLabel(NULL)

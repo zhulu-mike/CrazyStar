@@ -29,6 +29,8 @@ static const char* g_sLifeNeedBGImage      = "./image/xysmz.png";
 static const char* g_sLifeValueBGImage      = "./image/dian.png";
 static const char* g_sReturnBGImage      = "./image/fanhui.png";
 static const char* g_sSureBGImage      = "./image/queding.png";
+static const char* g_sBuyLifeBGImage      = "./image/buylifebg.png";
+
 
 
 static const char* g_sSelectedSound         = "./sound/click.mp3";

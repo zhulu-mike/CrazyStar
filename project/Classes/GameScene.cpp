@@ -4,6 +4,7 @@
 #include "GameLayer.h"
 #include "ImageConfig.h"
 #include "ResourceConfig.h"
+#include "BuyLifeLayer.h"
 
 USING_NS_CC;
 
@@ -36,6 +37,7 @@ GameScene::GameScene()
     : m_pBackgroundLayer(NULL)
     , m_pMainMenuLayer(NULL)
     , m_pMainGameLayer(NULL)
+	, m_pBuyLifeLayer(NULL)
 {
 
 }
@@ -48,6 +50,8 @@ GameScene::~GameScene()
         m_pMainMenuLayer->release();
     if (m_pMainGameLayer != NULL)
         m_pMainGameLayer->release();
+	if (m_pBuyLifeLayer != NULL)
+		m_pBuyLifeLayer->release();
 }
 
 bool GameScene::init()
@@ -98,4 +102,18 @@ void GameScene::switchToGameLayer()
     this->addChild(m_pMainGameLayer, 0, kMainGameLayerTag);
 }
 
+void GameScene::showBuyLifeLayer()
+{
+	if (m_pBuyLifeLayer == NULL)
+		m_pBuyLifeLayer = BuyLifeLayer::create();
+	this->addChild(m_pBuyLifeLayer,0,kBuyLifeLayerTag);
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	m_pBuyLifeLayer->setAnchorPoint(ccp(0,0));
+	m_pBuyLifeLayer->setPositionY(s.height*2);
+	m_pBuyLifeLayer->runAction(
+		CCSequence::create(
+					CCMoveTo::create(0.3f, ccp(0,0)),
+                    NULL)
+		);
+}
 
