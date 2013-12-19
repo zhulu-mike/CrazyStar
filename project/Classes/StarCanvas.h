@@ -55,8 +55,14 @@ public:
 	void checkIsOver();
 	void moveHorizontalHole();
     void gameOver();
+	void doGameOver();
+	int getCurrentLevel();
+
+	void renewScore();
+
 private:
     void _generateOneStar(int x, int y, int c);
+	
 
 private:
     float m_fBeginX;

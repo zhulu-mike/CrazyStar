@@ -3,6 +3,8 @@
 
 #include "cocos2d.h"
 #include "StarSprite.h"
+#include "LevelOver.h"
+#include "ChallengeAgainLayer.h"
 
 #define MAP_SIZE 10
 
@@ -32,15 +34,30 @@ public:
     void onCommandBomb(CCObject* pSender);
     void onCommandMagic(CCObject* pSender);
 
+	void showLevelOverLayer(bool win, int leftCount, int leftScore);
+	void hideLevelOverLayer();
+	
+	void showChallengeAgainLayer(int round, int need);
+	void hideChallengeAgainLayer();
+
     void nextLevel();
     void gameOver();
 
     void playSelectedAnimate(cocos2d::CCPoint& pos);
     void removeSelectedAnimate();
+
+	void relife();
+	int getRelifeNeed(int lev);
 private:
     int m_kSelectedStatus;
 
+	LevelOver* m_pLevelOverLayer;
+
     StarCanvas* m_pStarCanvas;
+
+	ChallengeAgainLayer * m_pChallengeLayer;
+
+	void removeLevelOverLayer();
 };
 
 #endif

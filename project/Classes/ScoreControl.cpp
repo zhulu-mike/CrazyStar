@@ -6,6 +6,7 @@ USING_NS_CC;
 ScoreControl::ScoreControl()
     : m_nCurrentLevel(1)
     , m_nCurrentScore(0)
+	,m_nLastScore(0)
     , m_pCurrentScoreLabel(NULL)
     , m_pTargetScoreLabel(NULL)
 {
@@ -66,10 +67,11 @@ void ScoreControl::setCurrentLevel(int nLevel)
     setTargetScore();
 }
 
+
 void ScoreControl::addCurrentLevel(int nLevel)
 {
     m_nCurrentLevel += nLevel;
-
+	m_nLastScore = m_nCurrentScore;
     setTargetScore();
 }
 
@@ -107,6 +109,7 @@ bool ScoreControl::isUpLevel()
     RETURN_VALUE_IF(m_nCurrentScore < getTargetScore(), false);
 
     return true;
+	//return false;
 }
 
 void ScoreControl::clearAllScore()
@@ -118,4 +121,9 @@ void ScoreControl::clearAllScore()
 cocos2d::CCPoint ScoreControl::getCurrentScorePosition()
 {
     return m_pCurrentScoreLabel->getPosition();
+}
+
+void ScoreControl::renewScore()
+{
+	setCurrentScore(m_nLastScore);
 }

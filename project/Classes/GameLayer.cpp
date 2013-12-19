@@ -8,12 +8,15 @@
 #include "StarCanvas.h"
 #include "SelectedEffect.h"
 
+
 USING_NS_CC;
 
 using namespace CocosDenshion;
 
 GameLayer::GameLayer()
     : m_kSelectedStatus(kSelectedNone)
+	, m_pLevelOverLayer(NULL)
+	, m_pChallengeLayer(NULL)
 {
 
 }
@@ -78,6 +81,8 @@ void GameLayer::onEnter()
     SimpleAudioEngine::sharedEngine()->playBackgroundMusic(g_sGameBackGroundSound, true);
 
     this->addChild(m_pStarCanvas);
+
+	this->setTouchEnabled(true);
 }
 
 void GameLayer::onExit()
@@ -152,4 +157,89 @@ void GameLayer::playSelectedAnimate(cocos2d::CCPoint& pos)
 void GameLayer::removeSelectedAnimate()
 {
     removeChildByTag(kSelectedTag);
+}
+
+void GameLayer::showLevelOverLayer(bool win, int leftCount, int leftScore)
+{
+	if (m_pLevelOverLayer == NULL)
+	{
+		m_pLevelOverLayer = LevelOver::create();
+	}
+	this->addChild(m_pLevelOverLayer);
+	m_pLevelOverLayer->setAnchorPoint(ccp(0,0));
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	m_pLevelOverLayer->setPositionX(s.width);
+	m_pLevelOverLayer->runAction(
+		CCSequence::create(
+					CCMoveTo::create(0.3f, ccp(0,0)),
+                    NULL)
+					);
+	m_pLevelOverLayer->onShow(win,leftCount,leftScore);
+}
+
+void GameLayer::hideLevelOverLayer()
+{
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	m_pLevelOverLayer->runAction(
+		CCSequence::create(
+		 CCMoveTo::create(0.3f, ccp(-s.width,0)),
+		 CCCallFunc::create(this, callfunc_selector(GameLayer::removeLevelOverLayer)),
+                    NULL)
+					);
+}
+
+void GameLayer::removeLevelOverLayer()
+{
+	m_pLevelOverLayer->removeFromParent();
+	m_pLevelOverLayer = NULL;
+	m_pStarCanvas->doGameOver();
+}
+
+void GameLayer::showChallengeAgainLayer(int round, int need)
+{
+	if (m_pChallengeLayer == NULL)
+	{
+		m_pChallengeLayer = ChallengeAgainLayer::create();
+	}
+	this->addChild(m_pChallengeLayer);
+	m_pChallengeLayer->onShow(round, need);
+	m_pChallengeLayer->setAnchorPoint(ccp(0,0));
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	m_pChallengeLayer->setPositionX(s.width);
+	m_pChallengeLayer->setPositionY(0);
+	m_pChallengeLayer->runAction(
+		CCSequence::create(
+					CCMoveTo::create(0.3f, ccp(0,0)),
+                    NULL)
+					);
+}
+
+void GameLayer::hideChallengeAgainLayer()
+{
+	m_pChallengeLayer->removeFromParent();
+	m_pChallengeLayer = NULL;
+}
+
+void GameLayer::relife()
+{
+	int need = getRelifeNeed(m_pStarCanvas->getCurrentLevel());
+	BackgroundLayer*app = (BackgroundLayer*)GameScene::sharedGameScene()->getBackgroundLayer();
+	if (app->getLifeCount() >= need)
+	{
+		app->setLifeCount(app->getLifeCount()-need);
+		hideChallengeAgainLayer();
+		m_pStarCanvas->renewScore();
+		GameScene::sharedGameScene()->switchToGameLayer();
+	}else{
+
+	}
+}
+
+int GameLayer::getRelifeNeed(int lev)
+{
+	if (lev % 5 != 0)
+	{
+		return 1;
+	}
+	return ceil((float)lev/30.0f);
 }

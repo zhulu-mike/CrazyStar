@@ -27,11 +27,12 @@ public:
     cocos2d::CCPoint getCurrentScorePosition();
 
     void clearAllScore();
-
+	void renewScore();
     bool isUpLevel();
 private:
     int m_nCurrentLevel;
     int m_nCurrentScore;
+	int m_nLastScore;
 
     cocos2d::CCLabelTTF* m_pCurrentScoreLabel;              
     cocos2d::CCLabelTTF* m_pTargetScoreLabel;
