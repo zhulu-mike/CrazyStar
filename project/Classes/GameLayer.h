@@ -34,6 +34,9 @@ public:
 
     void nextLevel();
     void gameOver();
+
+	void relife();
+	int getRelifeNeed(int lev);
 private:
     int m_nSelectedStatus;
 

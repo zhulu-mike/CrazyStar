@@ -7,6 +7,7 @@
 #include "ResourceConfig.h"
 #include "StarCanvas.h"
 
+
 USING_NS_CC;
 
 using namespace CocosDenshion;
@@ -177,3 +178,26 @@ void GameLayer::hideChallengeAgainLayer()
 	m_pChallengeLayer = NULL;
 }
 
+void GameLayer::relife()
+{
+	int need = getRelifeNeed(m_pStarCanvas->getCurrentLevel());
+	BackgroundLayer*app = (BackgroundLayer*)GameScene::sharedGameScene()->getBackgroundLayer();
+	if (app->getLifeCount() >= need)
+	{
+		app->setLifeCount(app->getLifeCount()-need);
+		hideChallengeAgainLayer();
+		m_pStarCanvas->renewScore();
+		GameScene::sharedGameScene()->switchToGameLayer();
+	}else{
+
+	}
+}
+
+int GameLayer::getRelifeNeed(int lev)
+{
+	if (lev % 5 != 0)
+	{
+		return 1;
+	}
+	return ceil((float)lev/30.0f);
+}

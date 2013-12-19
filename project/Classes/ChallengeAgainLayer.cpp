@@ -22,7 +22,7 @@ bool ChallengeAgainLayer::init()
 
         
 		CCSize s = CCDirector::sharedDirector()->getWinSize();
-		CCSprite * bg = CCSprite::create(g_sAlertBGImage);
+		CCSprite * bg = CCSprite::create(g_sAlertBGImage,CCRectMake(0,0,s.width,s.height));
 		this->addChild(bg);
 		bg->setAnchorPoint(ccp(0,0));
 		
@@ -36,19 +36,25 @@ bool ChallengeAgainLayer::init()
 
 void ChallengeAgainLayer::onShow(int round, int need)
 {
+	float totalWidth = 0.0;
 	CCSize s = CCDirector::sharedDirector()->getWinSize();
 	CCSprite *app1 = CCSprite::create(g_sRelifeBGImage);
 	app1->setAnchorPoint(ccp(0,0));
-	app1->setPositionX(10);
+	app1->setPositionX(30);
 	app1->setPositionY(s.height*0.5);
 	this->addChild(app1);
-
+	totalWidth += app1->getTextureRect().size.width;
 
 	CCSprite *app2 = CCSprite::create(g_sGuanBGImage);
 	app2->setAnchorPoint(ccp(0,0));
 	app2->setPositionX(app1->getPositionX()+app1->getTextureRect().size.width);
 	app2->setPositionY(app1->getPositionY());
 	this->addChild(app2);
+	totalWidth += app2->getTextureRect().size.width;
+
+	float bx = (s.width - totalWidth)*0.5;
+	app1->setPositionX(bx);
+	app2->setPositionX(app1->getPositionX()+app1->getTextureRect().size.width);
 
 	CCSprite *app3 = CCSprite::create(g_sLifeNeedBGImage);
 	app3->setAnchorPoint(ccp(0,0));
@@ -67,12 +73,12 @@ void ChallengeAgainLayer::onShow(int round, int need)
                                                 g_sSureBGImage, 
                                                 this, 
                                                 menu_selector(ChallengeAgainLayer::onCommandSure));
+	pSureMenu->setAnchorPoint(ccp(0,0));
 	CCMenu* pMenu = CCMenu::create(pSureMenu, NULL);
-    pMenu->alignItemsVertically();
     this->addChild(pMenu);
 	pMenu->setAnchorPoint(ccp(0,0));
-	pMenu->setPositionY(app4->getPositionY()-app4->getTextureRect().size.height-20);
-	pMenu->setPositionX(app3->getPositionX());
+	pMenu->setPositionY(app4->getPositionY()-app4->getTextureRect().size.height-40);
+	pMenu->setPositionX(100);
 
 
 	CCSprite * img = CCSprite::create(g_sReturnBGImage);
@@ -81,17 +87,18 @@ void ChallengeAgainLayer::onShow(int round, int need)
                                                 g_sReturnBGImage, 
                                                 this, 
                                                 menu_selector(ChallengeAgainLayer::onCommandReturn));
+	pReturnMenu->setAnchorPoint(ccp(0,0));
 	CCMenu* pMenu2 = CCMenu::create(pReturnMenu, NULL);
-    pMenu2->alignItemsVertically();
     this->addChild(pMenu2);
 	pMenu2->setAnchorPoint(ccp(0,0));
 	pMenu2->setPositionY(pMenu->getPositionY());
-	pMenu2->setPositionX(s.width-img->getTextureRect().size.width);
+	pMenu2->setPositionX(s.width-img->getTextureRect().size.width-100);
 }
 
 void ChallengeAgainLayer::onCommandSure(CCObject* pSender)
 {
-
+	GameLayer*app = (GameLayer*)GameScene::sharedGameScene()->getMainGameLayer();
+	app->relife();
 }
 
 void ChallengeAgainLayer::onCommandReturn(CCObject* pSender)

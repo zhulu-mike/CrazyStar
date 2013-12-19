@@ -9,7 +9,7 @@ USING_NS_CC;
 using namespace CocosDenshion;
 
 #define MAX_LIFE_COUNT 5
-#define LIFT_CREATE_TIME 10
+#define LIFT_CREATE_TIME 600
 
 BackgroundLayer::BackgroundLayer()
 	: m_nLifeCount(MAX_LIFE_COUNT)

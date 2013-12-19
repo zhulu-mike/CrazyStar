@@ -18,10 +18,10 @@ StarCanvas::StarCanvas()
     : m_nPopColor(kStarNone)
     , m_fBeginX(5)
     , m_fBeginY(5)
-    , m_fIntervalX(5)
-    , m_fIntervalY(5)
-    , m_fStarWidth(48)
-    , m_fStarHeight(48)
+    , m_fIntervalX(2)
+    , m_fIntervalY(2)
+    , m_fStarWidth(60)
+    , m_fStarHeight(60)
 	, popIng(false)
 {
 
@@ -44,7 +44,7 @@ bool StarCanvas::init()
         CC_BREAK_IF(!CCNode::init());
 
 		CCSize s = CCDirector::sharedDirector()->getWinSize();
-		float totalWidth = MAP_SIZE * 48 + (MAP_SIZE-1) * 5;
+		float totalWidth = MAP_SIZE * m_fStarWidth + (MAP_SIZE-1) * m_fIntervalX;
 		m_fBeginX = (s.width - totalWidth) * 0.5;
 		m_fBeginY = 40;
 
@@ -52,22 +52,27 @@ bool StarCanvas::init()
         m_pStarBatchNode[kStarRed] = CCSpriteBatchNode::create(g_sRedStarImage);
         CC_BREAK_IF(!m_pStarBatchNode[kStarRed]);
         m_pStarBatchNode[kStarRed]->retain();
+		m_pStarBatchNode[kStarRed]->setAnchorPoint(ccp(0,0));
 
         m_pStarBatchNode[kStarYellow] = CCSpriteBatchNode::create(g_sYellowStarImage);
         CC_BREAK_IF(!m_pStarBatchNode[kStarYellow]);
         m_pStarBatchNode[kStarYellow]->retain();
+		m_pStarBatchNode[kStarYellow]->setAnchorPoint(ccp(0,0));
 
         m_pStarBatchNode[kStarGreen] = CCSpriteBatchNode::create(g_sGreenStarImage);
         CC_BREAK_IF(!m_pStarBatchNode[kStarGreen]);
         m_pStarBatchNode[kStarGreen]->retain();
+		m_pStarBatchNode[kStarGreen]->setAnchorPoint(ccp(0,0));
 
         m_pStarBatchNode[kStarBlue] = CCSpriteBatchNode::create(g_sBlueStarImage);
         CC_BREAK_IF(!m_pStarBatchNode[kStarBlue]);
         m_pStarBatchNode[kStarBlue]->retain();
+		m_pStarBatchNode[kStarBlue]->setAnchorPoint(ccp(0,0));
 
         m_pStarBatchNode[kStarPurple] = CCSpriteBatchNode::create(g_sPurpleStarImage);
         CC_BREAK_IF(!m_pStarBatchNode[kStarPurple]);
         m_pStarBatchNode[kStarPurple]->retain();
+		m_pStarBatchNode[kStarPurple]->setAnchorPoint(ccp(0,0));
 
         /*初始化得分*/
         m_pScoreControl = ScoreControl::create();
@@ -122,7 +127,7 @@ void StarCanvas::_generateOneStar(int x, int y, int c)
     m_pStarMap[x][y] = StarSprite::create();
 
     m_pStarMap[x][y]->initWithTexture(pTexture, CCRectMake(0, 0, pTexture->getContentSize().width, pTexture->getContentSize().height));
-    m_pStarMap[x][y]->setPosition(ccp(m_fBeginX + 53 * x, CCDirector::sharedDirector()->getWinSize().height));
+    m_pStarMap[x][y]->setPosition(ccp(m_fBeginX + SHOW_STAR_WIDTH * x, CCDirector::sharedDirector()->getWinSize().height));
     m_pStarMap[x][y]->setAnchorPoint(ccp(0, 0));
     m_pStarMap[x][y]->setStarColor(c);
     m_pStarMap[x][y]->setStarType(c);
@@ -286,7 +291,7 @@ void StarCanvas::moveHorizontalHole()
         {
 			needMove = true;
             m_pStarMap[j][i]->stopAllActions();
-            m_pStarMap[j][i]->moveToLeft(ccp(m_fBeginX + 53 * nonePos , m_fBeginY + 53 * i));
+            m_pStarMap[j][i]->moveToLeft(ccp(m_fBeginX + SHOW_STAR_WIDTH * nonePos , m_fBeginY + SHOW_STAR_HEIGHT * i));
 
             CC_SWAP(m_pStarMap[nonePos][i], m_pStarMap[j][i], StarSprite*);
         }
@@ -438,7 +443,7 @@ void StarCanvas::doGameOver()
 		GameLayer * p = (GameLayer * )GameScene::sharedGameScene()->getMainGameLayer();
 		p->showChallengeAgainLayer(1,1);
 		p->setTouchEnabled(false);
-       // m_pScoreControl->clearAllScore();
+       //m_pScoreControl->clearAllScore();
         
     }
 }
@@ -515,4 +520,14 @@ void StarCanvas::showPopEffect(cocos2d::CCPoint point, int type)
 			mitter->setEmitterMode(kCCParticleModeGravity);
 			mitter->setDuration(0.2f);
 			mitter->setAutoRemoveOnFinish(true);
+}
+
+int StarCanvas::getCurrentLevel()
+{
+	return m_pScoreControl->getCurrentLevel();
+}
+
+void StarCanvas::renewScore()
+{
+	m_pScoreControl->renewScore();
 }
