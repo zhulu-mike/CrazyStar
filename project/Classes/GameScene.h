@@ -17,7 +17,8 @@ public:
     {
         kBackgroundLayerTag = 0,
         kMainMenuLayerTag = 1,
-        kMainGameLayerTag   = 2
+        kMainGameLayerTag   = 2,
+		kBuyLifeLayerTag = 3
     };
 
     GameScene();
@@ -25,10 +26,12 @@ public:
     bool init();
     void switchToMainMenu();
     void switchToGameLayer();
+	void showBuyLifeLayer();
 
     cocos2d::CCLayer* getBackgroundLayer() { return m_pBackgroundLayer; }
     cocos2d::CCLayer* getMainMenuLayer()   { return m_pMainMenuLayer;   }
     cocos2d::CCLayer* getMainGameLayer()   { return m_pMainGameLayer;   }
+	cocos2d::CCLayer* getBuyLifeLayer()   { return m_pBuyLifeLayer;   }
 
     void setBackgroundLayer(cocos2d::CCLayer* pLayer){ m_pBackgroundLayer = pLayer; }
     void setMainMenuLayer(cocos2d::CCLayer* pLayer)  { m_pMainMenuLayer   = pLayer; }
@@ -38,6 +41,7 @@ private:
     cocos2d::CCLayer* m_pBackgroundLayer;
     cocos2d::CCLayer* m_pMainMenuLayer;
     cocos2d::CCLayer* m_pMainGameLayer;
+	cocos2d::CCLayer* m_pBuyLifeLayer;
 };
 
 #endif

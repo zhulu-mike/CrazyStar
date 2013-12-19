@@ -189,7 +189,7 @@ void GameLayer::relife()
 		m_pStarCanvas->renewScore();
 		GameScene::sharedGameScene()->switchToGameLayer();
 	}else{
-
+		GameScene::sharedGameScene()->showBuyLifeLayer();
 	}
 }
 
