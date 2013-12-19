@@ -24,6 +24,8 @@ public:
     int getCurrentLevel() { return m_nCurrentLevel; }
     int getTargetScore();
 
+    cocos2d::CCPoint getCurrentScorePosition();
+
     void clearAllScore();
 
     bool isUpLevel();

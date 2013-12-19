@@ -6,13 +6,14 @@
 #include "BackgroundLayer.h"
 #include "ResourceConfig.h"
 #include "StarCanvas.h"
+#include "SelectedEffect.h"
 
 USING_NS_CC;
 
 using namespace CocosDenshion;
 
 GameLayer::GameLayer()
-    : m_nSelectedStatus(0)
+    : m_kSelectedStatus(kSelectedNone)
 {
 
 }
@@ -34,11 +35,11 @@ bool GameLayer::init()
         CCSize s = CCDirector::sharedDirector()->getWinSize();
 
         /*初始化道具按钮*/
-        CCMenuItemImage* pItemButton = CCMenuItemImage::create(
+        CCMenuItemImage* pBombButton = CCMenuItemImage::create(
                                             g_sBombImage, 
                                             g_sBombImage, 
                                             this, 
-                                            menu_selector(GameLayer::onCommandItem));
+                                            menu_selector(GameLayer::onCommandBomb));
         CCMenuItemImage* pMagicButton = CCMenuItemImage::create(
                                             g_sMagicImage, 
                                             g_sMagicImage, 
@@ -49,8 +50,9 @@ bool GameLayer::init()
                                             g_sBombImage, 
                                             this, 
                                             menu_selector(GameLayer::onCommandBack));
-        CCMenu* pMenu = CCMenu::create(pItemButton, pMagicButton, pBackButton, NULL);
+        CCMenu* pMenu = CCMenu::create(pBombButton, pMagicButton, pBackButton, NULL);
         pMenu->setPosition(ccp(s.width-100, s.height-100));
+        pMenu->setAnchorPoint(ccp(0, 0));
         pMenu->alignItemsHorizontally();
         
         this->addChild(pMenu);
@@ -102,12 +104,52 @@ void GameLayer::onCommandBack(CCObject* pSender)
     GameScene::sharedGameScene()->switchToMainMenu();
 }
 
-void GameLayer::onCommandItem(CCObject* pSender)
+void GameLayer::onCommandBomb(CCObject* pSender)
 {
+    removeSelectedAnimate();
+
+    if (m_kSelectedStatus == kSelectedBomb)
+    {
+        m_kSelectedStatus = kSelectedNone;
+    }
+    else
+    {
+        m_kSelectedStatus = kSelectedBomb;
+        CCSize s = CCDirector::sharedDirector()->getWinSize();
+        playSelectedAnimate(ccp(s.width-200, s.height-120));
+    }
+
     SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
 }
 
 void GameLayer::onCommandMagic(CCObject* pSender)
 {
+    removeSelectedAnimate();
+    
+    if (m_kSelectedStatus == kSelectedMagic)
+    {
+        m_kSelectedStatus = kSelectedNone;
+    }
+    else
+    {
+        m_kSelectedStatus = kSelectedMagic;
+        CCSize s = CCDirector::sharedDirector()->getWinSize();
+        playSelectedAnimate(ccp(s.width-150, s.height-120));
+    }
+
     SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
+}
+
+void GameLayer::playSelectedAnimate(cocos2d::CCPoint& pos)
+{
+    SelectedEffect* pEffect = SelectedEffect::create();
+    pEffect->setPosition(pos);
+    pEffect->setAnchorPoint(ccp(0, 0));
+
+    addChild(pEffect, 0, kSelectedTag);
+}
+
+void GameLayer::removeSelectedAnimate()
+{
+    removeChildByTag(kSelectedTag);
 }

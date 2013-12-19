@@ -2,6 +2,8 @@
 #include "BackgroundLayer.h"
 #include "MainMenu.h"
 #include "GameLayer.h"
+#include "ImageConfig.h"
+#include "ResourceConfig.h"
 
 USING_NS_CC;
 
@@ -56,6 +58,8 @@ bool GameScene::init()
         CCDirector * pDirector;
         CC_BREAK_IF( ! (pDirector = CCDirector::sharedDirector()) );
         this->setContentSize(pDirector->getWinSize());
+
+        ImageConfig::sharedImageConfig()->loadImageConfig(g_sArtCharConfig);
 
         m_pBackgroundLayer = BackgroundLayer::create();
         CC_BREAK_IF(!m_pBackgroundLayer);

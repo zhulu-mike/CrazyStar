@@ -34,12 +34,12 @@ bool BackgroundLayer::init()
 
         CCSize s = CCDirector::sharedDirector()->getWinSize();
         
-        m_pBgSprite = CCSprite::create(g_sBackgroundImage, CCRectMake(0, 0, s.width, s.height));
-        CC_BREAK_IF(!m_pBgSprite);
-        m_pBgSprite->setAnchorPoint(ccp(0, 0));
-        m_pBgSprite->setPosition(ccp(0, 0));
+        //m_pBgSprite = CCSprite::create(g_sBackgroundImage, CCRectMake(0, 0, s.width, s.height));
+        //CC_BREAK_IF(!m_pBgSprite);
+        //m_pBgSprite->setAnchorPoint(ccp(0, 0));
+        //m_pBgSprite->setPosition(ccp(0, 0));
         
-        this->addChild(m_pBgSprite, 0);
+        //this->addChild(m_pBgSprite, 0);
 
         CCSpriteBatchNode* pSpriteBatch = CCSpriteBatchNode::create(g_sTaoxinImage);
         CC_BREAK_IF(!pSpriteBatch);
@@ -59,7 +59,7 @@ bool BackgroundLayer::init()
 			m_lifeVector.push_back(pLifeSprite);
         }
 
-        m_pTimeLabel = CCLabelTTF::create("00:00", "Arial", 25, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+        m_pTimeLabel = CCLabelTTF::create("", "Arial", 25, CCSizeMake(200, 30), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
         CC_BREAK_IF(!m_pTimeLabel);
         m_pTimeLabel->setAnchorPoint(ccp(0, 0));
         m_pTimeLabel->setPosition(ccp(147+125, s.height - 38));
@@ -84,8 +84,8 @@ void BackgroundLayer::updateTimeDisplay(float dt)
     if (m_nLeftTime > 0)
         m_nLeftTime -- ;
 
-    
     m_pTimeLabel->setString(StringFormatHelper()("%02d:%02d", m_nLeftTime/60, m_nLeftTime%60));
+
     if (m_nLeftTime == 0) { addLifeCount(1); }
 }
 
@@ -111,6 +111,9 @@ void BackgroundLayer::setLifeCount(int nCount)
 
     if (m_nLifeCount < MAX_LIFE_COUNT && m_nLeftTime == 0)
         m_nLeftTime = LIFT_CREATE_TIME;
+
+    if (m_nLifeCount == MAX_LIFE_COUNT)
+        m_pTimeLabel->setString("");
 }
 
 bool BackgroundLayer::subLifeCount(int nCount)

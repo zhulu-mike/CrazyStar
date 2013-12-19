@@ -5,6 +5,7 @@
 #include "StarSprite.h"
 #include "ScoreControl.h"
 #include "GameScene.h"
+#include "NumberSprite.h"
 
 USING_NS_CC;
 using namespace CocosDenshion;
@@ -148,6 +149,7 @@ void StarCanvas::touchStarCanvas(cocos2d::CCPoint& location)
 		{
 			SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
 			m_pScoreControl->addCurrentScore(5 * m_popStar.size() * m_popStar.size());
+
 			removeStar();
 			popIng = true;
 
@@ -157,9 +159,6 @@ void StarCanvas::touchStarCanvas(cocos2d::CCPoint& location)
 			}
 		}
 	}
-
-
-   
 }
 
 void StarCanvas::popStar(int x, int y)
@@ -213,8 +212,17 @@ void StarCanvas::removeStar()
 					CCRemoveSelf::create(), 
                     NULL));
 		 timeRecord = i*0.05;
-       
-		//m_pStarBatchNode[m_nPopColor]->removeChild(m_pStarMap[x][y], true);
+
+         NumberSprite* pSprite = NumberSprite::create(5+i*10);
+         pSprite->setPosition(m_pStarMap[x][y]->getPosition());
+         pSprite->setAnchorPoint(ccp(0, 0));
+         addChild(pSprite);
+         pSprite->runAction(
+             CCSequence::create(
+                 CCDelayTime::create(i*0.1f),
+                 CCMoveTo::create(0.5f, m_pScoreControl->getCurrentScorePosition()),
+                 CCRemoveSelf::create(),
+                 NULL));
     }
 	this->runAction(
                 CCSequence::create(
@@ -399,7 +407,6 @@ void StarCanvas::clearAllStar()
 
     if (pSprite != NULL)
     {
-
         this->runAction(
             CCSequence::create(
             CCDelayTime::create(maxTime+0.5), 
@@ -440,62 +447,61 @@ void StarCanvas::showPopEffectBySprite(CCNode * p)
 
 void StarCanvas::showPopEffect(cocos2d::CCPoint point, int type)
 {
-	
     CCParticleSystem* mitter = CCParticleFireworks::create();
-			//mitter->retain();
-			this->addChild(mitter);
-			ccColor4F startColorVar = {0.0f, 0.0f, 0.0f, 0.0f};
-			ccColor4F startColor = {0.0f, 0.0f, 0.0f, 1.0f};
-			//mitter->setTexture( CCTextureCache::sharedTextureCache()->addImage(g_smallZiStarImage) );
-			if (type == kStarRed){
-				startColor.r = 1.0f;
-				startColor.b = 0.003f;
-				mitter->setTexture( CCTextureCache::sharedTextureCache()->addImage(g_sSmallRedStarImage) );
-			}else if (type == kStarYellow){
-				startColor.r = 1.0f;
-				startColor.g = 1.0f;
-				mitter->setTexture( CCTextureCache::sharedTextureCache()->addImage(g_sSmallYellowStarImage) );
-			}else if (type == kStarGreen){
-				 startColor.g = 1.0f;
-				mitter->setTexture( CCTextureCache::sharedTextureCache()->addImage(g_sSmallGreenStarImage) );
-			}else if (type == kStarBlue){
-				startColor.b = 1.0f;
-				startColor.g = 1.0f;
-				mitter->setTexture( CCTextureCache::sharedTextureCache()->addImage(g_sSmallBlueStarImage) );
-			}else if (type == kStarPurple){
-				startColor.r = 1.0f;
-				startColor.b = 1.0f;
-				mitter->setTexture( CCTextureCache::sharedTextureCache()->addImage(g_sSmallZiStarImage) );
-			}
-			mitter->setPosition(point.x, point.y);
-			mitter->setTotalParticles(15);
-			mitter->setEmissionRate(100);
+    //mitter->retain();
+    this->addChild(mitter);
+    ccColor4F startColorVar = {0.0f, 0.0f, 0.0f, 0.0f};
+    ccColor4F startColor = {0.0f, 0.0f, 0.0f, 1.0f};
+    //mitter->setTexture( CCTextureCache::sharedTextureCache()->addImage(g_smallZiStarImage) );
+    if (type == kStarRed){
+        startColor.r = 1.0f;
+        startColor.b = 0.003f;
+        mitter->setTexture( CCTextureCache::sharedTextureCache()->addImage(g_sSmallRedStarImage) );
+    }else if (type == kStarYellow){
+        startColor.r = 1.0f;
+        startColor.g = 1.0f;
+        mitter->setTexture( CCTextureCache::sharedTextureCache()->addImage(g_sSmallYellowStarImage) );
+    }else if (type == kStarGreen){
+        startColor.g = 1.0f;
+        mitter->setTexture( CCTextureCache::sharedTextureCache()->addImage(g_sSmallGreenStarImage) );
+    }else if (type == kStarBlue){
+        startColor.b = 1.0f;
+        startColor.g = 1.0f;
+        mitter->setTexture( CCTextureCache::sharedTextureCache()->addImage(g_sSmallBlueStarImage) );
+    }else if (type == kStarPurple){
+        startColor.r = 1.0f;
+        startColor.b = 1.0f;
+        mitter->setTexture( CCTextureCache::sharedTextureCache()->addImage(g_sSmallZiStarImage) );
+    }
+    mitter->setPosition(point.x, point.y);
+    mitter->setTotalParticles(15);
+    mitter->setEmissionRate(100);
 
-			mitter->setGravity(CCPointMake(0,-750));
+    mitter->setGravity(CCPointMake(0,-750));
 
-			mitter->setStartSize(25);
-			mitter->setStartSizeVar(10);
-			mitter->setEndSize(kCCParticleStartSizeEqualToEndSize);
-			mitter->setEndSizeVar(0);
+    mitter->setStartSize(25);
+    mitter->setStartSizeVar(10);
+    mitter->setEndSize(kCCParticleStartSizeEqualToEndSize);
+    mitter->setEndSizeVar(0);
 
-			mitter->setSpeedVar(50);
-			mitter->setSpeed(800);
+    mitter->setSpeedVar(50);
+    mitter->setSpeed(800);
 
-			mitter->setLife(3);
-			mitter->setLifeVar(0);
-
-			
-			mitter->setStartColorVar(startColorVar);
-			mitter->setStartColor(startColor);
-			mitter->setEndColor(startColor);
-			mitter->setEndColorVar(startColorVar);
+    mitter->setLife(3);
+    mitter->setLifeVar(0);
 
 
+    mitter->setStartColorVar(startColorVar);
+    mitter->setStartColor(startColor);
+    mitter->setEndColor(startColor);
+    mitter->setEndColorVar(startColorVar);
 
-			mitter->setAngle(30);
-			mitter->setAngleVar(300);
 
-			mitter->setEmitterMode(kCCParticleModeGravity);
-			mitter->setDuration(0.2f);
-			mitter->setAutoRemoveOnFinish(true);
+
+    mitter->setAngle(30);
+    mitter->setAngleVar(300);
+
+    mitter->setEmitterMode(kCCParticleModeGravity);
+    mitter->setDuration(0.2f);
+    mitter->setAutoRemoveOnFinish(true);
 }

@@ -23,5 +23,6 @@ static const char* g_sGameBackGroundSound   = "./sound/bg.mp3";
 static const char* g_sMainBackGroundSound   = "./sound/mainbg.mp3";
 static const char* g_waOSound               = "./sound/wao.mp3"; /*Õ€≈∂*/
 
+static const char* g_sArtCharConfig         = "./image/artchar.xml";
 
 #endif
