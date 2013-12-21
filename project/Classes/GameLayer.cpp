@@ -4,8 +4,10 @@
 #include "LevelTips.h"
 #include "GameScene.h"
 #include "BackgroundLayer.h"
-#include "ResourceConfig.h"
 #include "StarCanvas.h"
+#include "ResourceConfig.h"
+#include "FlashSprite.h"
+#include "MyCCMenu.h"
 
 
 USING_NS_CC;
@@ -52,11 +54,11 @@ bool GameLayer::init()
                                             g_sBombImage, 
                                             this, 
                                             menu_selector(GameLayer::onCommandBack));
-        CCMenu* pMenu = CCMenu::create(pItemButton, pMagicButton, pBackButton, NULL);
+        MyCCMenu* pMenu = MyCCMenu::create(pItemButton, pMagicButton, pBackButton, NULL);
         pMenu->setPosition(ccp(s.width-100, s.height-100));
         pMenu->alignItemsHorizontally();
         
-        this->addChild(pMenu);
+        this->addChild(pMenu,0,9999);
 
         m_pStarCanvas = StarCanvas::create();
         CC_BREAK_IF(!m_pStarCanvas);
@@ -110,11 +112,26 @@ void GameLayer::onCommandBack(CCObject* pSender)
 void GameLayer::onCommandItem(CCObject* pSender)
 {
     SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
+	addClickFlash(pSender);
 }
 
 void GameLayer::onCommandMagic(CCObject* pSender)
 {
     SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
+	addClickFlash(pSender);
+}
+
+void GameLayer::addClickFlash(CCObject *pSender)
+{
+	FlashSprite *p = FlashSprite::create();
+	this->addChild(p);
+	p->maxFrame = 5;
+	p->play(1);
+
+	CCMenuItem * ap = (CCMenuItem*)pSender;
+	MyCCMenu *app = (MyCCMenu*)ap->getParent();
+	p->setPositionX(app->lastTouch.x);
+	p->setPositionY(app->lastTouch.y);
 }
 
 void GameLayer::showLevelOverLayer(bool win, int leftCount, int leftScore)

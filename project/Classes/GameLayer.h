@@ -47,6 +47,7 @@ private:
 	ChallengeAgainLayer * m_pChallengeLayer;
 
 	void removeLevelOverLayer();
+	void addClickFlash(cocos2d::CCObject *pSender);
 };
 
 #endif

@@ -7,6 +7,7 @@ class ChallengeAgainLayer : public cocos2d::CCLayer
 public:
 	ChallengeAgainLayer();
 	virtual bool init();
+	virtual bool ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
 
 	void onShow(int round, int need);
 

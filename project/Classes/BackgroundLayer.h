@@ -27,6 +27,7 @@ private:
 	cocos2d::CCSprite*   m_pBgSprite;
 	cocos2d::CCLabelTTF* m_pTimeLabel;
     std::vector<cocos2d::CCSprite*> m_lifeVector;
+	cocos2d::CCSprite* m_pGoldImage;
 };
 
 #endif

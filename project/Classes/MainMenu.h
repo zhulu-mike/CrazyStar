@@ -14,6 +14,11 @@ public:
 
     void onCommandStart(CCObject* pSender);
     void onCommandExit(CCObject* pSender);
+	void onCommandSign(CCObject* pSender);
+	void onCommandGoon(CCObject* pSender);
+	void onCommandHelp(CCObject* pSender);
+private:
+	void addClickFlash(cocos2d::CCObject *pSender);
 };
 
 #endif

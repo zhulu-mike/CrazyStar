@@ -12,10 +12,11 @@ using namespace CocosDenshion;
 #define LIFT_CREATE_TIME 600
 
 BackgroundLayer::BackgroundLayer()
-	: m_nLifeCount(1)
+	: m_nLifeCount(5)
     , m_nLeftTime(0)
     , m_pBgSprite(NULL)
 	, m_pTimeLabel(NULL)
+	, m_pGoldImage(NULL)
 {
 	
 }
@@ -65,6 +66,13 @@ bool BackgroundLayer::init()
         m_pTimeLabel->setPosition(ccp(147+125, s.height - 38));
 
         this->addChild(m_pTimeLabel);
+
+		m_pGoldImage = CCSprite::create(g_sGoldBGImage);
+		this->addChild(m_pGoldImage);
+		m_pGoldImage->setAnchorPoint(ccp(0,0));
+		m_pGoldImage->setPositionY(s.height-48);
+		m_pGoldImage->setPositionX(s.width-200);
+
 
         schedule(schedule_selector(BackgroundLayer::updateTimeDisplay), 1.0f);
 		

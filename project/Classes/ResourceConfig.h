@@ -29,8 +29,16 @@ static const char* g_sLifeNeedBGImage      = "./image/xysmz.png";
 static const char* g_sLifeValueBGImage      = "./image/dian.png";
 static const char* g_sReturnBGImage      = "./image/fanhui.png";
 static const char* g_sSureBGImage      = "./image/queding.png";
-static const char* g_sBuyLifeBGImage      = "./image/buylifebg.png";
+static const char* g_sPanelBGImage      = "./image/panel1.png";
+static const char* g_sPanelBGImage2      = "./image/panel2.png";
+static const char* g_sSignBGImage      = "./image/signin.png";
+static const char* g_sGoldBGImage      = "./image/jinbi.png";
+static const char* g_sHelpBGImage      = "./image/help.png";
+static const char* g_sGoonBGImage      = "./image/goon.png";
 
+
+
+static const char* g_sClickEffectImage      = "./image/effect/clickeffect.png";
 
 
 static const char* g_sSelectedSound         = "./sound/click.mp3";

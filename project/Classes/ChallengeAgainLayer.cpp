@@ -25,14 +25,25 @@ bool ChallengeAgainLayer::init()
 		CCSprite * bg = CCSprite::create(g_sAlertBGImage,CCRectMake(0,0,s.width,s.height));
 		this->addChild(bg);
 		bg->setAnchorPoint(ccp(0,0));
+
+		this->setTouchEnabled(true);
+		this->setTouchPriority(-999);
+		CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this,this->getTouchPriority(),true);
 		
-		
+
 		bRet = true;
 
     }while(0);
 
     return bRet;
 }
+
+bool ChallengeAgainLayer::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent)
+{
+	return true;
+}
+
+
 
 void ChallengeAgainLayer::onShow(int round, int need)
 {
@@ -76,6 +87,7 @@ void ChallengeAgainLayer::onShow(int round, int need)
 	pSureMenu->setAnchorPoint(ccp(0,0));
 	CCMenu* pMenu = CCMenu::create(pSureMenu, NULL);
     this->addChild(pMenu);
+	pMenu->setTouchPriority(-1000);
 	pMenu->setAnchorPoint(ccp(0,0));
 	pMenu->setPositionY(app4->getPositionY()-app4->getTextureRect().size.height-40);
 	pMenu->setPositionX(100);
@@ -90,6 +102,7 @@ void ChallengeAgainLayer::onShow(int round, int need)
 	pReturnMenu->setAnchorPoint(ccp(0,0));
 	CCMenu* pMenu2 = CCMenu::create(pReturnMenu, NULL);
     this->addChild(pMenu2);
+	pMenu2->setTouchPriority(-1000);
 	pMenu2->setAnchorPoint(ccp(0,0));
 	pMenu2->setPositionY(pMenu->getPositionY());
 	pMenu2->setPositionX(s.width-img->getTextureRect().size.width-100);
