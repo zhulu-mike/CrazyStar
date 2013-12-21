@@ -2,6 +2,8 @@
 #include "BackgroundLayer.h"
 #include "MainMenu.h"
 #include "GameLayer.h"
+#include "ImageConfig.h"
+#include "ResourceConfig.h"
 #include "BuyLifeLayer.h"
 
 USING_NS_CC;
@@ -61,6 +63,8 @@ bool GameScene::init()
         CC_BREAK_IF( ! (pDirector = CCDirector::sharedDirector()) );
         this->setContentSize(pDirector->getWinSize());
 
+        ImageConfig::sharedImageConfig()->loadImageConfig(g_sArtCharConfig);
+
         m_pBackgroundLayer = BackgroundLayer::create();
         CC_BREAK_IF(!m_pBackgroundLayer);
         m_pBackgroundLayer->retain();
@@ -108,7 +112,7 @@ void GameScene::showBuyLifeLayer()
 	m_pBuyLifeLayer->setPositionY(s.height*2);
 	m_pBuyLifeLayer->runAction(
 		CCSequence::create(
-					CCMoveTo::create(0.3, ccp(0,0)),
+					CCMoveTo::create(0.3f, ccp(0,0)),
                     NULL)
 		);
 }

@@ -118,6 +118,11 @@ void ScoreControl::clearAllScore()
     setCurrentScore(0);
 }
 
+cocos2d::CCPoint ScoreControl::getCurrentScorePosition()
+{
+    return m_pCurrentScoreLabel->getPosition();
+}
+
 void ScoreControl::renewScore()
 {
 	setCurrentScore(m_nLastScore);

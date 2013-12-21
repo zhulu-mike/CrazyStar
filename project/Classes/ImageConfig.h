@@ -15,8 +15,16 @@ public:
     ImageConfig();
     ~ImageConfig();
     void loadImageConfig(const char* fileName);
-    void parserConfig(const char* name, const cocos2d::CCRect& rect);
+    
+    cocos2d::CCTexture2D* getTexture2D();
+    cocos2d::CCRect getNumberRect(int n);
+
 private:
+    void _parserConfig(const char* name, const cocos2d::CCRect& rect);
+private:
+
+    cocos2d::CCSpriteBatchNode*  m_pSpriteBatchNode;
+
     std::vector<cocos2d::CCRect> m_whiteNumber;
     std::vector<cocos2d::CCRect> m_yellowNumber;
 };

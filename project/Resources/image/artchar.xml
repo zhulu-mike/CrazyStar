@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<root path="artchar.png">
+<root fileName="./image/artchar.png">
 	<child name="white0" x="0" y="0" w="15" h="16"/>
 	<child name="white1" x="15" y="0" w="10" h="18"/>
 	<child name="white2" x="25" y="0" w="16" h="17"/>

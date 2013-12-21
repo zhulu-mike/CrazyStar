@@ -32,6 +32,14 @@ bool BuyLifeLayer::init()
 		this->setTouchEnabled(true);
 		this->setTouchPriority(-999);
 
+		p = CCSprite::create(g_sPanelBGImage2);
+		ps = p->getContentSize();
+		bg = CCScale9Sprite::create(g_sPanelBGImage2,CCRectMake(0,0,ps.width,ps.height),CCRectMake(20,20,ps.width-40,ps.height-40));
+		this->addChild(bg);
+		bg->setAnchorPoint(ccp(0,0));
+		bg->setPreferredSize(CCSizeMake(s.width-20,s.height-20));
+		bg->setPositionX(10);
+		bg->setPositionY(10);
 
 
 		CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this,this->getTouchPriority(),true);

@@ -8,6 +8,7 @@
 #include "ResourceConfig.h"
 #include "FlashSprite.h"
 #include "MyCCMenu.h"
+#include "SelectedEffect.h"
 
 
 USING_NS_CC;
@@ -15,7 +16,7 @@ USING_NS_CC;
 using namespace CocosDenshion;
 
 GameLayer::GameLayer()
-    : m_nSelectedStatus(0)
+    : m_kSelectedStatus(kSelectedNone)
 	, m_pLevelOverLayer(NULL)
 	, m_pChallengeLayer(NULL)
 {
@@ -39,11 +40,11 @@ bool GameLayer::init()
         CCSize s = CCDirector::sharedDirector()->getWinSize();
 
         /*初始化道具按钮*/
-        CCMenuItemImage* pItemButton = CCMenuItemImage::create(
+        CCMenuItemImage* pBombButton = CCMenuItemImage::create(
                                             g_sBombImage, 
                                             g_sBombImage, 
                                             this, 
-                                            menu_selector(GameLayer::onCommandItem));
+                                            menu_selector(GameLayer::onCommandBomb));
         CCMenuItemImage* pMagicButton = CCMenuItemImage::create(
                                             g_sMagicImage, 
                                             g_sMagicImage, 
@@ -54,8 +55,9 @@ bool GameLayer::init()
                                             g_sBombImage, 
                                             this, 
                                             menu_selector(GameLayer::onCommandBack));
-        MyCCMenu* pMenu = MyCCMenu::create(pItemButton, pMagicButton, pBackButton, NULL);
+        MyCCMenu* pMenu = MyCCMenu::create(pBombButton, pMagicButton, pBackButton, NULL);
         pMenu->setPosition(ccp(s.width-100, s.height-100));
+        pMenu->setAnchorPoint(ccp(0, 0));
         pMenu->alignItemsHorizontally();
         
         this->addChild(pMenu,0,9999);
@@ -109,14 +111,40 @@ void GameLayer::onCommandBack(CCObject* pSender)
     GameScene::sharedGameScene()->switchToMainMenu();
 }
 
-void GameLayer::onCommandItem(CCObject* pSender)
+void GameLayer::onCommandBomb(CCObject* pSender)
 {
+    removeSelectedAnimate();
+
+    if (m_kSelectedStatus == kSelectedBomb)
+    {
+        m_kSelectedStatus = kSelectedNone;
+    }
+    else
+    {
+        m_kSelectedStatus = kSelectedBomb;
+        CCSize s = CCDirector::sharedDirector()->getWinSize();
+        playSelectedAnimate(ccp(s.width-200, s.height-120));
+    }
+
     SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
 	addClickFlash(pSender);
 }
 
 void GameLayer::onCommandMagic(CCObject* pSender)
 {
+    removeSelectedAnimate();
+    
+    if (m_kSelectedStatus == kSelectedMagic)
+    {
+        m_kSelectedStatus = kSelectedNone;
+    }
+    else
+    {
+        m_kSelectedStatus = kSelectedMagic;
+        CCSize s = CCDirector::sharedDirector()->getWinSize();
+        playSelectedAnimate(ccp(s.width-150, s.height-120));
+    }
+
     SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
 	addClickFlash(pSender);
 }
@@ -134,6 +162,20 @@ void GameLayer::addClickFlash(CCObject *pSender)
 	p->setPositionY(app->lastTouch.y);
 }
 
+void GameLayer::playSelectedAnimate(cocos2d::CCPoint& pos)
+{
+    SelectedEffect* pEffect = SelectedEffect::create();
+    pEffect->setPosition(pos);
+    pEffect->setAnchorPoint(ccp(0, 0));
+
+    addChild(pEffect, 0, kSelectedTag);
+}
+
+void GameLayer::removeSelectedAnimate()
+{
+    removeChildByTag(kSelectedTag);
+}
+
 void GameLayer::showLevelOverLayer(bool win, int leftCount, int leftScore)
 {
 	if (m_pLevelOverLayer == NULL)
@@ -146,7 +188,7 @@ void GameLayer::showLevelOverLayer(bool win, int leftCount, int leftScore)
 	m_pLevelOverLayer->setPositionX(s.width);
 	m_pLevelOverLayer->runAction(
 		CCSequence::create(
-					CCMoveTo::create(0.3, ccp(0,0)),
+					CCMoveTo::create(0.3f, ccp(0,0)),
                     NULL)
 					);
 	m_pLevelOverLayer->onShow(win,leftCount,leftScore);
@@ -157,7 +199,7 @@ void GameLayer::hideLevelOverLayer()
 	CCSize s = CCDirector::sharedDirector()->getWinSize();
 	m_pLevelOverLayer->runAction(
 		CCSequence::create(
-		 CCMoveTo::create(0.3, ccp(-s.width,0)),
+		 CCMoveTo::create(0.3f, ccp(-s.width,0)),
 		 CCCallFunc::create(this, callfunc_selector(GameLayer::removeLevelOverLayer)),
                     NULL)
 					);
@@ -184,7 +226,7 @@ void GameLayer::showChallengeAgainLayer(int round, int need)
 	m_pChallengeLayer->setPositionY(0);
 	m_pChallengeLayer->runAction(
 		CCSequence::create(
-					CCMoveTo::create(0.3, ccp(0,0)),
+					CCMoveTo::create(0.3f, ccp(0,0)),
                     NULL)
 					);
 }
