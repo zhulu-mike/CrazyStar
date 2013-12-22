@@ -35,8 +35,26 @@ static const char* g_sSignBGImage      = "./image/signin.png";
 static const char* g_sGoldBGImage      = "./image/jinbi.png";
 static const char* g_sHelpBGImage      = "./image/help.png";
 static const char* g_sGoonBGImage      = "./image/goon.png";
+static const char* g_sOkButtonUpBGImage      = "./image/okbutton_up.png";
+static const char* g_sOkButtonDownBGImage      = "./image/okbutton_down.png";
+static const char* g_sBackButtonUpBGImage      = "./image/back_up.png";
+static const char* g_sBackButtonDownBGImage      = "./image/back_down.png";
+static const char* g_sBigLifeBGImage      = "./image/bigtaoxin.png";
+static const char* g_sBuy2BGImage      = "./image/buy2.png";
+static const char* g_sBuy5BGImage      = "./image/buy5.png";
+static const char* g_sBuy21BGImage      = "./image/buy21.png";
+static const char* g_sBuy60BGImage      = "./image/buy60.png";
+static const char* g_sBuy130BGImage      = "./image/buy130.png";
 
+static const char* g_sBuyGoldBGImage      = "./image/buycoin_icon0.png";
+static const char* g_sBuyGoldBGImage1      = "./image/buycoin_icon1.png";
+static const char* g_sBuyGoldBGImage2      = "./image/buycoin_icon2.png";
+static const char* g_sBuyGoldBGImage3      = "./image/buycoin_icon3.png";
 
+static const char* g_sBuyGoldButtonUpBGImage      = "./image/buygold_up.png";
+static const char* g_sBuyGoldButtonDownBGImage      = "./image/buygold_down.png";
+
+static const char* g_sJiaHaoBGImage      = "./image/jiabutton.png";
 
 static const char* g_sClickEffectImage      = "./image/effect/clickeffect.png";
 

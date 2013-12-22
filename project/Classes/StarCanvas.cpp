@@ -227,8 +227,8 @@ void StarCanvas::removeStar()
          addChild(pSprite);
          pSprite->runAction(
              CCSequence::create(
-                 CCDelayTime::create(i*0.1f),
-                 CCMoveTo::create(0.5f, m_pScoreControl->getCurrentScorePosition()),
+                 CCDelayTime::create(i*0.05f),
+                 CCMoveTo::create(0.7f, m_pScoreControl->getCurrentScorePosition()),
                  CCRemoveSelf::create(),
                  NULL));
     }
