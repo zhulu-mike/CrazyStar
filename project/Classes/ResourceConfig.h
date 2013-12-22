@@ -56,6 +56,10 @@ static const char* g_sBuyGoldButtonDownBGImage      = "./image/buygold_down.png"
 
 static const char* g_sJiaHaoBGImage      = "./image/jiabutton.png";
 
+static const char* g_sGreatBGImage      = "./image/great.png";
+static const char* g_sPerfectBGImage      = "./image/perfect.png";
+static const char* g_sImpossibleBGImage      = "./image/impossible.png";
+
 static const char* g_sClickEffectImage      = "./image/effect/clickeffect.png";
 
 
