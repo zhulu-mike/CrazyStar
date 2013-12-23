@@ -5,6 +5,7 @@
 #include "ImageConfig.h"
 #include "ResourceConfig.h"
 #include "BuyLifeLayer.h"
+#include "BuyGoldLayer.h"
 
 USING_NS_CC;
 
@@ -38,6 +39,7 @@ GameScene::GameScene()
     , m_pMainMenuLayer(NULL)
     , m_pMainGameLayer(NULL)
 	, m_pBuyLifeLayer(NULL)
+	, m_pBuyGoldLayer(NULL)
 {
 
 }
@@ -52,6 +54,8 @@ GameScene::~GameScene()
         m_pMainGameLayer->release();
 	if (m_pBuyLifeLayer != NULL)
 		m_pBuyLifeLayer->release();
+	if (m_pBuyGoldLayer != NULL)
+		m_pBuyGoldLayer->release();
 }
 
 bool GameScene::init()
@@ -115,5 +119,54 @@ void GameScene::showBuyLifeLayer()
 					CCMoveTo::create(0.3f, ccp(0,0)),
                     NULL)
 		);
+}
+
+void GameScene::hideBuyLifeLayer()
+{
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	m_pBuyLifeLayer->runAction(
+		CCSequence::create(
+					CCMoveTo::create(0.3f, ccp(0,s.height*2)),
+					CCCallFunc::create(this, callfunc_selector(GameScene::removeBuyLifeLayer)),
+                    NULL)
+		);
+}
+
+void GameScene::removeBuyLifeLayer()
+{
+	m_pBuyLifeLayer->removeFromParent();
+	m_pBuyLifeLayer = NULL;
+}
+
+void GameScene::showBuyGoldLayer()
+{
+	if (m_pBuyGoldLayer == NULL)
+		m_pBuyGoldLayer = BuyGoldLayer::create();
+	this->addChild(m_pBuyGoldLayer,0,kBuyGoldLayerTag);
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	m_pBuyGoldLayer->setAnchorPoint(ccp(0,0));
+	m_pBuyGoldLayer->setPositionY(s.height*2);
+	m_pBuyGoldLayer->runAction(
+		CCSequence::create(
+					CCMoveTo::create(0.3f, ccp(0,0)),
+                    NULL)
+		);
+}
+
+void GameScene::hideBuyGoldLayer()
+{
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	m_pBuyGoldLayer->runAction(
+		CCSequence::create(
+					CCMoveTo::create(0.3f, ccp(0,s.height*2)),
+					CCCallFunc::create(this, callfunc_selector(GameScene::removeBuyGoldLayer)),
+                    NULL)
+		);
+}
+
+void GameScene::removeBuyGoldLayer()
+{
+	m_pBuyGoldLayer->removeFromParent();
+	m_pBuyGoldLayer = NULL;
 }
 

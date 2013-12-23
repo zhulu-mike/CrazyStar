@@ -84,7 +84,9 @@ void MainMenu::onCommandStart(CCObject* pSender)
     if (pBgLayer->subLifeCount(1))  
     {
         GameScene::sharedGameScene()->switchToGameLayer();
-    }
+    }else{
+		GameScene::sharedGameScene()->showBuyLifeLayer();
+	}
 }
 
 void MainMenu::onCommandExit(CCObject* pSender)

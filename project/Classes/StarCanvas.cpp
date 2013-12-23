@@ -99,12 +99,16 @@ void StarCanvas::onEnter()
     
     srand((unsigned)time(NULL));
 	gameState = true;
-    
+    popIng = true;
     for (int i = 0; i < MAP_SIZE; ++ i) 
         for (int j = 0; j < MAP_SIZE; ++ j)
             _generateOneStar(i, j, randLimit(kStarRed, kStarPurple));
 
-	
+	this->runAction(CCSequence::create(
+		 CCDelayTime::create(0.9f), 
+		 CCCallFunc::create(this, callfunc_selector(StarCanvas::changePopState)),
+		 NULL)
+		);
 }
 
 void StarCanvas::onExit()
@@ -161,9 +165,18 @@ void StarCanvas::touchStarCanvas(cocos2d::CCPoint& location)
 			removeStar();
 			popIng = true;
 
-			if (m_popStar.size() > 4)
+			int total = m_popStar.size();
+			
+			if (total >= 10 && total < 20)
 			{
 				SimpleAudioEngine::sharedEngine()->playEffect(g_waOSound);
+				addPingJiaEff(1);
+			}else if (total >= 20 && total < 25)
+			{
+				addPingJiaEff(2);
+			}else if (total >= 25 && total < 50)
+			{
+				addPingJiaEff(3);
 			}
 		}
     }
@@ -268,8 +281,8 @@ void StarCanvas::removeStar()
          addChild(pSprite);
          pSprite->runAction(
              CCSequence::create(
-                 CCDelayTime::create(i*0.1f),
-                 CCMoveTo::create(0.5f, m_pScoreControl->getCurrentScorePosition()),
+                 CCDelayTime::create(i*0.05f),
+                 CCMoveTo::create(0.7f, m_pScoreControl->getCurrentScorePosition()),
                  CCRemoveSelf::create(),
                  NULL));
     }
@@ -446,13 +459,27 @@ void StarCanvas::clearAllStar()
 					CCRemoveSelf::create(), 
                     NULL));
 
-            if (count <= 4)
-                m_pScoreControl->addCurrentScore(5 + (count-1)*10);
 			timeRecord = j * 0.2+i*0.03;
 			maxTime = maxTime < timeRecord ? timeRecord : maxTime;
             pSprite = m_pStarMap[j][i];
         }
     }
+
+	if (count <= 10)
+	{
+        m_pScoreControl->addCurrentScore(5 + (count-1)*10);
+		CCSize s = CCDirector::sharedDirector()->getWinSize();
+		NumberSprite* pSprite = NumberSprite::create(5+(count-1)*10);
+		pSprite->setPosition(ccp(s.width*0.5,s.height*0.5));
+		//pSprite->setAnchorPoint(ccp(0, 0));
+		addChild(pSprite);
+		pSprite->runAction(
+			CCSequence::create(
+				CCDelayTime::create(0.1f),
+				CCMoveTo::create(1.0f, m_pScoreControl->getCurrentScorePosition()),
+				CCRemoveSelf::create(),
+				NULL));
+	}
 
 	GameLayer * p = (GameLayer * )GameScene::sharedGameScene()->getMainGameLayer();
 	p->showLevelOverLayer(m_pScoreControl->isUpLevel(),count,5 + (count-1)*10);
@@ -577,4 +604,32 @@ int StarCanvas::getCurrentLevel()
 void StarCanvas::renewScore()
 {
 	m_pScoreControl->renewScore();
+}
+
+void StarCanvas::addPingJiaEff(int type)
+{
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	CCSprite * eff10 = NULL;
+	if (type == 1)
+		eff10 = CCSprite::create(g_sGreatBGImage);
+	else if (type == 2)
+		eff10 = CCSprite::create(g_sPerfectBGImage);
+	else
+		eff10 = CCSprite::create(g_sImpossibleBGImage);
+	this->addChild(eff10);
+	eff10->setPosition(ccp(s.width*0.5,s.height-300));
+	eff10->setScale(0.1f);
+	eff10->runAction(
+		CCSequence::create(
+				CCScaleTo::create(0.4f, 1.0f,1.0f),
+				CCDelayTime::create(0.5), 
+				CCMoveTo::create(0.4f,ccp(s.width*0.5,s.height-300+100)),
+				CCRemoveSelf::create(),
+				NULL)
+		);
+}
+
+void StarCanvas::changePopState()
+{
+	popIng = false;
 }
