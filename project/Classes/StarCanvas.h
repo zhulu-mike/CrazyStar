@@ -49,6 +49,9 @@ public:
     bool isHasPopStar();
     bool isSameColor(int x, int y, int kColor);
 
+    bool useBomb(cocos2d::CCPoint& pos);
+    bool useMagic(cocos2d::CCPoint& pos);
+
 	void showPopEffect(cocos2d::CCPoint point, int type);
 	void showPopEffectBySprite(CCNode *p);
 	void showPopEffectBySpriteWithSound(CCNode * p);

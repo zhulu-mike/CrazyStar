@@ -161,12 +161,53 @@ void StarCanvas::touchStarCanvas(cocos2d::CCPoint& location)
 			removeStar();
 			popIng = true;
 
-			if (m_popStar.size() > 10)
+			if (m_popStar.size() > 4)
 			{
 				SimpleAudioEngine::sharedEngine()->playEffect(g_waOSound);
 			}
 		}
-	}
+    }
+}
+
+bool StarCanvas::useBomb(cocos2d::CCPoint& pos)
+{
+    int xIndex = floor((pos.x-m_fBeginX)/SHOW_STAR_WIDTH);
+    int yIndex = floor((pos.y-m_fBeginY)/SHOW_STAR_HEIGHT);
+
+    RETURN_VALUE_IF(m_pStarMap[xIndex][yIndex]->getStarColor() <= kStarNone || m_pStarMap[xIndex][yIndex]->getStarColor() >= kStarMax, false);
+
+    m_popStar.clear();
+    m_nPopColor = m_pStarMap[xIndex][yIndex]->getStarColor();
+    m_pStarMap[xIndex][yIndex]->setStarColor(kStarNone);
+    m_popStar.push_back(ccp(xIndex, yIndex));
+    removeStar();
+
+    return true;
+}
+
+bool StarCanvas::useMagic(cocos2d::CCPoint& pos)
+{
+    int xIndex = floor((pos.x-m_fBeginX)/SHOW_STAR_WIDTH);
+    int yIndex = floor((pos.y-m_fBeginY)/SHOW_STAR_HEIGHT);
+
+    RETURN_VALUE_IF(m_pStarMap[xIndex][yIndex]->getStarColor() <= kStarNone || m_pStarMap[xIndex][yIndex]->getStarColor() >= kStarMax, false);
+
+    int color = randLimit(kStarRed, kStarPurple);
+
+    RETURN_VALUE_IF(m_pStarMap[xIndex][yIndex]->getStarColor() == color, true);
+    
+    m_pStarBatchNode[m_pStarMap[xIndex][yIndex]->getStarColor()]->removeChild(m_pStarMap[xIndex][yIndex], true);
+
+    CCTexture2D* pTexture = m_pStarBatchNode[color]->getTexture();
+    m_pStarMap[xIndex][yIndex]->initWithTexture(pTexture, 
+        CCRectMake(0, 0, pTexture->getContentSize().width, pTexture->getContentSize().height));
+    m_pStarMap[xIndex][yIndex]->setAnchorPoint(ccp(0, 0));
+    m_pStarMap[xIndex][yIndex]->setStarColor(color);
+    m_pStarMap[xIndex][yIndex]->setStarType(color);
+
+    m_pStarBatchNode[color]->addChild(m_pStarMap[xIndex][yIndex], 0);
+
+    return true;
 }
 
 void StarCanvas::popStar(int x, int y)

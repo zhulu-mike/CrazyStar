@@ -41,18 +41,18 @@ bool GameLayer::init()
 
         /*初始化道具按钮*/
         CCMenuItemImage* pBombButton = CCMenuItemImage::create(
-                                            g_sBombImage, 
-                                            g_sBombImage, 
+                                            g_sBombNormalImage, 
+                                            g_sBombSelectedImage, 
                                             this, 
                                             menu_selector(GameLayer::onCommandBomb));
         CCMenuItemImage* pMagicButton = CCMenuItemImage::create(
-                                            g_sMagicImage, 
-                                            g_sMagicImage, 
+                                            g_sMagicNormalImage, 
+                                            g_sMagicSelectedImage, 
                                             this, 
                                             menu_selector(GameLayer::onCommandMagic));
         CCMenuItemImage* pBackButton = CCMenuItemImage::create(
-                                            g_sBombImage, 
-                                            g_sBombImage, 
+                                            g_sBombNormalImage, 
+                                            g_sBombNormalImage, 
                                             this, 
                                             menu_selector(GameLayer::onCommandBack));
         MyCCMenu* pMenu = MyCCMenu::create(pBombButton, pMagicButton, pBackButton, NULL);
@@ -100,7 +100,20 @@ void GameLayer::ccTouchesEnded(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEven
 {
     for (CCSetIterator it = pTouches->begin(); it != pTouches->end(); it ++)
     {
-        m_pStarCanvas->touchStarCanvas(((CCTouch*)(*it))->getLocation());
+        if (m_kSelectedStatus == kSelectedNone)
+        {
+            m_pStarCanvas->touchStarCanvas(((CCTouch*)(*it))->getLocation());
+        }
+        else if (m_kSelectedStatus == kSelectedBomb)
+        {
+            if (m_pStarCanvas->useBomb(((CCTouch*)(*it))->getLocation()))
+                m_kSelectedStatus = kSelectedNone;
+        }
+        else if (m_kSelectedStatus == kSelectedMagic)
+        {
+            if (m_pStarCanvas->useMagic(((CCTouch*)(*it))->getLocation()))
+                m_kSelectedStatus = kSelectedNone;
+        }
 
         break;
     }
@@ -113,8 +126,6 @@ void GameLayer::onCommandBack(CCObject* pSender)
 
 void GameLayer::onCommandBomb(CCObject* pSender)
 {
-    removeSelectedAnimate();
-
     if (m_kSelectedStatus == kSelectedBomb)
     {
         m_kSelectedStatus = kSelectedNone;
@@ -122,8 +133,6 @@ void GameLayer::onCommandBomb(CCObject* pSender)
     else
     {
         m_kSelectedStatus = kSelectedBomb;
-        CCSize s = CCDirector::sharedDirector()->getWinSize();
-        playSelectedAnimate(ccp(s.width-200, s.height-120));
     }
 
     SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
@@ -141,8 +150,6 @@ void GameLayer::onCommandMagic(CCObject* pSender)
     else
     {
         m_kSelectedStatus = kSelectedMagic;
-        CCSize s = CCDirector::sharedDirector()->getWinSize();
-        playSelectedAnimate(ccp(s.width-150, s.height-120));
     }
 
     SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);

@@ -1,17 +1,19 @@
 #ifndef _RESOURCE_CONFIG_H_
 #define _RESOURCE_CONFIG_H_
 
-static const char* g_sRedStarImage    = "./image/red.png";
-static const char* g_sYellowStarImage = "./image/yellow.png";
-static const char* g_sGreenStarImage  = "./image/green.png";
-static const char* g_sBlueStarImage   = "./image/blue.png";
-static const char* g_sPurpleStarImage = "./image/purple.png";
-static const char* g_sBombImage       = "./image/bomb.png";
-static const char* g_sMagicImage      = "./image/magic.png";
-static const char* g_sBackgroundImage = "./image/bg.png";
-static const char* g_sTaoxinImage     = "./image/taoxin.png";
-static const char* g_sLevelImage      = "./image/level.png";
-static const char* g_sBeginImage      = "./image/begin.png";
+static const char* g_sRedStarImage      = "./image/red.png";
+static const char* g_sYellowStarImage   = "./image/yellow.png";
+static const char* g_sGreenStarImage    = "./image/green.png";
+static const char* g_sBlueStarImage     = "./image/blue.png";
+static const char* g_sPurpleStarImage   = "./image/purple.png";
+static const char* g_sBombNormalImage   = "./image/bomb_normal.png";
+static const char* g_sBombSelectedImage = "./image/bomb_selected.png";
+static const char* g_sMagicNormalImage  = "./image/magic_normal.png";
+static const char* g_sMagicSelectedImage= "./image/magic_selected.png";
+static const char* g_sBackgroundImage   = "./image/bg.png";
+static const char* g_sTaoxinImage       = "./image/taoxin.png";
+static const char* g_sLevelImage        = "./image/level.png";
+static const char* g_sBeginImage        = "./image/begin.png";
 static const char* g_sSmallGreenStarImage   = "./image/lv.png";
 static const char* g_sSmallRedStarImage     = "./image/hong.png";
 static const char* g_sSmallYellowStarImage  = "./image/huang.png";
