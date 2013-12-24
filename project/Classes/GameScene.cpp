@@ -6,6 +6,7 @@
 #include "ResourceConfig.h"
 #include "BuyLifeLayer.h"
 #include "BuyGoldLayer.h"
+#include "HelpLayer.h"
 
 USING_NS_CC;
 
@@ -40,6 +41,7 @@ GameScene::GameScene()
     , m_pMainGameLayer(NULL)
 	, m_pBuyLifeLayer(NULL)
 	, m_pBuyGoldLayer(NULL)
+	, m_pHelpLayer(NULL)
 {
 
 }
@@ -56,6 +58,8 @@ GameScene::~GameScene()
 		m_pBuyLifeLayer->release();
 	if (m_pBuyGoldLayer != NULL)
 		m_pBuyGoldLayer->release();
+	if (m_pHelpLayer != NULL)
+		m_pHelpLayer->release();
 }
 
 bool GameScene::init()
@@ -170,3 +174,40 @@ void GameScene::removeBuyGoldLayer()
 	m_pBuyGoldLayer = NULL;
 }
 
+bool GameScene::subGold(int count)
+{
+	BackgroundLayer * app = (BackgroundLayer*)m_pBackgroundLayer;
+	return app->subGoldCount(count);
+}
+
+void GameScene::showHelpLayer()
+{
+	if (m_pHelpLayer == NULL)
+		m_pHelpLayer = HelpLayer::create();
+	this->addChild(m_pHelpLayer,0,kHelpLayerTag);
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	m_pHelpLayer->setAnchorPoint(ccp(0,0));
+	m_pHelpLayer->setPositionY(s.height*2);
+	m_pHelpLayer->runAction(
+		CCSequence::create(
+					CCMoveTo::create(0.3f, ccp(0,0)),
+                    NULL)
+		);
+}
+
+void GameScene::hideHelpLayer()
+{
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	m_pHelpLayer->runAction(
+		CCSequence::create(
+					CCMoveTo::create(0.3f, ccp(0,s.height*2)),
+					CCCallFunc::create(this, callfunc_selector(GameScene::removeHelpLayer)),
+                    NULL)
+		);
+}
+
+void GameScene::removeHelpLayer()
+{
+	m_pHelpLayer->removeFromParent();
+	m_pHelpLayer = NULL;
+}

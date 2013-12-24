@@ -133,6 +133,8 @@ void GameLayer::onCommandBomb(CCObject* pSender)
     else
     {
         m_kSelectedStatus = kSelectedBomb;
+		//CCMenuItemImage * app = (CCMenuItemImage*)pSender;
+		//app->selected();
     }
 
     SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
@@ -150,6 +152,8 @@ void GameLayer::onCommandMagic(CCObject* pSender)
     else
     {
         m_kSelectedStatus = kSelectedMagic;
+		//CCMenuItemImage * app = (CCMenuItemImage*)pSender;
+		//app->selected();
     }
 
     SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
@@ -183,7 +187,7 @@ void GameLayer::removeSelectedAnimate()
     removeChildByTag(kSelectedTag);
 }
 
-void GameLayer::showLevelOverLayer(bool win, int leftCount, int leftScore)
+void GameLayer::showLevelOverLayer(bool win, int leftCount, int leftScore, int levelScore)
 {
 	if (m_pLevelOverLayer == NULL)
 	{
@@ -198,7 +202,7 @@ void GameLayer::showLevelOverLayer(bool win, int leftCount, int leftScore)
 					CCMoveTo::create(0.3f, ccp(0,0)),
                     NULL)
 					);
-	m_pLevelOverLayer->onShow(win,leftCount,leftScore);
+	m_pLevelOverLayer->onShow(win,leftCount,leftScore, levelScore);
 }
 
 void GameLayer::hideLevelOverLayer()

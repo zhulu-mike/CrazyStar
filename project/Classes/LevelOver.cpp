@@ -1,6 +1,7 @@
 
 #include "LevelOver.h"
 #include "ResourceConfig.h"
+#include "NumberSprite.h"
 USING_NS_CC;
 
 
@@ -26,19 +27,19 @@ bool LevelOver::init()
 		jieGuo->setPositionX((s.width-jieGuo->getTextureRect().size.width)*0.5);
 		jieGuo->setPositionY(s.height*0.5);
 
-		CCSprite *shengYU = CCSprite::create(g_sLevelLeftImage);
+		shengYU = CCSprite::create(g_sLevelLeftImage);
 		this->addChild(shengYU);
 		shengYU->setAnchorPoint(ccp(0, 0));
 		shengYU->setPositionX((s.width-shengYU->getTextureRect().size.width)*0.5);
 		shengYU->setPositionY(jieGuo->getPositionY()-jieGuo->getTextureRect().size.height*0.5-40);
 
-		CCSprite *jiangLi = CCSprite::create(g_sLevelAwardImage);
+		jiangLi = CCSprite::create(g_sLevelAwardImage);
 		this->addChild(jiangLi);
 		jiangLi->setAnchorPoint(ccp(0, 0));
 		jiangLi->setPositionX((s.width-jiangLi->getTextureRect().size.width)*0.5);
 		jiangLi->setPositionY(shengYU->getPositionY()-shengYU->getTextureRect().size.height*0.5-60);
 
-		CCSprite *totalSoce = CCSprite::create(g_sLevelScoreImage);
+		totalSoce = CCSprite::create(g_sLevelScoreImage);
 		this->addChild(totalSoce);
 		totalSoce->setAnchorPoint(ccp(0, 0));
 		totalSoce->setPositionX((s.width-totalSoce->getTextureRect().size.width)*0.5);
@@ -51,7 +52,7 @@ bool LevelOver::init()
     return bRet;
 }
 
-void LevelOver::onShow(bool isPass, int leftCount, int awardScore)
+void LevelOver::onShow(bool isPass, int leftCount, int awardScore, int levelScore)
 {
 	CCTexture2D * p ;
 
@@ -62,4 +63,22 @@ void LevelOver::onShow(bool isPass, int leftCount, int awardScore)
 		p = CCSprite::create(g_sLevelPassImage)->getTexture();
 	}
 	jieGuo->setTexture(p);
+
+	NumberSprite * leftTip = NumberSprite::create(leftCount);
+	this->addChild(leftTip);
+	leftTip->setAnchorPoint(ccp(0,0));
+	leftTip->setPositionX(shengYU->getPositionX()+shengYU->getContentSize().width + 20);
+	leftTip->setPositionY(shengYU->getPositionY());
+
+	NumberSprite * awardTip = NumberSprite::create(awardScore);
+	this->addChild(awardTip);
+	awardTip->setAnchorPoint(ccp(0,0));
+	awardTip->setPositionX(jiangLi->getPositionX()+jiangLi->getContentSize().width + 20);
+	awardTip->setPositionY(jiangLi->getPositionY());
+
+	NumberSprite * levelScoreTip = NumberSprite::create(levelScore);
+	this->addChild(levelScoreTip);
+	levelScoreTip->setAnchorPoint(ccp(0,0));
+	levelScoreTip->setPositionX(totalSoce->getPositionX()+totalSoce->getContentSize().width + 20);
+	levelScoreTip->setPositionY(totalSoce->getPositionY());
 }

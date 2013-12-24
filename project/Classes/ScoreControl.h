@@ -29,6 +29,8 @@ public:
     void clearAllScore();
 	void renewScore();
     bool isUpLevel();
+	/*获取本关得分*/
+	int getCurrentLevelScore();
 private:
     int m_nCurrentLevel;
     int m_nCurrentScore;

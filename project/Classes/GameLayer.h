@@ -34,7 +34,7 @@ public:
     void onCommandBomb(CCObject* pSender);
     void onCommandMagic(CCObject* pSender);
 
-	void showLevelOverLayer(bool win, int leftCount, int leftScore);
+	void showLevelOverLayer(bool win, int leftCount, int leftScore, int levelScore);
 	void hideLevelOverLayer();
 	
 	void showChallengeAgainLayer(int round, int need);

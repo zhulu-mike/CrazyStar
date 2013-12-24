@@ -4,11 +4,13 @@
 #include "MyCCMenu.h"
 #include "GameScene.h"
 #include "BackgroundLayer.h"
+#include "SimpleAudioEngine.h"
 #include "cocos-ext.h"
 
 
 USING_NS_CC;
 USING_NS_CC_EXT;
+using namespace CocosDenshion;
 
 
 BuyLifeLayer::BuyLifeLayer()
@@ -201,11 +203,13 @@ bool BuyLifeLayer::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEve
 
 void BuyLifeLayer::onCommandBack(CCObject * pSender)
 {
+	SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
 	GameScene::sharedGameScene()->hideBuyLifeLayer();
 }
 
 void BuyLifeLayer::onCommandBuy2(CCObject * pSender)
 {
+	SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
 	BackgroundLayer* layer = (BackgroundLayer*)GameScene::sharedGameScene()->getBackgroundLayer();
 	if (layer->subGoldCount(10))
 		addLifeCount(2);
@@ -214,6 +218,7 @@ void BuyLifeLayer::onCommandBuy2(CCObject * pSender)
 }
 void BuyLifeLayer::onCommandBuy5(CCObject * pSender)
 {	
+	SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
 	BackgroundLayer* layer = (BackgroundLayer*)GameScene::sharedGameScene()->getBackgroundLayer();
 	if (layer->subGoldCount(25))
 		addLifeCount(5);
@@ -222,6 +227,7 @@ void BuyLifeLayer::onCommandBuy5(CCObject * pSender)
 }
 void BuyLifeLayer::onCommandBuy21(CCObject * pSender)
 {
+	SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
 	BackgroundLayer* layer = (BackgroundLayer*)GameScene::sharedGameScene()->getBackgroundLayer();
 	if (layer->subGoldCount(100))
 		addLifeCount(21);
@@ -230,6 +236,7 @@ void BuyLifeLayer::onCommandBuy21(CCObject * pSender)
 }
 void BuyLifeLayer::onCommandBuy60(CCObject * pSender)
 {
+	SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
 	BackgroundLayer* layer = (BackgroundLayer*)GameScene::sharedGameScene()->getBackgroundLayer();
 	if (layer->subGoldCount(250))
 		addLifeCount(60);
@@ -238,6 +245,7 @@ void BuyLifeLayer::onCommandBuy60(CCObject * pSender)
 }
 void BuyLifeLayer::onCommandBuy130(CCObject * pSender)
 {
+	SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
 	BackgroundLayer* layer = (BackgroundLayer*)GameScene::sharedGameScene()->getBackgroundLayer();
 	if (layer->subGoldCount(500))
 		addLifeCount(130);

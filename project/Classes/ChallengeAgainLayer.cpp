@@ -3,8 +3,11 @@
 #include "ResourceConfig.h"
 #include "GameScene.h"
 #include "GameLayer.h"
+#include "SimpleAudioEngine.h"
+#include "NumberSprite.h"
 
 USING_NS_CC;
+using namespace CocosDenshion;
 
 
 ChallengeAgainLayer::ChallengeAgainLayer()
@@ -54,29 +57,43 @@ void ChallengeAgainLayer::onShow(int round, int need)
 	app1->setPositionX(30);
 	app1->setPositionY(s.height*0.5);
 	this->addChild(app1);
-	totalWidth += app1->getTextureRect().size.width;
+	totalWidth += app1->getContentSize().width;
+
+	NumberSprite * roundTip = NumberSprite::create(round);
+	roundTip->setAnchorPoint(ccp(0,0));
+	roundTip->setPositionX(app1->getPositionX()+app1->getContentSize().width);
+	roundTip->setPositionY(app1->getPositionY());
+	this->addChild(roundTip);
+	totalWidth += roundTip->getContentSize().width;
 
 	CCSprite *app2 = CCSprite::create(g_sGuanBGImage);
 	app2->setAnchorPoint(ccp(0,0));
-	app2->setPositionX(app1->getPositionX()+app1->getTextureRect().size.width);
-	app2->setPositionY(app1->getPositionY());
+	app2->setPositionX(roundTip->getPositionX()+roundTip->getContentSize().width);
+	app2->setPositionY(roundTip->getPositionY());
 	this->addChild(app2);
-	totalWidth += app2->getTextureRect().size.width;
+	totalWidth += app2->getContentSize().width;
 
 	float bx = (s.width - totalWidth)*0.5;
 	app1->setPositionX(bx);
-	app2->setPositionX(app1->getPositionX()+app1->getTextureRect().size.width);
+	roundTip->setPositionX(app1->getPositionX()+app1->getContentSize().width);
+	app2->setPositionX(roundTip->getPositionX()+roundTip->getContentSize().width);
 
 	CCSprite *app3 = CCSprite::create(g_sLifeNeedBGImage);
 	app3->setAnchorPoint(ccp(0,0));
 	app3->setPositionX(app1->getPositionX());
-	app3->setPositionY(app2->getPositionY()-app2->getTextureRect().size.height-20);
+	app3->setPositionY(app2->getPositionY()-app2->getContentSize().height-20);
 	this->addChild(app3);
+
+	NumberSprite * needTip = NumberSprite::create(need);
+	needTip->setAnchorPoint(ccp(0,0));
+	needTip->setPositionX(app3->getPositionX()+app3->getContentSize().width);
+	needTip->setPositionY(app3->getPositionY());
+	this->addChild(needTip);
 
 	CCSprite *app4 = CCSprite::create(g_sLifeValueBGImage);
 	app4->setAnchorPoint(ccp(0,0));
-	app4->setPositionX(app3->getPositionX()+app3->getTextureRect().size.width);
-	app4->setPositionY(app3->getPositionY());
+	app4->setPositionX(needTip->getPositionX()+needTip->getContentSize().width);
+	app4->setPositionY(needTip->getPositionY());
 	this->addChild(app4);
 
 	CCMenuItemImage* pSureMenu = CCMenuItemImage::create(
@@ -110,13 +127,14 @@ void ChallengeAgainLayer::onShow(int round, int need)
 
 void ChallengeAgainLayer::onCommandSure(CCObject* pSender)
 {
+	SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
 	GameLayer*app = (GameLayer*)GameScene::sharedGameScene()->getMainGameLayer();
 	app->relife();
 }
 
 void ChallengeAgainLayer::onCommandReturn(CCObject* pSender)
 {
-
+	SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
 	GameLayer*app = (GameLayer*)GameScene::sharedGameScene()->getMainGameLayer();
 	app->hideChallengeAgainLayer();
 	GameScene::sharedGameScene()->switchToMainMenu();

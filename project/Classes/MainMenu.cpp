@@ -114,7 +114,7 @@ void MainMenu::onCommandGoon(CCObject* pSender)
 
 void MainMenu::onCommandHelp(CCObject* pSender)
 {
-
+	GameScene::sharedGameScene()->showHelpLayer();
 }
 
 void MainMenu::addClickFlash(CCObject *pSender)

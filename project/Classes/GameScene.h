@@ -19,7 +19,8 @@ public:
         kMainMenuLayerTag = 1,
         kMainGameLayerTag   = 2,
 		kBuyLifeLayerTag = 3,
-		kBuyGoldLayerTag = 4
+		kBuyGoldLayerTag = 4,
+		kHelpLayerTag    = 5
     };
 
     GameScene();
@@ -33,12 +34,17 @@ public:
 	void showBuyGoldLayer();
 	void hideBuyGoldLayer();
 	void removeBuyGoldLayer();
+	void hideHelpLayer();
+	void showHelpLayer();
+	void removeHelpLayer();
+	bool subGold(int count);
 
     cocos2d::CCLayer* getBackgroundLayer() { return m_pBackgroundLayer; }
     cocos2d::CCLayer* getMainMenuLayer()   { return m_pMainMenuLayer;   }
     cocos2d::CCLayer* getMainGameLayer()   { return m_pMainGameLayer;   }
 	cocos2d::CCLayer* getBuyLifeLayer()   { return m_pBuyLifeLayer;   }
 	cocos2d::CCLayer* getBuyGoldLayer()   { return m_pBuyGoldLayer;   }
+	cocos2d::CCLayer* getHelpLayer()   { return m_pHelpLayer;   }
 
     void setBackgroundLayer(cocos2d::CCLayer* pLayer){ m_pBackgroundLayer = pLayer; }
     void setMainMenuLayer(cocos2d::CCLayer* pLayer)  { m_pMainMenuLayer   = pLayer; }
@@ -50,6 +56,7 @@ private:
     cocos2d::CCLayer* m_pMainGameLayer;
 	cocos2d::CCLayer* m_pBuyLifeLayer;
 	cocos2d::CCLayer* m_pBuyGoldLayer;
+	cocos2d::CCLayer* m_pHelpLayer;
 };
 
 #endif

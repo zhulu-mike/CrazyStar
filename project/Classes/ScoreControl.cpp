@@ -127,3 +127,8 @@ void ScoreControl::renewScore()
 {
 	setCurrentScore(m_nLastScore);
 }
+
+int ScoreControl::getCurrentLevelScore()
+{
+	return m_nCurrentScore - m_nLastScore;
+}

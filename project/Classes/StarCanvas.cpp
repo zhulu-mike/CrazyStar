@@ -186,9 +186,18 @@ bool StarCanvas::useBomb(cocos2d::CCPoint& pos)
 {
     int xIndex = floor((pos.x-m_fBeginX)/SHOW_STAR_WIDTH);
     int yIndex = floor((pos.y-m_fBeginY)/SHOW_STAR_HEIGHT);
+	if (xIndex < 0 || xIndex >= MAP_SIZE)
+		return false;
+	if (yIndex < 0 || yIndex >= MAP_SIZE)
+		return false;
 
     RETURN_VALUE_IF(m_pStarMap[xIndex][yIndex]->getStarColor() <= kStarNone || m_pStarMap[xIndex][yIndex]->getStarColor() >= kStarMax, false);
 
+	if (!GameScene::sharedGameScene()->subGold(10))
+	{
+		GameScene::sharedGameScene()->showBuyGoldLayer();
+		return false;
+	}
     m_popStar.clear();
     m_nPopColor = m_pStarMap[xIndex][yIndex]->getStarColor();
     m_pStarMap[xIndex][yIndex]->setStarColor(kStarNone);
@@ -202,8 +211,18 @@ bool StarCanvas::useMagic(cocos2d::CCPoint& pos)
 {
     int xIndex = floor((pos.x-m_fBeginX)/SHOW_STAR_WIDTH);
     int yIndex = floor((pos.y-m_fBeginY)/SHOW_STAR_HEIGHT);
+	if (xIndex < 0 || xIndex >= MAP_SIZE)
+		return false;
+	if (yIndex < 0 || yIndex >= MAP_SIZE)
+		return false;
 
     RETURN_VALUE_IF(m_pStarMap[xIndex][yIndex]->getStarColor() <= kStarNone || m_pStarMap[xIndex][yIndex]->getStarColor() >= kStarMax, false);
+
+	if (!GameScene::sharedGameScene()->subGold(5))
+	{
+		GameScene::sharedGameScene()->showBuyGoldLayer();
+		return false;
+	}
 
     int color = randLimit(kStarRed, kStarPurple);
 
@@ -465,9 +484,11 @@ void StarCanvas::clearAllStar()
         }
     }
 
+	int deFen = 0;
 	if (count <= 10)
 	{
-        m_pScoreControl->addCurrentScore(5 + (count-1)*10);
+		deFen = 5 + (count-1)*10;
+        m_pScoreControl->addCurrentScore(deFen);
 		CCSize s = CCDirector::sharedDirector()->getWinSize();
 		NumberSprite* pSprite = NumberSprite::create(5+(count-1)*10);
 		pSprite->setPosition(ccp(s.width*0.5,s.height*0.5));
@@ -482,7 +503,7 @@ void StarCanvas::clearAllStar()
 	}
 
 	GameLayer * p = (GameLayer * )GameScene::sharedGameScene()->getMainGameLayer();
-	p->showLevelOverLayer(m_pScoreControl->isUpLevel(),count,5 + (count-1)*10);
+	p->showLevelOverLayer(m_pScoreControl->isUpLevel(),count,deFen,m_pScoreControl->getCurrentLevelScore());
 
     if (pSprite != NULL)
     {
