@@ -72,6 +72,8 @@ bool GameScene::init()
         this->setContentSize(pDirector->getWinSize());
 
         ImageConfig::sharedImageConfig()->loadImageConfig(g_sArtCharConfig);
+		ImageConfig::sharedImageConfig()->loadImageConfig(g_sWhite72Config);
+		
 
         m_pBackgroundLayer = BackgroundLayer::create();
         CC_BREAK_IF(!m_pBackgroundLayer);

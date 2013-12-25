@@ -64,19 +64,19 @@ void LevelOver::onShow(bool isPass, int leftCount, int awardScore, int levelScor
 	}
 	jieGuo->setTexture(p);
 
-	NumberSprite * leftTip = NumberSprite::create(leftCount);
+	NumberSprite * leftTip = NumberSprite::create("white72",leftCount);
 	this->addChild(leftTip);
 	leftTip->setAnchorPoint(ccp(0,0));
 	leftTip->setPositionX(shengYU->getPositionX()+shengYU->getContentSize().width + 20);
 	leftTip->setPositionY(shengYU->getPositionY());
 
-	NumberSprite * awardTip = NumberSprite::create(awardScore);
+	NumberSprite * awardTip = NumberSprite::create("white72",awardScore);
 	this->addChild(awardTip);
 	awardTip->setAnchorPoint(ccp(0,0));
 	awardTip->setPositionX(jiangLi->getPositionX()+jiangLi->getContentSize().width + 20);
 	awardTip->setPositionY(jiangLi->getPositionY());
 
-	NumberSprite * levelScoreTip = NumberSprite::create(levelScore);
+	NumberSprite * levelScoreTip = NumberSprite::create("white72",levelScore);
 	this->addChild(levelScoreTip);
 	levelScoreTip->setAnchorPoint(ccp(0,0));
 	levelScoreTip->setPositionX(totalSoce->getPositionX()+totalSoce->getContentSize().width + 20);

@@ -15,7 +15,7 @@ ImageConfig::ImageConfig()
 
 ImageConfig::~ImageConfig()
 {
-    m_pSpriteBatchNode->release();
+    //m_pSpriteBatchNode->release();
 }
 
 ImageConfig* ImageConfig::sharedImageConfig()
@@ -40,15 +40,21 @@ void ImageConfig::loadImageConfig(const char* fileName)
     xmlDoc.LoadFile(fileName);
     tinyxml2::XMLElement* pRootElem = xmlDoc.RootElement();
 
-    m_pSpriteBatchNode = CCSpriteBatchNode::create(pRootElem->Attribute("fileName"));
+	
+
+    CCSpriteBatchNode * m_pSpriteBatchNode = CCSpriteBatchNode::create(pRootElem->Attribute("fileName"));
     m_pSpriteBatchNode->retain();
+	const char* key = pRootElem->Attribute("key");
+	m_pictureMap[std::string(key)] = m_pSpriteBatchNode;
 
     CCAssert(m_pSpriteBatchNode != NULL, "Load image faild!");
 
     tinyxml2::XMLElement* pChildElem = pRootElem->FirstChildElement("child");
+	std::vector<cocos2d::CCRect> m_num(10);
+
     while(pChildElem != NULL)
     {
-        _parserConfig(pChildElem->Attribute("name"), 
+        _parserConfig(m_num, pChildElem->Attribute("name"), 
             CCRectMake(pChildElem->FloatAttribute("x"), 
                    pChildElem->FloatAttribute("y"),
                    pChildElem->FloatAttribute("w"),
@@ -56,50 +62,51 @@ void ImageConfig::loadImageConfig(const char* fileName)
 
         pChildElem = pChildElem->NextSiblingElement("child");
     }
+	m_rectMap[key] = m_num;
 }
 
-void ImageConfig::_parserConfig(const char* name, const cocos2d::CCRect& rect)
+void ImageConfig::_parserConfig(std::vector<cocos2d::CCRect> &numVector, const char* name, const cocos2d::CCRect& rect)
 {
-    if (!strcmp(name, "white0")) {  
-        m_whiteNumber[0] = rect;
+    if (!strcmp(name, "0.png")) {  
+        numVector[0] = rect;
     }
-    else if (!strcmp(name, "white1")) {
-        m_whiteNumber[1] = rect;
+    else if (!strcmp(name, "1.png")) {
+        numVector[1] = rect;
     }
-    else if (!strcmp(name, "white2")) {
-        m_whiteNumber[2] = rect;
+    else if (!strcmp(name, "2.png")) {
+        numVector[2] = rect;
     }
-    else if (!strcmp(name, "white3")) {
-        m_whiteNumber[3] = rect;
+    else if (!strcmp(name, "3.png")) {
+        numVector[3] = rect;
     }
-    else if (!strcmp(name, "white4")) {
-        m_whiteNumber[4] = rect;
+    else if (!strcmp(name, "4.png")) {
+        numVector[4] = rect;
     }
-    else if (!strcmp(name, "white5")) {
-        m_whiteNumber[5] = rect;
+    else if (!strcmp(name, "5.png")) {
+        numVector[5] = rect;
     }
-    else if (!strcmp(name, "white6")) {
-        m_whiteNumber[6] = rect;
+    else if (!strcmp(name, "6.png")) {
+        numVector[6] = rect;
     }
-    else if (!strcmp(name, "white7")) {
-        m_whiteNumber[7] = rect;
+    else if (!strcmp(name, "7.png")) {
+        numVector[7] = rect;
     }
-    else if (!strcmp(name, "white8")) {
-        m_whiteNumber[8] = rect;
+    else if (!strcmp(name, "8.png")) {
+        numVector[8] = rect;
     }
-    else if (!strcmp(name, "white9")) {
-        m_whiteNumber[9] = rect;
+    else if (!strcmp(name, "9.png")) {
+        numVector[9] = rect;
     }
 }
 
-cocos2d::CCTexture2D* ImageConfig::getTexture2D()
+cocos2d::CCTexture2D* ImageConfig::getTexture2D(std::string key)
 {
-    return m_pSpriteBatchNode->getTexture();
+	return m_pictureMap[key]->getTexture();
 }
 
-cocos2d::CCRect ImageConfig::getNumberRect(int n)
+cocos2d::CCRect ImageConfig::getNumberRect(std::string key, int n)
 {
     RETURN_VALUE_IF(n < 0 || n > 9, CCRectZero);
 
-    return m_whiteNumber[n];
+    return m_rectMap[key][n];
 }

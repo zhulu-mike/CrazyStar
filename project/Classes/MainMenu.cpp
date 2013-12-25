@@ -49,8 +49,14 @@ bool MainMenu::init()
                                                 g_sSignBGImage, 
                                                 this, 
                                                 menu_selector(MainMenu::onCommandSign));
+		CCMenuItemImage * achiev = CCMenuItemImage::create(
+                                                g_sChengJiuBGImage, 
+                                                g_sChengJiuBGImage, 
+                                                this, 
+                                                menu_selector(MainMenu::onCommandSign));
 		sign->setAnchorPoint(ccp(0,0));
-		MyCCMenu * buttomMenu = MyCCMenu::create(sign,NULL);
+		achiev->setAnchorPoint(ccp(0,0));
+		MyCCMenu * buttomMenu = MyCCMenu::create(sign,achiev,NULL);
 		this->addChild(buttomMenu);
 		buttomMenu->alignItemsHorizontally();
 		buttomMenu->setAnchorPoint(ccp(0,0));

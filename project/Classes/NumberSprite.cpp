@@ -4,9 +4,9 @@
 
 USING_NS_CC;
 
-NumberSprite* NumberSprite::create(int num)
+NumberSprite* NumberSprite::create(std::string ke, int num)
 { 
-    NumberSprite *pRet = new NumberSprite(num); 
+    NumberSprite *pRet = new NumberSprite(ke,num); 
     if (pRet && pRet->init()) 
     {
         pRet->autorelease(); 
@@ -20,8 +20,10 @@ NumberSprite* NumberSprite::create(int num)
     } 
 }
 
-NumberSprite::NumberSprite(int num)
+NumberSprite::NumberSprite(std::string ke,int num)
     : m_nRealNumber(num)
+	, key(ke)
+	
 {
 }
 
@@ -50,8 +52,8 @@ bool NumberSprite::init()
 
 void NumberSprite::_addNumberSprite(CCPoint& off, int n)
 {
-    CCRect rect = ImageConfig::sharedImageConfig()->getNumberRect(n);
-    CCTexture2D* pTexture2D = ImageConfig::sharedImageConfig()->getTexture2D();
+    CCRect rect = ImageConfig::sharedImageConfig()->getNumberRect(key,n);
+    CCTexture2D* pTexture2D = ImageConfig::sharedImageConfig()->getTexture2D(key);
     CCSprite* pSprite = CCSprite::createWithTexture(pTexture2D, rect); 
 
     pSprite->setPosition(off);

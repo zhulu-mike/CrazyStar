@@ -6,9 +6,9 @@
 class NumberSprite : public cocos2d::CCNode
 {
 public:
-    NumberSprite(int num);
+	NumberSprite(std::string ke,int num);
 
-    static NumberSprite* create(int num);
+    static NumberSprite* create(std::string ke,int num);
 
     virtual bool init();
 
@@ -17,6 +17,7 @@ private:
 
 private:
     int m_nRealNumber;
+	std::string key;
 };
 
 #endif

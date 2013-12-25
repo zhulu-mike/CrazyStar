@@ -59,7 +59,7 @@ void ChallengeAgainLayer::onShow(int round, int need)
 	this->addChild(app1);
 	totalWidth += app1->getContentSize().width;
 
-	NumberSprite * roundTip = NumberSprite::create(round);
+	NumberSprite * roundTip = NumberSprite::create("white72",round);
 	roundTip->setAnchorPoint(ccp(0,0));
 	roundTip->setPositionX(app1->getPositionX()+app1->getContentSize().width);
 	roundTip->setPositionY(app1->getPositionY());
@@ -84,7 +84,7 @@ void ChallengeAgainLayer::onShow(int round, int need)
 	app3->setPositionY(app2->getPositionY()-app2->getContentSize().height-20);
 	this->addChild(app3);
 
-	NumberSprite * needTip = NumberSprite::create(need);
+	NumberSprite * needTip = NumberSprite::create("white72",need);
 	needTip->setAnchorPoint(ccp(0,0));
 	needTip->setPositionX(app3->getPositionX()+app3->getContentSize().width);
 	needTip->setPositionY(app3->getPositionY());

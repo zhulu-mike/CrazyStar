@@ -294,14 +294,14 @@ void StarCanvas::removeStar()
                     NULL));
 		 timeRecord = i*0.05;
 
-         NumberSprite* pSprite = NumberSprite::create(5+i*10);
+         NumberSprite* pSprite = NumberSprite::create("white36",5+i*10);
          pSprite->setPosition(m_pStarMap[x][y]->getPosition());
          pSprite->setAnchorPoint(ccp(0, 0));
          addChild(pSprite);
          pSprite->runAction(
              CCSequence::create(
                  CCDelayTime::create(i*0.05f),
-                 CCMoveTo::create(0.7f, m_pScoreControl->getCurrentScorePosition()),
+                 CCMoveTo::create(1.0f, m_pScoreControl->getCurrentScorePosition()),
                  CCRemoveSelf::create(),
                  NULL));
     }
@@ -490,7 +490,7 @@ void StarCanvas::clearAllStar()
 		deFen = 5 + (count-1)*10;
         m_pScoreControl->addCurrentScore(deFen);
 		CCSize s = CCDirector::sharedDirector()->getWinSize();
-		NumberSprite* pSprite = NumberSprite::create(5+(count-1)*10);
+		NumberSprite* pSprite = NumberSprite::create("white36",5+(count-1)*10);
 		pSprite->setPosition(ccp(s.width*0.5,s.height*0.5));
 		//pSprite->setAnchorPoint(ccp(0, 0));
 		addChild(pSprite);

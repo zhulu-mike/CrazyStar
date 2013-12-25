@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root fileName="./image/white36.png">
+	<child name="0.png" x="0" y="0" w="18" h="28"/>
+	<child name="1.png" x="18" y="0" w="8" h="28"/>
+	<child name="2.png" x="26" y="0" w="18" h="28"/>
+	<child name="3.png" x="44" y="0" w="18" h="28"/>
+	<child name="4.png" x="62" y="0" w="18" h="28"/>
+	<child name="5.png" x="80" y="0" w="18" h="27"/>
+	<child name="6.png" x="98" y="0" w="18" h="28"/>
+	<child name="7.png" x="116" y="0" w="18" h="27"/>
+	<child name="8.png" x="134" y="0" w="18" h="28"/>
+	<child name="9.png" x="152" y="0" w="18" h="28"/>
+</root>

@@ -34,6 +34,7 @@ static const char* g_sSureBGImage      = "./image/queding.png";
 static const char* g_sPanelBGImage      = "./image/panel1.png";
 static const char* g_sPanelBGImage2      = "./image/panel2.png";
 static const char* g_sSignBGImage      = "./image/signin.png";
+static const char* g_sChengJiuBGImage      = "./image/chengjiu.png";
 static const char* g_sGoldBGImage      = "./image/jinbi.png";
 static const char* g_sHelpBGImage      = "./image/help.png";
 static const char* g_sGoonBGImage      = "./image/goon.png";
@@ -70,6 +71,6 @@ static const char* g_sGameBackGroundSound   = "./sound/bg.mp3";
 static const char* g_sMainBackGroundSound   = "./sound/mainbg.mp3";
 static const char* g_waOSound               = "./sound/wao.mp3"; /*Õ€≈∂*/
 
-static const char* g_sArtCharConfig         = "./image/artchar.xml";
-
+static const char* g_sArtCharConfig         = "./image/white36.xml";
+static const char* g_sWhite72Config         = "./image/white72.xml";
 #endif
