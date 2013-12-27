@@ -23,7 +23,7 @@ NumberSprite* NumberSprite::create(std::string ke, int num)
 NumberSprite::NumberSprite(std::string ke,int num)
     : m_nRealNumber(num)
 	, key(ke)
-	
+	, realWidth(0.0f)
 {
 }
 
@@ -61,5 +61,6 @@ void NumberSprite::_addNumberSprite(CCPoint& off, int n)
 
     addChild(pSprite);
 
+	realWidth += rect.size.width;
     off.x += rect.size.width;
 }

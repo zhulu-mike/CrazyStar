@@ -59,16 +59,16 @@ void ChallengeAgainLayer::onShow(int round, int need)
 	this->addChild(app1);
 	totalWidth += app1->getContentSize().width;
 
-	NumberSprite * roundTip = NumberSprite::create("white72",round);
+	NumberSprite * roundTip = NumberSprite::create("green72",round);
 	roundTip->setAnchorPoint(ccp(0,0));
 	roundTip->setPositionX(app1->getPositionX()+app1->getContentSize().width);
 	roundTip->setPositionY(app1->getPositionY());
 	this->addChild(roundTip);
-	totalWidth += roundTip->getContentSize().width;
+	totalWidth += roundTip->realWidth;
 
 	CCSprite *app2 = CCSprite::create(g_sGuanBGImage);
 	app2->setAnchorPoint(ccp(0,0));
-	app2->setPositionX(roundTip->getPositionX()+roundTip->getContentSize().width);
+	app2->setPositionX(roundTip->getPositionX()+roundTip->realWidth);
 	app2->setPositionY(roundTip->getPositionY());
 	this->addChild(app2);
 	totalWidth += app2->getContentSize().width;
@@ -76,7 +76,7 @@ void ChallengeAgainLayer::onShow(int round, int need)
 	float bx = (s.width - totalWidth)*0.5;
 	app1->setPositionX(bx);
 	roundTip->setPositionX(app1->getPositionX()+app1->getContentSize().width);
-	app2->setPositionX(roundTip->getPositionX()+roundTip->getContentSize().width);
+	app2->setPositionX(roundTip->getPositionX()+roundTip->realWidth);
 
 	CCSprite *app3 = CCSprite::create(g_sLifeNeedBGImage);
 	app3->setAnchorPoint(ccp(0,0));
@@ -84,7 +84,7 @@ void ChallengeAgainLayer::onShow(int round, int need)
 	app3->setPositionY(app2->getPositionY()-app2->getContentSize().height-20);
 	this->addChild(app3);
 
-	NumberSprite * needTip = NumberSprite::create("white72",need);
+	NumberSprite * needTip = NumberSprite::create("green72",need);
 	needTip->setAnchorPoint(ccp(0,0));
 	needTip->setPositionX(app3->getPositionX()+app3->getContentSize().width);
 	needTip->setPositionY(app3->getPositionY());
@@ -92,7 +92,7 @@ void ChallengeAgainLayer::onShow(int round, int need)
 
 	CCSprite *app4 = CCSprite::create(g_sLifeValueBGImage);
 	app4->setAnchorPoint(ccp(0,0));
-	app4->setPositionX(needTip->getPositionX()+needTip->getContentSize().width);
+	app4->setPositionX(needTip->getPositionX()+needTip->realWidth);
 	app4->setPositionY(needTip->getPositionY());
 	this->addChild(app4);
 

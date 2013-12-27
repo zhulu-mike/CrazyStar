@@ -1,0 +1,12 @@
+<root fileName="./image/white60.png" key="white60">
+	<child name="0.png" x="0" y="0" w="30" h="45"/>
+	<child name="1.png" x="30" y="0" w="12" h="45"/>
+	<child name="2.png" x="42" y="0" w="30" h="45"/>
+	<child name="3.png" x="72" y="0" w="30" h="45"/>
+	<child name="4.png" x="102" y="0" w="30" h="45"/>
+	<child name="5.png" x="132" y="0" w="30" h="45"/>
+	<child name="6.png" x="162" y="0" w="30" h="45"/>
+	<child name="7.png" x="192" y="0" w="30" h="45"/>
+	<child name="8.png" x="222" y="0" w="30" h="45"/>
+	<child name="9.png" x="252" y="0" w="30" h="45"/>
+</root>

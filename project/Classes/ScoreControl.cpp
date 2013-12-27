@@ -1,4 +1,6 @@
 #include "ScoreControl.h"
+#include "ResourceConfig.h"
+#include "NumberSprite.h"
 #include "Utils.h"
 
 USING_NS_CC;
@@ -9,6 +11,10 @@ ScoreControl::ScoreControl()
 	,m_nLastScore(0)
     , m_pCurrentScoreLabel(NULL)
     , m_pTargetScoreLabel(NULL)
+	, m_pGuan(NULL)
+	, m_pMuBiao(NULL)
+	, m_pLevelImg(NULL)
+	, m_pTargetImg(NULL)
 {
 
 }
@@ -28,31 +34,26 @@ bool ScoreControl::init()
 
         CCSize s = CCDirector::sharedDirector()->getWinSize();
 
-        /*初始化当前分数和目标分数*/
-        m_pTargetScoreLabel = CCLabelTTF::create(StringFormatHelper()("target : 0"), 
-                                        "Arial", 
-                                        20, 
-                                        CCSizeMake(200, 30), 
-                                        kCCTextAlignmentLeft, 
-                                        kCCVerticalTextAlignmentCenter);
-        m_pTargetScoreLabel->setAnchorPoint(ccp(0, 0));
-        m_pTargetScoreLabel->setPosition(ccp(0, s.height - 76));
+		CCSprite*di = CCSprite::create(g_sDiImage);
+		this->addChild(di);
+		di->setAnchorPoint(ccp(0,1));
+		di->setPositionX(10);
+		di->setPositionY(s.height-65);
 
-        this->addChild(m_pTargetScoreLabel);
+		m_pGuan = CCSprite::create(g_sGuanImage);
+		this->addChild(m_pGuan);
+		m_pGuan->setAnchorPoint(ccp(0,1));
+		m_pGuan->setPositionX(50);
+		m_pGuan->setPositionY(s.height-65);
 
-        m_pCurrentScoreLabel = CCLabelTTF::create(StringFormatHelper()("score : 0"), 
-                                        "Arial", 
-                                        20, 
-                                        CCSizeMake(200, 30), 
-                                        kCCTextAlignmentLeft, 
-                                        kCCVerticalTextAlignmentCenter);
-        m_pCurrentScoreLabel->setAnchorPoint(ccp(0, 0));
-        m_pCurrentScoreLabel->setPosition(ccp(0, s.height - 122));
-        
-        this->addChild(m_pCurrentScoreLabel);
+		m_pMuBiao = CCSprite::create(g_sMuBiaoImage);
+		this->addChild(m_pMuBiao);
+		m_pMuBiao->setAnchorPoint(ccp(0,1));
+		m_pMuBiao->setPositionX(241);
+		m_pMuBiao->setPositionY(s.height-65);
 
-        setTargetScore();
-
+		setCurrentLevel(1);
+		setCurrentScore(0);
         bRet = true;
 
     }while(0);
@@ -63,33 +64,54 @@ bool ScoreControl::init()
 void ScoreControl::setCurrentLevel(int nLevel)
 {
     m_nCurrentLevel = nLevel;
-
+	updateLevel();
     setTargetScore();
 }
 
 
 void ScoreControl::addCurrentLevel(int nLevel)
 {
-    m_nCurrentLevel += nLevel;
+	setCurrentLevel(m_nCurrentLevel+nLevel);
 	m_nLastScore = m_nCurrentScore;
     setTargetScore();
 }
 
 void ScoreControl::addCurrentScore(int nScore)
 {
-    m_pCurrentScoreLabel->setString(StringFormatHelper()("score : %d", m_nCurrentScore+=nScore));
+	setCurrentScore(m_nCurrentScore+nScore);
 }
 
 void ScoreControl::setCurrentScore(int nScore)
 {
     m_nCurrentScore = nScore;
 
-    m_pCurrentScoreLabel->setString(StringFormatHelper()("score : %d", nScore));
+    if (m_pCurrentScoreLabel != NULL)
+	{
+		m_pCurrentScoreLabel->removeFromParent();
+		m_pCurrentScoreLabel = NULL;
+	}
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	m_pCurrentScoreLabel = NumberSprite::create("white60",nScore);
+	this->addChild(m_pCurrentScoreLabel);
+	m_pCurrentScoreLabel->setAnchorPoint(ccp(0,0));
+	m_pCurrentScoreLabel->setPositionX(s.width*0.5-m_pCurrentScoreLabel->realWidth*0.5);
+	m_pCurrentScoreLabel->setPositionY(s.height-176);
 }
 
 void ScoreControl::setTargetScore()
 {
-    m_pTargetScoreLabel->setString(StringFormatHelper()("target : %d", getTargetScore()));
+   // m_pTargetScoreLabel->setString(StringFormatHelper()("target : %d", getTargetScore()));
+	if (m_pTargetImg != NULL)
+	{
+		m_pTargetImg->removeFromParent();
+		m_pTargetImg = NULL;
+	}
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	m_pTargetImg = NumberSprite::create("white48",getTargetScore());
+	this->addChild(m_pTargetImg);
+	m_pTargetImg->setAnchorPoint(ccp(0,0));
+	m_pTargetImg->setPositionX(m_pMuBiao->getPositionX()+m_pMuBiao->getContentSize().width+20);
+	m_pTargetImg->setPositionY(s.height-105);
 }
 
 int ScoreControl::getTargetScore()
@@ -131,4 +153,20 @@ void ScoreControl::renewScore()
 int ScoreControl::getCurrentLevelScore()
 {
 	return m_nCurrentScore - m_nLastScore;
+}
+
+void ScoreControl::updateLevel()
+{
+	if(m_pLevelImg != NULL){
+		m_pLevelImg->removeFromParent();
+		m_pLevelImg = NULL;
+	}
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	m_pLevelImg = NumberSprite::create("white48",m_nCurrentLevel);
+	this->addChild(m_pLevelImg);
+	m_pLevelImg->setAnchorPoint(ccp(0,0));
+	m_pLevelImg->setPositionX(64);
+	m_pLevelImg->setPositionY(s.height-109);
+
+	m_pGuan->setPositionX(m_pLevelImg->getPositionX()+m_pLevelImg->realWidth+10);
 }

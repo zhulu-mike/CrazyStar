@@ -1,6 +1,7 @@
 #ifndef _SCORE_CONTROL_H_
 #define _SCORE_CONTROL_H_
 
+#include "NumberSprite.h"
 #include "cocos2d.h"
 
 class ScoreControl : public cocos2d::CCNode
@@ -35,9 +36,15 @@ private:
     int m_nCurrentLevel;
     int m_nCurrentScore;
 	int m_nLastScore;
-
-    cocos2d::CCLabelTTF* m_pCurrentScoreLabel;              
+           
     cocos2d::CCLabelTTF* m_pTargetScoreLabel;
+	cocos2d::CCSprite* m_pGuan;
+	cocos2d::CCSprite* m_pMuBiao;
+	NumberSprite* m_pLevelImg;
+	NumberSprite* m_pTargetImg;
+	NumberSprite* m_pCurrentScoreLabel;
+
+	void updateLevel();
 };
 
 #endif

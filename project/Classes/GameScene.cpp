@@ -73,7 +73,9 @@ bool GameScene::init()
 
         ImageConfig::sharedImageConfig()->loadImageConfig(g_sArtCharConfig);
 		ImageConfig::sharedImageConfig()->loadImageConfig(g_sWhite72Config);
-		
+		ImageConfig::sharedImageConfig()->loadImageConfig(g_sWhite60Config);
+		ImageConfig::sharedImageConfig()->loadImageConfig(g_sWhite48Config);
+		ImageConfig::sharedImageConfig()->loadImageConfig(g_sGreen72Config);
 
         m_pBackgroundLayer = BackgroundLayer::create();
         CC_BREAK_IF(!m_pBackgroundLayer);

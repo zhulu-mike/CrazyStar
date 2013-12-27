@@ -56,7 +56,7 @@ bool GameLayer::init()
                                             this, 
                                             menu_selector(GameLayer::onCommandBack));
         MyCCMenu* pMenu = MyCCMenu::create(pBombButton, pMagicButton, pBackButton, NULL);
-        pMenu->setPosition(ccp(s.width-100, s.height-100));
+        pMenu->setPosition(ccp(s.width-100, s.height-90));
         pMenu->setAnchorPoint(ccp(0, 0));
         pMenu->alignItemsHorizontally();
         

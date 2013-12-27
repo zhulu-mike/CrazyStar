@@ -12,6 +12,8 @@ public:
 
     virtual bool init();
 
+	float realWidth;
+
 private:
     void _addNumberSprite(cocos2d::CCPoint& off, int n);
 

@@ -64,7 +64,9 @@ static const char* g_sPerfectBGImage      = "./image/perfect.png";
 static const char* g_sImpossibleBGImage      = "./image/impossible.png";
 
 static const char* g_sClickEffectImage      = "./image/effect/clickeffect.png";
-
+static const char* g_sDiImage      = "./image/di.png";
+static const char* g_sGuanImage      = "./image/guan2.png";
+static const char* g_sMuBiaoImage      = "./image/mubiao.png";
 
 static const char* g_sSelectedSound         = "./sound/click.mp3";
 static const char* g_sGameBackGroundSound   = "./sound/bg.mp3";
@@ -73,4 +75,7 @@ static const char* g_waOSound               = "./sound/wao.mp3"; /*Õ€≈∂*/
 
 static const char* g_sArtCharConfig         = "./image/white36.xml";
 static const char* g_sWhite72Config         = "./image/white72.xml";
+static const char* g_sWhite60Config         = "./image/white60.xml";
+static const char* g_sWhite48Config         = "./image/white48.xml";
+static const char* g_sGreen72Config         = "./image/green72.xml";
 #endif
