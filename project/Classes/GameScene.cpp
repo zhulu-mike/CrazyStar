@@ -75,7 +75,8 @@ bool GameScene::init()
 		ImageConfig::sharedImageConfig()->loadImageConfig(g_sWhite72Config);
 		ImageConfig::sharedImageConfig()->loadImageConfig(g_sWhite60Config);
 		ImageConfig::sharedImageConfig()->loadImageConfig(g_sWhite48Config);
-		ImageConfig::sharedImageConfig()->loadImageConfig(g_sGreen72Config);
+		ImageConfig::sharedImageConfig()->loadImageConfig(g_sGreen60Config);
+		ImageConfig::sharedImageConfig()->loadImageConfig(g_sYellow48Config);
 
         m_pBackgroundLayer = BackgroundLayer::create();
         CC_BREAK_IF(!m_pBackgroundLayer);
@@ -189,6 +190,7 @@ void GameScene::showHelpLayer()
 	if (m_pHelpLayer == NULL)
 		m_pHelpLayer = HelpLayer::create();
 	this->addChild(m_pHelpLayer,0,kHelpLayerTag);
+	((HelpLayer*)m_pHelpLayer)->onShow(1);
 	CCSize s = CCDirector::sharedDirector()->getWinSize();
 	m_pHelpLayer->setAnchorPoint(ccp(0,0));
 	m_pHelpLayer->setPositionY(s.height*2);

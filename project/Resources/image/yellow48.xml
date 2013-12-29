@@ -1,0 +1,12 @@
+<root fileName="./image/yellow48.png" key="yellow48">
+	<child name="0.png" x="0" y="0" w="24" h="36"/>
+	<child name="1.png" x="24" y="0" w="10" h="36"/>
+	<child name="2.png" x="34" y="0" w="24" h="36"/>
+	<child name="3.png" x="58" y="0" w="24" h="36"/>
+	<child name="4.png" x="82" y="0" w="24" h="36"/>
+	<child name="5.png" x="106" y="0" w="24" h="36"/>
+	<child name="6.png" x="130" y="0" w="24" h="36"/>
+	<child name="7.png" x="154" y="0" w="24" h="36"/>
+	<child name="8.png" x="178" y="0" w="24" h="36"/>
+	<child name="9.png" x="202" y="0" w="24" h="36"/>
+</root>

@@ -67,6 +67,7 @@ private:
     void _generateOneStar(int x, int y, int c);
 	void addPingJiaEff(int type);
 	void changePopState();
+	int getLeftScore(int count);
 
 private:
     float m_fBeginX;

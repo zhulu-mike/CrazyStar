@@ -66,3 +66,9 @@ void HelpLayer::onCommandBack(CCObject * pSender)
 	SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
 	GameScene::sharedGameScene()->hideHelpLayer();
 }
+
+void HelpLayer::onShow(int type)
+{
+	from = type;
+
+}

@@ -159,9 +159,10 @@ void StarCanvas::touchStarCanvas(cocos2d::CCPoint& location)
 		}
 		else if (m_popStar.size() > 1)
 		{
+			float score = 5 * m_popStar.size() * m_popStar.size();
 			SimpleAudioEngine::sharedEngine()->playEffect(g_sSelectedSound);
-			m_pScoreControl->addCurrentScore(5 * m_popStar.size() * m_popStar.size());
-
+			m_pScoreControl->addCurrentScore(score);
+			m_pScoreControl->addScoreEffect(score, m_popStar.size());
 			removeStar();
 			popIng = true;
 
@@ -294,14 +295,24 @@ void StarCanvas::removeStar()
                     NULL));
 		 timeRecord = i*0.05;
 
+
+		 CCSprite* scoreApp = CCSprite::create();
+		 CCSprite* baiJia = CCSprite::create(g_sWhiteJiaImage);
+		 baiJia->setAnchorPoint(ccp(0,0));
+		 scoreApp->addChild(baiJia);
+
          NumberSprite* pSprite = NumberSprite::create("white36",5+i*10);
-         pSprite->setPosition(m_pStarMap[x][y]->getPosition());
-         pSprite->setAnchorPoint(ccp(0, 0));
-         addChild(pSprite);
-         pSprite->runAction(
+		 pSprite->setAnchorPoint(ccp(0,0));
+		 pSprite->setPositionX(baiJia->getContentSize().width+5);
+		 scoreApp->addChild(pSprite);
+
+         scoreApp->setPosition(m_pStarMap[x][y]->getPosition());
+         scoreApp->setAnchorPoint(ccp(0, 0));
+         addChild(scoreApp);
+         scoreApp->runAction(
              CCSequence::create(
                  CCDelayTime::create(i*0.05f),
-                 CCMoveTo::create(1.0f, m_pScoreControl->getCurrentScorePosition()),
+				 CCMoveTo::create(0.6f, ccp(scoreApp->getPositionX(),scoreApp->getPositionY()+100)),
                  CCRemoveSelf::create(),
                  NULL));
     }
@@ -485,12 +496,12 @@ void StarCanvas::clearAllStar()
     }
 
 	int deFen = 0;
-	if (count <= 10)
+	if (count < 10)
 	{
-		deFen = 5 + (count-1)*10;
+		deFen = getLeftScore(count);
         m_pScoreControl->addCurrentScore(deFen);
 		CCSize s = CCDirector::sharedDirector()->getWinSize();
-		NumberSprite* pSprite = NumberSprite::create("white36",5+(count-1)*10);
+		NumberSprite* pSprite = NumberSprite::create("white48",deFen);
 		pSprite->setPosition(ccp(s.width*0.5,s.height*0.5));
 		//pSprite->setAnchorPoint(ccp(0, 0));
 		addChild(pSprite);
@@ -537,7 +548,7 @@ void StarCanvas::doGameOver()
     {
 		//失败则弹出复活窗口
 		GameLayer * p = (GameLayer * )GameScene::sharedGameScene()->getMainGameLayer();
-		p->showChallengeAgainLayer(1,1);
+		p->showChallengeAgainLayer(m_pScoreControl->getCurrentLevel(),1);
 		p->setTouchEnabled(false);
        //m_pScoreControl->clearAllScore();
         
@@ -653,4 +664,30 @@ void StarCanvas::addPingJiaEff(int type)
 void StarCanvas::changePopState()
 {
 	popIng = false;
+}
+
+int StarCanvas::getLeftScore(int count)
+{
+	if (count >= 10)
+		return 0;
+	if (count == 0)
+		return 2000;
+	else if (count == 1)
+		return 1980;
+	else if (count == 2)
+		return 1920;
+	else if (count == 3)
+		return 1820;
+	else if (count == 4)
+		return 1680;
+	else if (count == 5)
+		return 1500;
+	else if (count == 6)
+		return 1280;
+	else if (count == 7)
+		return 1020;
+	else if (count == 8)
+		return 720;
+	else
+		return 380;
 }

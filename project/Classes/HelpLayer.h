@@ -9,6 +9,7 @@ class HelpLayer : public cocos2d::CCLayer
 
 		HelpLayer();
 		virtual bool init();
+		void onShow(int type);
 
 
 	CREATE_FUNC(HelpLayer);
@@ -18,7 +19,7 @@ private:
 
 	float beginY;
 
-
+	int from;
 
 
 

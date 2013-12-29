@@ -28,6 +28,7 @@ public:
     cocos2d::CCPoint getCurrentScorePosition();
 
     void clearAllScore();
+	void addScoreEffect(int score, int count);
 	void renewScore();
     bool isUpLevel();
 	/*获取本关得分*/
@@ -36,10 +37,12 @@ private:
     int m_nCurrentLevel;
     int m_nCurrentScore;
 	int m_nLastScore;
-           
+    int m_nTargetScore;
+
     cocos2d::CCLabelTTF* m_pTargetScoreLabel;
 	cocos2d::CCSprite* m_pGuan;
 	cocos2d::CCSprite* m_pMuBiao;
+	cocos2d::CCSprite* m_jiaScore;
 	NumberSprite* m_pLevelImg;
 	NumberSprite* m_pTargetImg;
 	NumberSprite* m_pCurrentScoreLabel;

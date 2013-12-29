@@ -8,13 +8,15 @@ USING_NS_CC;
 ScoreControl::ScoreControl()
     : m_nCurrentLevel(1)
     , m_nCurrentScore(0)
-	,m_nLastScore(0)
+	, m_nLastScore(0)
+	, m_nTargetScore(0)
     , m_pCurrentScoreLabel(NULL)
     , m_pTargetScoreLabel(NULL)
 	, m_pGuan(NULL)
 	, m_pMuBiao(NULL)
 	, m_pLevelImg(NULL)
 	, m_pTargetImg(NULL)
+	, m_jiaScore(NULL)
 {
 
 }
@@ -79,6 +81,7 @@ void ScoreControl::addCurrentLevel(int nLevel)
 void ScoreControl::addCurrentScore(int nScore)
 {
 	setCurrentScore(m_nCurrentScore+nScore);
+	//addScoreEffect(nScore);
 }
 
 void ScoreControl::setCurrentScore(int nScore)
@@ -91,7 +94,10 @@ void ScoreControl::setCurrentScore(int nScore)
 		m_pCurrentScoreLabel = NULL;
 	}
 	CCSize s = CCDirector::sharedDirector()->getWinSize();
-	m_pCurrentScoreLabel = NumberSprite::create("white60",nScore);
+	if (nScore >= m_nTargetScore)
+		m_pCurrentScoreLabel = NumberSprite::create("green60",nScore);
+	else
+		m_pCurrentScoreLabel = NumberSprite::create("white60",nScore);
 	this->addChild(m_pCurrentScoreLabel);
 	m_pCurrentScoreLabel->setAnchorPoint(ccp(0,0));
 	m_pCurrentScoreLabel->setPositionX(s.width*0.5-m_pCurrentScoreLabel->realWidth*0.5);
@@ -106,12 +112,15 @@ void ScoreControl::setTargetScore()
 		m_pTargetImg->removeFromParent();
 		m_pTargetImg = NULL;
 	}
+	m_nTargetScore = getTargetScore();
 	CCSize s = CCDirector::sharedDirector()->getWinSize();
-	m_pTargetImg = NumberSprite::create("white48",getTargetScore());
+	m_pTargetImg = NumberSprite::create("white48",m_nTargetScore);
 	this->addChild(m_pTargetImg);
 	m_pTargetImg->setAnchorPoint(ccp(0,0));
 	m_pTargetImg->setPositionX(m_pMuBiao->getPositionX()+m_pMuBiao->getContentSize().width+20);
 	m_pTargetImg->setPositionY(s.height-105);
+
+	setCurrentScore(m_nCurrentScore);
 }
 
 int ScoreControl::getTargetScore()
@@ -169,4 +178,66 @@ void ScoreControl::updateLevel()
 	m_pLevelImg->setPositionY(s.height-109);
 
 	m_pGuan->setPositionX(m_pLevelImg->getPositionX()+m_pLevelImg->realWidth+10);
+}
+
+void ScoreControl::addScoreEffect(int score, int count)
+{
+	if (m_jiaScore != NULL)
+	{
+		m_jiaScore->runAction(
+				CCSequence::create(
+				CCMoveTo::create(0.2f,ccp(m_jiaScore->getPositionX(),m_jiaScore->getPositionY()+40)),
+				CCRemoveSelf::create(),
+				NULL)
+			);
+	}
+	float totalW = 0.0f;
+	m_jiaScore = CCSprite::create();
+
+	CCSprite * jia = CCSprite::create(g_sYellowJiaImage);
+	jia->setAnchorPoint(ccp(0,0));
+	m_jiaScore->addChild(jia);
+	totalW += jia->getContentSize().width;
+
+	NumberSprite* p = NumberSprite::create("yellow48",score);
+	p->setAnchorPoint(ccp(0,0));
+	m_jiaScore->addChild(p);
+	p->setPositionX(jia->getContentSize().width+5);
+	totalW += 5;
+	totalW += p->realWidth;
+	totalW += 5;
+
+	CCSprite* kuohao = CCSprite::create(g_sZuoKuoHaoImage);
+	kuohao->setAnchorPoint(ccp(0,0));
+	kuohao->setPositionX(totalW);
+	m_jiaScore->addChild(kuohao);
+	totalW += kuohao->getContentSize().width;
+	totalW += 5;
+
+	CCSprite* gemogu = CCSprite::create(g_sMoGuIconImage);
+	gemogu->setAnchorPoint(ccp(0,0));
+	m_jiaScore->addChild(gemogu);
+	gemogu->setPositionX(totalW);
+	totalW += gemogu->getContentSize().width;
+	totalW += 5;
+
+
+	NumberSprite* p2 = NumberSprite::create("yellow48",count);
+	p2->setAnchorPoint(ccp(0,0));
+	m_jiaScore->addChild(p2);
+	p2->setPositionX(totalW);
+	totalW += p2->realWidth;
+	totalW += 5;
+
+	CCSprite * youkuohao = CCSprite::create(g_sYouKuoHaoImage);
+	youkuohao->setAnchorPoint(ccp(0,0));
+	m_jiaScore->addChild(youkuohao);
+	youkuohao->setPositionX(totalW);
+
+
+
+	m_jiaScore->setAnchorPoint(ccp(0,0));
+	m_jiaScore->setPositionX(m_pCurrentScoreLabel->getPositionX()+m_pCurrentScoreLabel->realWidth+30);
+	m_jiaScore->setPositionY(m_pCurrentScoreLabel->getPositionY());
+	this->addChild(m_jiaScore);
 }

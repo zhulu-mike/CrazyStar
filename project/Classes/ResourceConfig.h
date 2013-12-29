@@ -67,6 +67,12 @@ static const char* g_sClickEffectImage      = "./image/effect/clickeffect.png";
 static const char* g_sDiImage      = "./image/di.png";
 static const char* g_sGuanImage      = "./image/guan2.png";
 static const char* g_sMuBiaoImage      = "./image/mubiao.png";
+static const char* g_sYellowJiaImage      = "./image/yellowjia.png";
+static const char* g_sWhiteJiaImage      = "./image/whitejia.png";
+static const char* g_sGeMoGuImage      = "./image/gemogu.png";
+static const char* g_sZuoKuoHaoImage      = "./image/zuokuohao.png";
+static const char* g_sYouKuoHaoImage      = "./image/youkuohao.png";
+static const char* g_sMoGuIconImage      = "./image/moguicon.png";
 
 static const char* g_sSelectedSound         = "./sound/click.mp3";
 static const char* g_sGameBackGroundSound   = "./sound/bg.mp3";
@@ -78,4 +84,6 @@ static const char* g_sWhite72Config         = "./image/white72.xml";
 static const char* g_sWhite60Config         = "./image/white60.xml";
 static const char* g_sWhite48Config         = "./image/white48.xml";
 static const char* g_sGreen72Config         = "./image/green72.xml";
+static const char* g_sGreen60Config         = "./image/green60.xml";
+static const char* g_sYellow48Config         = "./image/yellow48.xml";
 #endif

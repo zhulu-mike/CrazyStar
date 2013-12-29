@@ -40,7 +40,7 @@ bool MainMenu::init()
 
         MyCCMenu* pMenu = MyCCMenu::create(pStartMenu,pGoonMenu,pHelpMenu, NULL);
         CC_BREAK_IF(!pMenu);
-		pMenu->alignItemsVerticallyWithPadding(10);
+		pMenu->alignItemsVerticallyWithPadding(15);
 
         this->addChild(pMenu, 0);
 
@@ -86,13 +86,7 @@ void MainMenu::onExit()
 void MainMenu::onCommandStart(CCObject* pSender)
 {
 	addClickFlash(pSender);
-    BackgroundLayer* pBgLayer = (BackgroundLayer*)GameScene::sharedGameScene()->getBackgroundLayer();
-    if (pBgLayer->subLifeCount(1))  
-    {
-        GameScene::sharedGameScene()->switchToGameLayer();
-    }else{
-		GameScene::sharedGameScene()->showBuyLifeLayer();
-	}
+    GameScene::sharedGameScene()->switchToGameLayer();
 }
 
 void MainMenu::onCommandExit(CCObject* pSender)
@@ -115,7 +109,14 @@ void MainMenu::onCommandSign(CCObject* pSender)
 
 void MainMenu::onCommandGoon(CCObject* pSender)
 {
-
+	addClickFlash(pSender);
+    BackgroundLayer* pBgLayer = (BackgroundLayer*)GameScene::sharedGameScene()->getBackgroundLayer();
+    if (pBgLayer->subLifeCount(1))  
+    {
+        GameScene::sharedGameScene()->switchToGameLayer();
+    }else{
+		GameScene::sharedGameScene()->showBuyLifeLayer();
+	}
 }
 
 void MainMenu::onCommandHelp(CCObject* pSender)
