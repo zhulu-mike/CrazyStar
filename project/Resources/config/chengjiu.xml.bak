@@ -1,0 +1,36 @@
+<data>
+
+<!--
+完成条件类型：1：累积得多少分 1-300
+			  2: 通关第几关 2-1
+			  3: 一次消除几颗星星 3-20
+			  4: 本关得分超过目标分多少 4-3000
+			  5: 本关得多少分 5-5000
+			  6：剩余奖励得了多少分 6-2000
+			  7：剩余星星数量小于等于多少 7-5
+			  8：消除所有星星的次数 8-30
+			  9：剩余星星数量大于多少 9-30
+			  10：累积挑战关卡次数 10-300
+			  11：游戏累积得分多少 11-50000
+-->
+<p id="1" score="500" life="1" gold="1" again="0" difflevel="1" condition="1-20"> 
+<p id="2" score="500" life="1" gold="1" again="0" difflevel="1" condition="2-1"> 
+<p id="3" score="500" life="1" gold="1" again="0" difflevel="1" condition="3-10"> 
+<p id="4" score="1000" life="1" gold="2" again="0" difflevel="2" condition="3-20"> 
+<p id="5" score="0" life="0" gold="2" again="1" difflevel="2" condition="3-25">
+<p id="6" score="3000" life="1" gold="4" again="1" difflevel="3" condition="3-30"> 
+<p id="7" score="4000" life="1" gold="16" again="1" difflevel="4" condition="3-40"> 
+<p id="8" score="1000" life="1" gold="1" again="0" difflevel="1" condition="2-10"> 
+<p id="9" score="2000" life="1" gold="2" again="0" difflevel="2" condition="4-5000"> 
+<p id="10" score="1000" life="1" gold="0" again="1" difflevel="1" condition="5-4000"> 
+<p id="11" score="2000" life="1" gold="2" again="0" difflevel="2" condition="6-1"> 
+<p id="12" score="3000" life="1" gold="4" again="1" difflevel="3" condition="7-0"> 
+<p id="13" score="40000" life="1" gold="16" again="1" difflevel="5" condition="8-30">
+<p id="14" score="1000" life="1" gold="2" again="0" difflevel="2" condition="2-50">
+<p id="15" score="3000" life="1" gold="4" again="0" difflevel="3" condition="2-100">
+<p id="16" score="4000" life="1" gold="16" again="0" difflevel="4" condition="2-150">
+<p id="17" score="50" life="1" gold="4" again="0" difflevel="3" condition="9-30">
+<p id="18" score="2000" life="1" gold="2" again="0" difflevel="2" condition="10-300">
+
+
+</data>

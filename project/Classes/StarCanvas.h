@@ -67,6 +67,7 @@ private:
     void _generateOneStar(int x, int y, int c);
 	void addPingJiaEff(int type);
 	void changePopState();
+	
 	int getLeftScore(int count);
 
 private:
@@ -89,6 +90,8 @@ private:
     cocos2d::CCSpriteBatchNode* m_pStarBatchNode[kStarMax];
 
     ScoreControl* m_pScoreControl;
+
+
 };
 
 #endif

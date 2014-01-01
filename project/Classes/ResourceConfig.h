@@ -73,6 +73,7 @@ static const char* g_sGeMoGuImage      = "./image/gemogu.png";
 static const char* g_sZuoKuoHaoImage      = "./image/zuokuohao.png";
 static const char* g_sYouKuoHaoImage      = "./image/youkuohao.png";
 static const char* g_sMoGuIconImage      = "./image/moguicon.png";
+static const char* g_sAchieveItemBGImage      = "./image/achieveitembg.png";
 
 static const char* g_sSelectedSound         = "./sound/click.mp3";
 static const char* g_sGameBackGroundSound   = "./sound/bg.mp3";
@@ -86,4 +87,6 @@ static const char* g_sWhite48Config         = "./image/white48.xml";
 static const char* g_sGreen72Config         = "./image/green72.xml";
 static const char* g_sGreen60Config         = "./image/green60.xml";
 static const char* g_sYellow48Config         = "./image/yellow48.xml";
+
+static const char* g_sAchieveConfig         = "./config/chengjiu.xml";
 #endif

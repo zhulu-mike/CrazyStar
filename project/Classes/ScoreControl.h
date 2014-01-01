@@ -21,9 +21,14 @@ public:
     void setCurrentScore(int nScore);
     void setTargetScore();
 
+    void setTotalScore(int nScore);
+	void addTotalScore(int nScore);
+	void initTotalScore(int score) {m_nTotalScore = score;}
+
     int getCurrentScore() { return m_nCurrentScore; }
     int getCurrentLevel() { return m_nCurrentLevel; }
     int getTargetScore();
+	int getTotalScore() { return m_nTotalScore; }
 
     cocos2d::CCPoint getCurrentScorePosition();
 
@@ -33,11 +38,14 @@ public:
     bool isUpLevel();
 	/*获取本关得分*/
 	int getCurrentLevelScore();
+	int getAboveTargetScore() {return m_nCurrentScore - m_nTargetScore;};
 private:
     int m_nCurrentLevel;
     int m_nCurrentScore;
 	int m_nLastScore;
     int m_nTargetScore;
+	//游戏累积总得分
+	int m_nTotalScore;
 
     cocos2d::CCLabelTTF* m_pTargetScoreLabel;
 	cocos2d::CCSprite* m_pGuan;

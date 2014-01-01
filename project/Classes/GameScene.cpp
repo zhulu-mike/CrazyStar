@@ -7,6 +7,7 @@
 #include "BuyLifeLayer.h"
 #include "BuyGoldLayer.h"
 #include "HelpLayer.h"
+#include "AchieveManager.h"
 
 USING_NS_CC;
 
@@ -42,6 +43,7 @@ GameScene::GameScene()
 	, m_pBuyLifeLayer(NULL)
 	, m_pBuyGoldLayer(NULL)
 	, m_pHelpLayer(NULL)
+	, m_pAchieveLayer(NULL)
 {
 
 }
@@ -60,6 +62,8 @@ GameScene::~GameScene()
 		m_pBuyGoldLayer->release();
 	if (m_pHelpLayer != NULL)
 		m_pHelpLayer->release();
+	if (m_pAchieveLayer != NULL)
+		m_pAchieveLayer->release();
 }
 
 bool GameScene::init()
@@ -77,6 +81,7 @@ bool GameScene::init()
 		ImageConfig::sharedImageConfig()->loadImageConfig(g_sWhite48Config);
 		ImageConfig::sharedImageConfig()->loadImageConfig(g_sGreen60Config);
 		ImageConfig::sharedImageConfig()->loadImageConfig(g_sYellow48Config);
+		AchieveManager::sharedAchieveManager()->loadConfigFile(g_sAchieveConfig);
 
         m_pBackgroundLayer = BackgroundLayer::create();
         CC_BREAK_IF(!m_pBackgroundLayer);
@@ -91,7 +96,11 @@ bool GameScene::init()
         m_pMainGameLayer->retain();
 
         this->addChild(m_pBackgroundLayer, 0, kBackgroundLayerTag);
-        
+
+		m_pAchieveLayer = new AchieveLayer();
+		m_pAchieveLayer->retain();
+        this->addChild(m_pAchieveLayer,1,kAchieveEffectLayerTag);
+
         switchToMainMenu();
 
         bRet = true;
@@ -105,14 +114,18 @@ void GameScene::switchToMainMenu()
 {
     this->removeChildByTag(kMainMenuLayerTag);
     this->removeChildByTag(kMainGameLayerTag);
+	this->removeChildByTag(kAchieveEffectLayerTag);
     this->addChild(m_pMainMenuLayer, 0, kMainMenuLayerTag);
+	this->addChild(m_pAchieveLayer,0,kAchieveEffectLayerTag);
 }
 
 void GameScene::switchToGameLayer()
 {
     this->removeChildByTag(kMainMenuLayerTag);
     this->removeChildByTag(kMainGameLayerTag);
+	this->removeChildByTag(kAchieveEffectLayerTag);
     this->addChild(m_pMainGameLayer, 0, kMainGameLayerTag);
+	this->addChild(m_pAchieveLayer,0,kAchieveEffectLayerTag);
 }
 
 void GameScene::showBuyLifeLayer()

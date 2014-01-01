@@ -8,6 +8,7 @@
 #include "NumberSprite.h"
 #include "GameLayer.h"
 
+
 USING_NS_CC;
 using namespace CocosDenshion;
 
@@ -80,6 +81,8 @@ bool StarCanvas::init()
         CC_BREAK_IF(!m_pScoreControl);
         m_pScoreControl->retain();
 
+		
+
         bRet = true;
     }while(0);
 
@@ -96,6 +99,7 @@ void StarCanvas::onEnter()
     this->addChild(m_pStarBatchNode[kStarBlue], 0, kStarBlue);
     this->addChild(m_pStarBatchNode[kStarPurple], 0, kStarPurple);
     this->addChild(m_pScoreControl);
+	
     
     srand((unsigned)time(NULL));
 	gameState = true;
@@ -179,6 +183,7 @@ void StarCanvas::touchStarCanvas(cocos2d::CCPoint& location)
 			{
 				addPingJiaEff(3);
 			}
+			GameScene::sharedGameScene()->getAchieveEffectLayer()->completeAchieveItems(3,m_popStar.size());
 		}
     }
 }
@@ -290,7 +295,7 @@ void StarCanvas::removeStar()
 		m_pStarMap[x][y]->runAction(
                 CCSequence::create(
                     CCDelayTime::create(i*0.05), 
-					CCCallFuncN::create(this, callfuncN_selector(StarCanvas::showPopEffectBySprite)),
+					CCCallFuncN::create(this, callfuncN_selector(StarCanvas::showPopEffectBySpriteWithSound)),
 					CCRemoveSelf::create(), 
                     NULL));
 		 timeRecord = i*0.05;
@@ -312,7 +317,7 @@ void StarCanvas::removeStar()
          scoreApp->runAction(
              CCSequence::create(
                  CCDelayTime::create(i*0.05f),
-				 CCMoveTo::create(0.6f, ccp(scoreApp->getPositionX(),scoreApp->getPositionY()+100)),
+				 CCMoveTo::create(0.8f, ccp(scoreApp->getPositionX(),scoreApp->getPositionY()+150)),
                  CCRemoveSelf::create(),
                  NULL));
     }
@@ -496,6 +501,8 @@ void StarCanvas::clearAllStar()
     }
 
 	int deFen = 0;
+	GameScene::sharedGameScene()->getAchieveEffectLayer()->completeAchieveItems(7,count);
+	GameScene::sharedGameScene()->getAchieveEffectLayer()->completeAchieveItems(9,count);
 	if (count < 10)
 	{
 		deFen = getLeftScore(count);
@@ -511,11 +518,13 @@ void StarCanvas::clearAllStar()
 				CCMoveTo::create(1.0f, m_pScoreControl->getCurrentScorePosition()),
 				CCRemoveSelf::create(),
 				NULL));
+		GameScene::sharedGameScene()->getAchieveEffectLayer()->completeAchieveItems(6,deFen);
 	}
 
 	GameLayer * p = (GameLayer * )GameScene::sharedGameScene()->getMainGameLayer();
 	p->showLevelOverLayer(m_pScoreControl->isUpLevel(),count,deFen,m_pScoreControl->getCurrentLevelScore());
-
+	GameScene::sharedGameScene()->getAchieveEffectLayer()->completeAchieveItems(4,m_pScoreControl->getAboveTargetScore());
+	GameScene::sharedGameScene()->getAchieveEffectLayer()->completeAchieveItems(5,m_pScoreControl->getCurrentLevelScore());
     if (pSprite != NULL)
     {
 		maxTime = maxTime < 3 ? 3 : maxTime;
@@ -557,6 +566,7 @@ void StarCanvas::doGameOver()
 
 void StarCanvas::showPopEffectBySpriteWithSound(CCNode * p)
 {
+	//SimpleAudioEngine::sharedEngine()->playEffect("./sound/xiaochu.WAV");
 	StarSprite * pp = (StarSprite*) p;
 	showPopEffect(pp->getPosition(), pp->getStarType());
 }
@@ -691,3 +701,5 @@ int StarCanvas::getLeftScore(int count)
 	else
 		return 380;
 }
+
+

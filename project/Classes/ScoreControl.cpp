@@ -1,6 +1,9 @@
 #include "ScoreControl.h"
 #include "ResourceConfig.h"
 #include "NumberSprite.h"
+#include "StarCanvas.h"
+#include "GameScene.h"
+
 #include "Utils.h"
 
 USING_NS_CC;
@@ -17,6 +20,7 @@ ScoreControl::ScoreControl()
 	, m_pLevelImg(NULL)
 	, m_pTargetImg(NULL)
 	, m_jiaScore(NULL)
+	, m_nTotalScore(0)
 {
 
 }
@@ -68,12 +72,14 @@ void ScoreControl::setCurrentLevel(int nLevel)
     m_nCurrentLevel = nLevel;
 	updateLevel();
     setTargetScore();
+	
 }
 
 
 void ScoreControl::addCurrentLevel(int nLevel)
 {
 	setCurrentLevel(m_nCurrentLevel+nLevel);
+	GameScene::sharedGameScene()->getAchieveEffectLayer()->completeAchieveItems(2,m_nCurrentLevel);
 	m_nLastScore = m_nCurrentScore;
     setTargetScore();
 }
@@ -81,6 +87,7 @@ void ScoreControl::addCurrentLevel(int nLevel)
 void ScoreControl::addCurrentScore(int nScore)
 {
 	setCurrentScore(m_nCurrentScore+nScore);
+	addTotalScore(nScore);
 	//addScoreEffect(nScore);
 }
 
@@ -241,3 +248,21 @@ void ScoreControl::addScoreEffect(int score, int count)
 	m_jiaScore->setPositionY(m_pCurrentScoreLabel->getPositionY());
 	this->addChild(m_jiaScore);
 }
+
+/*
+加累积分数
+*/
+void ScoreControl::addTotalScore(int nScore)
+{
+	setTotalScore(m_nTotalScore+nScore);
+}
+
+/*
+设置累积分数
+*/
+void ScoreControl::setTotalScore(int nScore)
+{
+	m_nTotalScore = nScore;
+	GameScene::sharedGameScene()->getAchieveEffectLayer()->completeAchieveItems(1,nScore);
+}
+

@@ -2,6 +2,7 @@
 #define _GAME_SCENE_H_
 
 #include "cocos2d.h"
+#include "AchieveLayer.h"
 
 class GameScene : public cocos2d::CCScene
 {
@@ -20,7 +21,8 @@ public:
         kMainGameLayerTag   = 2,
 		kBuyLifeLayerTag = 3,
 		kBuyGoldLayerTag = 4,
-		kHelpLayerTag    = 5
+		kHelpLayerTag    = 5,
+		kAchieveEffectLayerTag = 6
     };
 
     GameScene();
@@ -45,6 +47,7 @@ public:
 	cocos2d::CCLayer* getBuyLifeLayer()   { return m_pBuyLifeLayer;   }
 	cocos2d::CCLayer* getBuyGoldLayer()   { return m_pBuyGoldLayer;   }
 	cocos2d::CCLayer* getHelpLayer()   { return m_pHelpLayer;   }
+	AchieveLayer* getAchieveEffectLayer() { return m_pAchieveLayer; }
 
     void setBackgroundLayer(cocos2d::CCLayer* pLayer){ m_pBackgroundLayer = pLayer; }
     void setMainMenuLayer(cocos2d::CCLayer* pLayer)  { m_pMainMenuLayer   = pLayer; }
@@ -57,6 +60,7 @@ private:
 	cocos2d::CCLayer* m_pBuyLifeLayer;
 	cocos2d::CCLayer* m_pBuyGoldLayer;
 	cocos2d::CCLayer* m_pHelpLayer;
+	AchieveLayer* m_pAchieveLayer;
 };
 
 #endif
