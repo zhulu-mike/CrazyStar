@@ -25,21 +25,19 @@ void AchieveItemSprite::createChildren(AchieveManager::AchieveVO vo)
 	CCSize s = CCDirector::sharedDirector()->getWinSize();
 	CCScale9Sprite* bg = CCScale9Sprite::create(g_sAchieveItemBGImage,CCRectMake(0,0,ps.width,ps.height),CCRectMake(20,20,ps.width-40,ps.height-40));
 	this->addChild(bg);
-	this->setTouchEnabled(false);
+
+	char url[64] = {0};
+	sprintf(url,"%s%d%s", "./image/achieve/", vo.id, ".png");
+
+	CCSprite* pic = CCSprite::create(url);
+	this->addChild(pic);
+
+	//this->setTouchEnabled(false);
 	bg->setPreferredSize(CCSizeMake(350,120));
 }
 
 void AchieveItemSprite::playEffect()
 {
-	this->setScale(0.0f);
-	this->runAction(
-		CCSequence::create(
-		CCScaleTo::create(0.5f,1.0f,1.0f),
-		CCDelayTime::create(0.5f),
-		CCMoveTo::create(0.5f,ccp(this->getPositionX(), this->getPositionY()+100)),
-		CCRemoveSelf::create(true),
-		
-		NULL)
-		);
+	
 }
 

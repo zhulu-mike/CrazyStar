@@ -522,9 +522,13 @@ void StarCanvas::clearAllStar()
 	}
 
 	GameLayer * p = (GameLayer * )GameScene::sharedGameScene()->getMainGameLayer();
-	p->showLevelOverLayer(m_pScoreControl->isUpLevel(),count,deFen,m_pScoreControl->getCurrentLevelScore());
 	GameScene::sharedGameScene()->getAchieveEffectLayer()->completeAchieveItems(4,m_pScoreControl->getAboveTargetScore());
 	GameScene::sharedGameScene()->getAchieveEffectLayer()->completeAchieveItems(5,m_pScoreControl->getCurrentLevelScore());
+	p->showLevelOverLayer(m_pScoreControl->isUpLevel(),count,deFen,m_pScoreControl->getCurrentLevelScore());
+	
+	if (m_pScoreControl->isUpLevel()){
+		GameScene::sharedGameScene()->getAchieveEffectLayer()->completeAchieveItems(2,m_pScoreControl->getCurrentLevel());
+	}
     if (pSprite != NULL)
     {
 		maxTime = maxTime < 3 ? 3 : maxTime;

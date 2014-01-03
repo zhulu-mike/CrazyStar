@@ -48,6 +48,7 @@ public:
 
 	void relife();
 	int getRelifeNeed(int lev);
+	StarCanvas*  getStarCanvas(){return m_pStarCanvas;};
 private:
     int m_kSelectedStatus;
 

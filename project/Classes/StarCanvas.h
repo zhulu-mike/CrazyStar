@@ -62,6 +62,7 @@ public:
 	int getCurrentLevel();
 
 	void renewScore();
+	ScoreControl* getScoreControl() {return m_pScoreControl;};
 
 private:
     void _generateOneStar(int x, int y, int c);

@@ -10,7 +10,12 @@ public:
 
 	void completeAchieveItems(int type, int value);
 
-
+     int totalCount;
+private:
+	void removeItem();
+	void showSocreAddEffect(cocos2d::CCPoint pos,int count);
+	void showLifeAddEffect(cocos2d::CCPoint pos,int count);
+	void showGoldAddEffect(cocos2d::CCPoint pos,int count);
 
 
 

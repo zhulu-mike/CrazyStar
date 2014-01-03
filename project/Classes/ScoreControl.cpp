@@ -79,7 +79,6 @@ void ScoreControl::setCurrentLevel(int nLevel)
 void ScoreControl::addCurrentLevel(int nLevel)
 {
 	setCurrentLevel(m_nCurrentLevel+nLevel);
-	GameScene::sharedGameScene()->getAchieveEffectLayer()->completeAchieveItems(2,m_nCurrentLevel);
 	m_nLastScore = m_nCurrentScore;
     setTargetScore();
 }

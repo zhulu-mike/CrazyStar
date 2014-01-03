@@ -5,7 +5,7 @@
 #include "cocos2d.h"
 #include "AchieveManager.h"
 
-class AchieveItemSprite : public cocos2d::CCLayer
+class AchieveItemSprite : public cocos2d::CCNode
 {
 public:
 	AchieveItemSprite();
