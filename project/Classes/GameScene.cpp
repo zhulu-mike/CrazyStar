@@ -44,6 +44,7 @@ GameScene::GameScene()
 	, m_pBuyGoldLayer(NULL)
 	, m_pHelpLayer(NULL)
 	, m_pAchieveLayer(NULL)
+	, m_pAchieveView(NULL)
 {
 
 }
@@ -64,6 +65,8 @@ GameScene::~GameScene()
 		m_pHelpLayer->release();
 	if (m_pAchieveLayer != NULL)
 		m_pAchieveLayer->release();
+	if (m_pAchieveView != NULL)
+		m_pAchieveView->release();
 }
 
 bool GameScene::init()
@@ -229,4 +232,37 @@ void GameScene::removeHelpLayer()
 {
 	m_pHelpLayer->removeFromParent();
 	m_pHelpLayer = NULL;
+}
+
+void GameScene::showAchieveViewLayer()
+{
+	if (m_pAchieveView == NULL)
+		m_pAchieveView = AchieveView::create();
+	this->addChild(m_pAchieveView,0,kAchieveViewLayerTag);
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	m_pAchieveView->setAnchorPoint(ccp(0,0));
+	m_pAchieveView->setPositionX(0);
+	m_pAchieveView->setPositionY(s.height*2);
+	m_pAchieveView->runAction(
+		CCSequence::create(
+		CCMoveTo::create(0.3f, ccp(0,0)),
+                    NULL)
+		);
+}
+
+void GameScene::hideAchieveViewLayer()
+{
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	m_pAchieveView->runAction(
+		CCSequence::create(
+					CCMoveTo::create(0.3f, ccp(0,s.height)),
+					CCCallFunc::create(this, callfunc_selector(GameScene::removeAchieveViewLayer)),
+                    NULL)
+		);
+}
+
+void GameScene::removeAchieveViewLayer()
+{
+	m_pAchieveView->removeFromParent();
+	m_pAchieveView = NULL;
 }

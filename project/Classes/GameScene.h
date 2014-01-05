@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "AchieveLayer.h"
+#include "AchieveView.h"
 
 class GameScene : public cocos2d::CCScene
 {
@@ -22,7 +23,8 @@ public:
 		kBuyLifeLayerTag = 3,
 		kBuyGoldLayerTag = 4,
 		kHelpLayerTag    = 5,
-		kAchieveEffectLayerTag = 6
+		kAchieveEffectLayerTag = 6,
+		kAchieveViewLayerTag = 7
     };
 
     GameScene();
@@ -41,6 +43,10 @@ public:
 	void removeHelpLayer();
 	bool subGold(int count);
 
+	void hideAchieveViewLayer();
+	void showAchieveViewLayer();
+	void removeAchieveViewLayer();
+
     cocos2d::CCLayer* getBackgroundLayer() { return m_pBackgroundLayer; }
     cocos2d::CCLayer* getMainMenuLayer()   { return m_pMainMenuLayer;   }
     cocos2d::CCLayer* getMainGameLayer()   { return m_pMainGameLayer;   }
@@ -48,6 +54,7 @@ public:
 	cocos2d::CCLayer* getBuyGoldLayer()   { return m_pBuyGoldLayer;   }
 	cocos2d::CCLayer* getHelpLayer()   { return m_pHelpLayer;   }
 	AchieveLayer* getAchieveEffectLayer() { return m_pAchieveLayer; }
+	AchieveView* getAchieveView() { return m_pAchieveView; }
 
     void setBackgroundLayer(cocos2d::CCLayer* pLayer){ m_pBackgroundLayer = pLayer; }
     void setMainMenuLayer(cocos2d::CCLayer* pLayer)  { m_pMainMenuLayer   = pLayer; }
@@ -61,6 +68,7 @@ private:
 	cocos2d::CCLayer* m_pBuyGoldLayer;
 	cocos2d::CCLayer* m_pHelpLayer;
 	AchieveLayer* m_pAchieveLayer;
+	AchieveView* m_pAchieveView;
 };
 
 #endif

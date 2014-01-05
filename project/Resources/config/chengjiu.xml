@@ -22,7 +22,7 @@
 <p id="7" score="4000" life="1" gold="16" again="1" difflevel="4" condition="3-40"/> 
 <p id="8" score="1000" life="1" gold="1" again="0" difflevel="1" condition="2-10"/> 
 <p id="9" score="2000" life="1" gold="2" again="0" difflevel="2" condition="4-5000"/> 
-<p id="10" score="1000" life="1" gold="0" again="1" difflevel="1" condition="5-4000"/> 
+<p id="10" score="500" life="1" gold="0" again="1" difflevel="1" condition="5-4000"/> 
 <p id="11" score="2000" life="1" gold="2" again="0" difflevel="2" condition="6-1"/> 
 <p id="12" score="3000" life="1" gold="4" again="1" difflevel="3" condition="7-0"/> 
 <p id="13" score="40000" life="1" gold="16" again="1" difflevel="5" condition="8-30"/>

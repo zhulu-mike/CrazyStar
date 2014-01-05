@@ -53,7 +53,7 @@ bool MainMenu::init()
                                                 g_sChengJiuBGImage, 
                                                 g_sChengJiuBGImage, 
                                                 this, 
-                                                menu_selector(MainMenu::onCommandSign));
+                                                menu_selector(MainMenu::onCommandAchieve));
 		sign->setAnchorPoint(ccp(0,0));
 		achiev->setAnchorPoint(ccp(0,0));
 		MyCCMenu * buttomMenu = MyCCMenu::create(sign,achiev,NULL);
@@ -105,6 +105,12 @@ void MainMenu::onCommandExit(CCObject* pSender)
 void MainMenu::onCommandSign(CCObject* pSender)
 {
 	addClickFlash(pSender);
+}
+
+void MainMenu::onCommandAchieve(CCObject* pSender)
+{
+	addClickFlash(pSender);
+	GameScene::sharedGameScene()->showAchieveViewLayer();
 }
 
 void MainMenu::onCommandGoon(CCObject* pSender)

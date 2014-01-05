@@ -15,6 +15,7 @@ public:
     void onCommandStart(CCObject* pSender);
     void onCommandExit(CCObject* pSender);
 	void onCommandSign(CCObject* pSender);
+	void onCommandAchieve(CCObject* pSender);
 	void onCommandGoon(CCObject* pSender);
 	void onCommandHelp(CCObject* pSender);
 private:
